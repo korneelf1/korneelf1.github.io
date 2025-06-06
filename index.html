@@ -10,7 +10,7 @@
 <body>
     <nav class="navbar">
         <div class="nav-content">
-            <div class="logo">KV</div>
+            <div class="logo">KVdB</div>
             <ul class="nav-links">
                 <li><a href="#about" class="active">About Me</a></li>
                 <li><a href="#projects">Projects</a></li>
@@ -25,16 +25,16 @@
                 <h1>About Me</h1>
                 <div class="about-content">
                     <div class="profile-image">
-                        <!-- Add your profile image here -->
-                        <div class="placeholder-image">Profile Image</div>
+                        <img src="images/headshot.jpg" alt="Korneel Vandenberghe" class="profile-img">
                     </div>
                     <div class="about-text">
                         <h2>Welcome to my personal website!</h2>
-                        <p>I'm a passionate professional with expertise in [Your Field]. I love solving complex problems and creating innovative solutions.</p>
+                        <p>I'm a Machine Learning Robotics Engineer with 4+ years of experience in reinforcement learning, autonomous systems, and neuromorphic computing. I'm passionate about building intelligent agents that interact with the physical world, with a track record of deploying models to embedded systems and real-time hardware.</p>
+                        <p>Currently, I'm an AI Engineer and researcher at Harbor AI in New York City, where I develop models for dynamic insurance price optimization and build scalable MLOps infrastructure. I recently completed my Master's in Aerospace Engineering at TU Delft and conducted visiting research at Harvard University's Edge Computing Lab.</p>
                         <div class="social-links">
-                            <a href="#" target="_blank"><i class="fab fa-github"></i></a>
-                            <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
-                            <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                            <a href="https://github.com/korneelf1" target="_blank"><i class="fab fa-github"></i></a>
+                            <a href="https://www.linkedin.com/in/korneel-van-den-berghe/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                            <a href="mailto:korneel.vandenberghe@hotmail.be" target="_blank"><i class="fas fa-envelope"></i></a>
                         </div>
                     </div>
                 </div>
@@ -66,29 +66,119 @@
                     <div class="cv-section">
                         <h2>Experience</h2>
                         <div class="cv-item">
-                            <h3>Job Title</h3>
-                            <p class="company">Company Name</p>
-                            <p class="date">2020 - Present</p>
+                            <h3>Lead Machine Learning Researcher and Engineer</h3>
+                            <p class="company">Harbor AI</p>
+                            <p class="date">Aug. 2024 – Present</p>
+                            <p class="location">New York City, USA</p>
                             <ul>
-                                <li>Key responsibility or achievement</li>
-                                <li>Another important point</li>
+                                <li>Leading the development of reinforcement learning models for dynamic insurance price optimization</li>
+                                <li>Conducting interpretability research for inherently explainable risk analysis systems</li>
+                                <li>Building and scaling the MLOps infrastructure to support company growth beyond $100M valuation</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="cv-item">
+                            <h3>Visiting Researcher, Machine Learning</h3>
+                            <p class="company">Edge Computing Lab, Harvard University</p>
+                            <p class="date">Aug. 2023 – Jul. 2024</p>
+                            <p class="location">Boston, USA</p>
+                            <ul>
+                                <li>Co-authored and maintain NeuroBench, a benchmarking framework for neuromorphic and non-neuromorphic algorithms; contributed metrics, publication writing, and community engagement</li>
+                                <li>Contributed to A2Perf, a reinforcement learning benchmarking suite; ensured cross-platform compatibility and reproducibility</li>
+                                <li>Explored RL-based pruning methods for resource-efficient drone controllers using TinyML and event-driven neuromorphic computation</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="cv-item">
+                            <h3>Machine Learning Researcher</h3>
+                            <p class="company">Honours Programme MSc, TU Delft</p>
+                            <p class="date">Aug. 2020 – Dec. 2024</p>
+                            <p class="location">Delft, NL</p>
+                            <ul>
+                                <li>Developed and deployed neuromorphic MAV controllers using event data and optic flow, trained via reinforcement learning with on-device fine-tuning</li>
+                                <li>Designed implementations of deep Q-learning (DQN) algorithms for low-power RL on edge devices</li>
+                                <li>Created structural topology optimization tools for compliant wing morphologies in aerospace applications</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="cv-item">
+                            <h3>Structural and Control Systems Engineer</h3>
+                            <p class="company">AeroDelft (Hydrogen Aircraft Project)</p>
+                            <p class="date">Sep. 2022 – Dec. 2023</p>
+                            <p class="location">Delft, NL</p>
+                            <ul>
+                                <li>Led design and implementation of control systems in C++ for the world's first student-built hydrogen-powered aircraft</li>
+                                <li>Prototyped and translated CAD designs into fully tested flight-ready hardware</li>
                             </ul>
                         </div>
                     </div>
+                    
                     <div class="cv-section">
                         <h2>Education</h2>
                         <div class="cv-item">
-                            <h3>Degree Name</h3>
-                            <p class="institution">University Name</p>
-                            <p class="date">2016 - 2020</p>
+                            <h3>M.Sc. (+ Honours Programme) Aerospace Engineering</h3>
+                            <p class="institution">University of Technology Delft</p>
+                            <p class="date">Sept. 2022 - December 2024</p>
+                            <p class="location">Delft, NL</p>
+                            <p class="specialty">Specialization: Control and Simulations</p>
+                        </div>
+                        
+                        <div class="cv-item">
+                            <h3>B.Sc. (+ Honours Programme) Aerospace Engineering</h3>
+                            <p class="institution">University of Technology Delft</p>
+                            <p class="date">Sept. 2019 - Aug. 2022</p>
+                            <p class="location">Delft, NL</p>
                         </div>
                     </div>
+                    
                     <div class="cv-section">
-                        <h2>Skills</h2>
+                        <h2>Publications</h2>
+                        <div class="publication-item">
+                            <h4>NeuroBench: Advancing Neuromorphic Computing through Collaborative, Fair and Representative Benchmarking</h4>
+                            <p class="authors">Jason Yik, Korneel Van den Berghe, Charlotte Frenkel, Vijay Janapa Reddi, and the NeuroBench community</p>
+                            <p class="venue">Nature Communications, NICE Conference 2024</p>
+                        </div>
+                        
+                        <div class="publication-item">
+                            <h4>NeuroBench: Closed Loop Benchmarking</h4>
+                            <p class="authors">Korneel Van den Berghe, Jason Yik, Charlotte Frenkel, Vijay Janapa Reddi, and the NeuroBench community</p>
+                            <p class="venue">Neuromorphics Netherlands 2024, ASPLOS 2025</p>
+                        </div>
+                        
+                        <div class="publication-item">
+                            <h4>A2Perf: A Benchmarking Suite for Evaluating Autonomous Agents in Real-World Domains</h4>
+                            <p class="authors">Ikechukwu Uchendu, Jason Jabbour, Korneel Van den Berghe, 7 contributors, Aleksandra Faust, Vijay Janapa Reddi</p>
+                            <p class="venue">Under review, TMLR</p>
+                        </div>
+                        
+                        <div class="publication-item">
+                            <h4>Control with Spiking Neural Networks Trained with Reinforcement Learning Using Surrogate Gradients</h4>
+                            <p class="authors">Korneel Van den Berghe, Stein Stroobants, G.C.H.E. de Croon</p>
+                            <p class="venue">ICNCE 2024</p>
+                        </div>
+                        
+                        <div class="publication-item">
+                            <h4>Recurrent Reinforcement Learning with Surrogate Gradients</h4>
+                            <p class="authors">Korneel Van den Berghe, Stein Stroobants, Vijay Janapa Reddi, G.C.H.E. de Croon</p>
+                            <p class="venue">Under review, NeurIPS 2025</p>
+                        </div>
+                    </div>
+                    
+                    <div class="cv-section">
+                        <h2>Key Skills</h2>
                         <div class="skills-grid">
-                            <span class="skill-tag">Skill 1</span>
-                            <span class="skill-tag">Skill 2</span>
-                            <span class="skill-tag">Skill 3</span>
+                            <span class="skill-tag">Reinforcement Learning</span>
+                            <span class="skill-tag">Neuromorphic Computing</span>
+                            <span class="skill-tag">Machine Learning</span>
+                            <span class="skill-tag">Autonomous Systems</span>
+                            <span class="skill-tag">TinyML</span>
+                            <span class="skill-tag">Edge Computing</span>
+                            <span class="skill-tag">C++</span>
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">MLOps</span>
+                            <span class="skill-tag">Control Systems</span>
+                            <span class="skill-tag">Robotics</span>
+                            <span class="skill-tag">Aerospace Engineering</span>
                         </div>
                     </div>
                 </div>

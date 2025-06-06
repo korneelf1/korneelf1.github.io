@@ -96,16 +96,13 @@ h1 {
     text-align: center;
 }
 
-.placeholder-image {
+.profile-img {
     width: 250px;
     height: 250px;
-    background-color: #e9ecef;
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
-    color: #6c757d;
+    object-fit: cover;
+    border: 3px solid #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .about-text h2 {
@@ -203,9 +200,44 @@ h1 {
     margin-bottom: 0.5rem;
 }
 
+.location, .specialty {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
 .cv-item ul {
     list-style-position: inside;
     margin-top: 0.5rem;
+}
+
+.publication-item {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.publication-item:last-child {
+    border-bottom: none;
+}
+
+.publication-item h4 {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.authors {
+    font-style: italic;
+    color: #6c757d;
+    margin-bottom: 0.3rem;
+    font-size: 0.9rem;
+}
+
+.venue {
+    color: #3498db;
+    font-weight: 500;
+    font-size: 0.9rem;
 }
 
 .skills-grid {
