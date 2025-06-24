@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Get all navigation links and sections
     const navLinks = document.querySelectorAll('.nav-links a');
     const sections = document.querySelectorAll('.section');
+    const logo = document.querySelector('.logo');
 
     // Function to switch sections
     function switchSection(targetId) {
@@ -19,6 +20,12 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById(targetId).classList.add('active');
         document.querySelector(`[href="#${targetId}"]`).classList.add('active');
     }
+
+    // Add click event listener to logo
+    logo.addEventListener('click', () => {
+        switchSection('about');
+        history.pushState(null, null, '#about');
+    });
 
     // Add click event listeners to nav links
     navLinks.forEach(link => {
