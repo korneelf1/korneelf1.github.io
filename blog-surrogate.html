@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surrogate Gradients in Spiking Neural Networks - Korneel Vandenberghe</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .blog-page {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .blog-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .blog-title {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+        
+        .blog-meta {
+            color: #6c757d;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            transition: color 0.3s ease;
+        }
+        
+        .back-link:hover {
+            color: #2980b9;
+        }
+        
+        .back-link i {
+            margin-right: 0.5rem;
+        }
+        
+        .blog-content {
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .blog-content h2 {
+            color: #2c3e50;
+            margin: 2rem 0 1rem 0;
+            font-size: 1.8rem;
+        }
+        
+        .blog-content h3 {
+            color: #2c3e50;
+            margin: 1.5rem 0 0.8rem 0;
+            font-size: 1.4rem;
+        }
+        
+        .blog-content p {
+            margin-bottom: 1.2rem;
+        }
+        
+        .blog-content ul {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+        
+        .blog-content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .blog-content strong {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .blog-content em {
+            background-color: #f8f9fa;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="logo">Korneel Van den Berghe</div>
+            <ul class="nav-links">
+                <li><a href="index.html#about">About Me</a></li>
+                <li><a href="index.html#projects">Projects</a></li>
+                <li><a href="index.html#cv">CV</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main style="margin-top: 80px;">
+        <div class="blog-page">
+            <a href="index.html#projects" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                Back to Projects
+            </a>
+            
+            <div class="blog-header">
+                <h1 class="blog-title">Bridging the Gap: Surrogate Gradients in Spiking Neural Networks</h1>
+                <p class="blog-meta">Published: October 2024 | Reading time: 10 min | Research Project</p>
+            </div>
+            
+            <div class="blog-content">
+                <p>Surrogate gradients have become a cornerstone technique for training spiking neural networks, but their impact on network performance and training dynamics remains incompletely understood. This research project systematically investigates the effects of different surrogate gradient methods on deep neural network training.</p>
+                
+                <h2>The Surrogate Gradient Problem</h2>
+                <p>Spiking neural networks face a fundamental challenge: the spike function is non-differentiable, making traditional backpropagation impossible. Surrogate gradients provide a solution by approximating the derivative of the spike function, enabling gradient-based learning.</p>
+                
+                <p>This research addresses the critical question of how different surrogate gradient methods affect training stability, convergence speed, and final network performance. Understanding these effects is essential for developing more effective training strategies for spiking neural networks.</p>
+                
+                <h2>Experimental Methodology</h2>
+                <p>We conducted extensive experiments comparing multiple surrogate gradient methods across various network architectures and tasks. The study focused on understanding the trade-offs between different approaches and their suitability for different applications.</p>
+                
+                <h3>Surrogate Gradient Methods Tested</h3>
+                <ul>
+                    <li><strong>Straight-Through Estimator (STE):</strong> Simple but effective for binary outputs</li>
+                    <li><strong>Sigmoid Surrogate:</strong> Smooth approximation using sigmoid function</li>
+                    <li><strong>Exponential Surrogate:</strong> Exponential-based approximation</li>
+                    <li><strong>Custom Surrogates:</strong> Novel approaches developed during this research</li>
+                </ul>
+                
+                <h3>Evaluation Metrics</h3>
+                <p>Performance was evaluated across multiple dimensions:</p>
+                <ul>
+                    <li>Training convergence speed</li>
+                    <li>Final task performance</li>
+                    <li>Training stability</li>
+                    <li>Computational efficiency</li>
+                    <li>Generalization capability</li>
+                </ul>
+                
+                <h2>Key Findings</h2>
+                <p>Our research revealed several important insights that have significant implications for spiking neural network training:</p>
+                
+                <h3>Training Dynamics</h3>
+                <ul>
+                    <li>Different surrogate gradients lead to varying convergence speeds</li>
+                    <li>Training stability is significantly affected by surrogate choice</li>
+                    <li>Network depth influences surrogate gradient effectiveness</li>
+                    <li>Task-specific surrogate selection can improve performance</li>
+                </ul>
+                
+                <h3>Performance Trade-offs</h3>
+                <p>The study identified clear trade-offs between different surrogate gradient methods:</p>
+                <ul>
+                    <li><strong>Computational Efficiency:</strong> Simpler surrogates require less computation but may sacrifice performance</li>
+                    <li><strong>Training Stability:</strong> More complex surrogates often provide better stability but increase training time</li>
+                    <li><strong>Task Specificity:</strong> Different tasks benefit from different surrogate gradient approaches</li>
+                </ul>
+                
+                <h2>Technical Implementation</h2>
+                <p>The research involved developing a comprehensive testing framework that allowed for fair comparison between different surrogate gradient methods:</p>
+                
+                <h3>Framework Design</h3>
+                <ul>
+                    <li>Modular architecture for easy surrogate gradient swapping</li>
+                    <li>Standardized evaluation protocols</li>
+                    <li>Automated performance tracking</li>
+                    <li>Reproducible experimental setup</li>
+                </ul>
+                
+                <h3>Network Architectures</h3>
+                <p>Experiments were conducted across multiple network architectures to ensure findings were generalizable:</p>
+                <ul>
+                    <li>Feedforward networks of varying depths</li>
+                    <li>Recurrent neural networks</li>
+                    <li>Convolutional networks for image processing</li>
+                    <li>Hybrid architectures combining different approaches</li>
+                </ul>
+                
+                <h2>Practical Implications</h2>
+                <p>These findings have direct implications for practitioners working with spiking neural networks. Understanding the trade-offs between different surrogate gradients can help in selecting the most appropriate method for specific applications.</p>
+                
+                <h3>Guidelines for Surrogate Selection</h3>
+                <p>Based on our research, we developed practical guidelines for choosing surrogate gradients:</p>
+                <ul>
+                    <li><strong>For Simple Tasks:</strong> Straight-through estimator often provides adequate performance with minimal computational overhead</li>
+                    <li><strong>For Complex Tasks:</strong> More sophisticated surrogates like sigmoid or exponential methods may be necessary</li>
+                    <li><strong>For Real-time Applications:</strong> Computational efficiency should be prioritized</li>
+                    <li><strong>For Research Applications:</strong> Training stability and reproducibility are key considerations</li>
+                </ul>
+                
+                <h2>Future Research Directions</h2>
+                <p>This work opens several promising avenues for future research:</p>
+                <ul>
+                    <li><strong>Adaptive Surrogates:</strong> Developing surrogate gradients that adapt during training</li>
+                    <li><strong>Task-Specific Optimization:</strong> Creating surrogates tailored to specific application domains</li>
+                    <li><strong>Hardware Integration:</strong> Optimizing surrogate gradients for neuromorphic hardware</li>
+                    <li><strong>Theoretical Analysis:</strong> Developing better theoretical understanding of surrogate gradient behavior</li>
+                </ul>
+                
+                <h2>Conclusion</h2>
+                <p>This research provides valuable insights into the role of surrogate gradients in spiking neural network training. The findings help bridge the gap between theoretical understanding and practical implementation, providing practitioners with evidence-based guidance for choosing appropriate training methods.</p>
+                
+                <p>The work contributes to the broader goal of making spiking neural networks more accessible and effective for real-world applications, while highlighting the importance of careful method selection in achieving optimal performance.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Korneel Vandenberghe. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html> 

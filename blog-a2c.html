@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A2C Spiking Neural Networks - Korneel Vandenberghe</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .blog-page {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .blog-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .blog-title {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+        
+        .blog-meta {
+            color: #6c757d;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            transition: color 0.3s ease;
+        }
+        
+        .back-link:hover {
+            color: #2980b9;
+        }
+        
+        .back-link i {
+            margin-right: 0.5rem;
+        }
+        
+        .blog-content {
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .blog-content h2 {
+            color: #2c3e50;
+            margin: 2rem 0 1rem 0;
+            font-size: 1.8rem;
+        }
+        
+        .blog-content h3 {
+            color: #2c3e50;
+            margin: 1.5rem 0 0.8rem 0;
+            font-size: 1.4rem;
+        }
+        
+        .blog-content p {
+            margin-bottom: 1.2rem;
+        }
+        
+        .blog-content ul {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+        
+        .blog-content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .blog-content strong {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .blog-content em {
+            background-color: #f8f9fa;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="logo">Korneel Van den Berghe</div>
+            <ul class="nav-links">
+                <li><a href="index.html#about">About Me</a></li>
+                <li><a href="index.html#projects">Projects</a></li>
+                <li><a href="index.html#cv">CV</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main style="margin-top: 80px;">
+        <div class="blog-page">
+            <a href="index.html#projects" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                Back to Projects
+            </a>
+            
+            <div class="blog-header">
+                <h1 class="blog-title">Spiking Neural Networks for Micro Aerial Vehicle Landing Control</h1>
+                <p class="blog-meta">Published: December 2024 | Reading time: 12 min | Research Project</p>
+            </div>
+            
+            <div class="blog-content">
+                <p>This project presents a novel approach to training spiking neural networks (SNNs) for real-world control applications, specifically focusing on autonomous landing of micro aerial vehicles (MAVs). The work addresses the fundamental challenge of training SNNs effectively while leveraging their potential for low-power, event-based computation.</p>
+                
+                <h2>Project Overview and Motivation</h2>
+                <p>Spiking neural networks represent a bio-inspired model of neural computation that processes information through discrete spikes rather than continuous activation values. While SNNs offer significant advantages in energy efficiency and temporal processing, training them effectively remains a significant challenge, particularly for complex control tasks.</p>
+                
+                <p>The primary objective was to develop a complete pipeline for training SNN-based controllers that could successfully land a MAV using only sonar altitude readings. This required addressing several key challenges:</p>
+                <ul>
+                    <li><strong>Temporal Information Processing:</strong> SNNs operate on spike sequences over time, necessitating adaptations to traditional deep learning algorithms</li>
+                    <li><strong>Velocity Estimation:</strong> The network needed to learn internal representations of velocity from altitude sequences</li>
+                    <li><strong>Real-world Deployment:</strong> The controller had to generalize from simulation to physical hardware</li>
+                </ul>
+                
+                <h2>Technical Implementation</h2>
+                <p>The project employed a sophisticated training pipeline with several key components:</p>
+                
+                <h3>Network Architecture</h3>
+                <p>The controller architecture consisted of 2 hidden layers, each with 32 leaky integrate-and-fire (LIF) neurons, connected with linear feedforward layers. The input (sonar altitude) was passed directly to the first layer without encoding, while the output was discretized to 7 neurons corresponding to acceleration commands. A softmax function was applied to membrane potentials for action selection.</p>
+                
+                <h3>Pre-training Strategy</h3>
+                <p>A critical insight was the necessity of supervised pre-training to help the SNN develop meaningful internal representations. Without proper guidance, the network struggled to learn velocity representations crucial for safe landings. The pre-training task involved learning velocity from sonar readings, which significantly improved training efficiency and reduced computational requirements by an order of magnitude.</p>
+                
+                <h3>Reinforcement Learning Algorithms</h3>
+                <p>Two spiking reinforcement learning algorithms were implemented and compared:</p>
+                <ul>
+                    <li><strong>Spiking A2C (Advantage Actor-Critic):</strong> Adapted for the spiking domain, avoiding the shuffling and batching of interactions</li>
+                    <li><strong>Spiking DQN:</strong> Modified to learn from interaction sequences instead of single state-transitions</li>
+                </ul>
+                
+                <p>The A2C approach proved significantly more effective than value function methods, confirming findings from previous research on temporal information processing in reinforcement learning.</p>
+                
+                <h2>Simulation and Training Environment</h2>
+                <p>A lightweight simulator was constructed with second-order dynamics described by:</p>
+                <p><em>ḣ(t) = ḣ(t-1) + ḧ(t) · Δt</em><br>
+                <em>h(t) = h(t-1) + ḣ(t) · Δt</em></p>
+                
+                <p>Where h represents altitude, ḣ is vertical velocity, and ḧ is vertical acceleration after low-pass filtering. The simulator varied starting altitude and velocity across episodes to enhance controller robustness.</p>
+                
+                <h2>Results and Performance</h2>
+                <p>The trained SNN controller demonstrated impressive generalization capabilities across three environments:</p>
+                
+                <h3>Basic Simulation Performance</h3>
+                <p>In the simple simulator, the network exhibited intelligent landing behavior. When starting with non-zero velocity, it promptly issued positive thrust commands to reduce downward velocity, progressively increasing thrust as the MAV approached the ground. This demonstrated the network's ability to modulate thrust based on proximity to the landing surface and its internal velocity representation.</p>
+                
+                <h3>PaparazziUAV Integration</h3>
+                <p>The controller was successfully integrated into the PaparazziUAV framework, with acceleration commands mapped to throttle settings for the Parrot Bebop 2 MAV. The model was converted to C code and wrapped in a PaparazziUAV-compatible module, enabling deployment on real hardware.</p>
+                
+                <h3>Real-world Deployment</h3>
+                <p>Most significantly, the same network deployed on a physical MAV achieved successful landings without additional tuning or training. While slight instabilities occurred that weren't present in simulation (likely due to imperfect tuning of underlying stabilization controllers), the controller demonstrated robust real-world performance.</p>
+                
+                <h2>Key Findings and Challenges</h2>
+                <p>The research revealed several important insights:</p>
+                <ul>
+                    <li><strong>Pre-training Necessity:</strong> SNNs required supervised pre-training to develop velocity representations</li>
+                    <li><strong>Training Efficiency:</strong> SNN training was significantly slower than comparable artificial neural networks</li>
+                    <li><strong>Neuron Efficiency:</strong> The trained SNN exhibited numerous dead and saturated neurons, indicating training inefficiency</li>
+                    <li><strong>Action Discretization:</strong> The discrete output actions were suboptimal for precise control tasks</li>
+                </ul>
+                
+                <h2>Future Research Directions</h2>
+                <p>Several promising avenues for future work have been identified:</p>
+                <ul>
+                    <li><strong>Recurrent Replay Buffers:</strong> Investigating R2D2 findings for off-policy, policy gradient algorithms</li>
+                    <li><strong>Asymmetric Actor-Critic:</strong> Combining SNN actors with ANN critics for faster, more stable training</li>
+                    <li><strong>Stochastic Neuron Models:</strong> Exploring models that become more deterministic during training</li>
+                    <li><strong>Inherent Exploration:</strong> Encoding exploration-exploitation balance directly in SNN agents</li>
+                </ul>
+                
+                <h2>Impact and Significance</h2>
+                <p>This work represents a significant step forward in neuromorphic control systems, demonstrating that SNNs can be effectively trained for real-world robotics applications. The successful deployment on physical hardware validates the potential of neuromorphic computing for autonomous systems, while the identified challenges provide clear directions for future research.</p>
+                
+                <p>The project contributes to the growing body of work on neuromorphic MAV control, building upon previous research in event-driven control and energy-efficient autonomous systems. The findings have implications for the development of next-generation autonomous vehicles and robotics systems that require both computational efficiency and real-time performance.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Korneel Vandenberghe. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html> 

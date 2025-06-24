@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroBench: Neuromorphic Benchmarking - Korneel Vandenberghe</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .blog-page {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .blog-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .blog-title {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+        
+        .blog-meta {
+            color: #6c757d;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            transition: color 0.3s ease;
+        }
+        
+        .back-link:hover {
+            color: #2980b9;
+        }
+        
+        .back-link i {
+            margin-right: 0.5rem;
+        }
+        
+        .blog-content {
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .blog-content h2 {
+            color: #2c3e50;
+            margin: 2rem 0 1rem 0;
+            font-size: 1.8rem;
+        }
+        
+        .blog-content h3 {
+            color: #2c3e50;
+            margin: 1.5rem 0 0.8rem 0;
+            font-size: 1.4rem;
+        }
+        
+        .blog-content p {
+            margin-bottom: 1.2rem;
+        }
+        
+        .blog-content ul {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+        
+        .blog-content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .blog-content strong {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .blog-content em {
+            background-color: #f8f9fa;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="logo">Korneel Van den Berghe</div>
+            <ul class="nav-links">
+                <li><a href="index.html#about">About Me</a></li>
+                <li><a href="index.html#projects">Projects</a></li>
+                <li><a href="index.html#cv">CV</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main style="margin-top: 80px;">
+        <div class="blog-page">
+            <a href="index.html#projects" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                Back to Projects
+            </a>
+            
+            <div class="blog-header">
+                <h1 class="blog-title">NeuroBench: Establishing Standards in Neuromorphic Computing</h1>
+                <p class="blog-meta">Published: November 2024 | Reading time: 12 min | Research Project</p>
+            </div>
+            
+            <div class="blog-content">
+                <p>Neuromorphic computing has emerged as a promising approach to energy-efficient artificial intelligence, but the field has lacked standardized benchmarking methodologies. This project introduces NeuroBench, a comprehensive framework for evaluating neuromorphic algorithms across multiple dimensions.</p>
+                
+                <h2>The Need for Standardized Benchmarking</h2>
+                <p>As neuromorphic computing gains traction, researchers and practitioners need reliable ways to compare different approaches. Traditional benchmarks often fail to capture the unique characteristics of neuromorphic systems, such as temporal dynamics, energy efficiency, and biological plausibility.</p>
+                
+                <p>The absence of standardized evaluation methods has hindered progress in the field, making it difficult to:</p>
+                <ul>
+                    <li>Compare different neuromorphic algorithms fairly</li>
+                    <li>Reproduce and validate research results</li>
+                    <li>Identify the most promising approaches for specific applications</li>
+                    <li>Guide hardware and software development priorities</li>
+                </ul>
+                
+                <h2>NeuroBench Framework Overview</h2>
+                <p>NeuroBench provides a unified platform for benchmarking that includes:</p>
+                <ul>
+                    <li><strong>Task Diversity:</strong> Multiple benchmark tasks covering different aspects of neuromorphic computing</li>
+                    <li><strong>Fair Evaluation:</strong> Standardized evaluation metrics and protocols</li>
+                    <li><strong>Reproducibility:</strong> Open-source implementations and detailed documentation</li>
+                    <li><strong>Community Engagement:</strong> Collaborative development and continuous improvement</li>
+                </ul>
+                
+                <h2>Implementation Details</h2>
+                <p>The framework is built with modularity and extensibility in mind. Each benchmark task is implemented as a separate module, allowing researchers to easily add new tasks or modify existing ones.</p>
+                
+                <h3>Key Features</h3>
+                <ul>
+                    <li>Automated evaluation pipelines</li>
+                    <li>Comprehensive reporting tools</li>
+                    <li>Integration with popular neuromorphic simulators</li>
+                    <li>Performance visualization and analysis</li>
+                    <li>Cross-platform compatibility</li>
+                    <li>Extensive documentation and tutorials</li>
+                </ul>
+                
+                <h3>Benchmark Categories</h3>
+                <p>NeuroBench covers several key areas of neuromorphic computing:</p>
+                <ul>
+                    <li><strong>Classification Tasks:</strong> Image and audio classification using event-based data</li>
+                    <li><strong>Control Systems:</strong> Robotic control and autonomous navigation</li>
+                    <li><strong>Signal Processing:</strong> Real-time signal analysis and filtering</li>
+                    <li><strong>Memory and Learning:</strong> Temporal pattern recognition and sequence learning</li>
+                </ul>
+                
+                <h2>Technical Architecture</h2>
+                <p>The framework is designed to be both powerful and accessible:</p>
+                
+                <h3>Modular Design</h3>
+                <p>Each component of NeuroBench is designed as a separate module, making it easy to extend and customize. This includes:</p>
+                <ul>
+                    <li>Task definitions and data loaders</li>
+                    <li>Evaluation metrics and scoring systems</li>
+                    <li>Hardware interface adapters</li>
+                    <li>Result aggregation and reporting</li>
+                </ul>
+                
+                <h3>Cross-Platform Support</h3>
+                <p>NeuroBench supports multiple neuromorphic platforms and simulators, including:</p>
+                <ul>
+                    <li>Intel Loihi</li>
+                    <li>IBM TrueNorth</li>
+                    <li>BrainChip Akida</li>
+                    <li>Various software simulators</li>
+                </ul>
+                
+                <h2>Impact and Adoption</h2>
+                <p>Since its release, NeuroBench has been adopted by multiple research groups and has facilitated more rigorous comparisons between different neuromorphic approaches. The framework continues to evolve based on community feedback and emerging research directions.</p>
+                
+                <h3>Community Contributions</h3>
+                <p>The open-source nature of NeuroBench has encouraged contributions from researchers worldwide, leading to:</p>
+                <ul>
+                    <li>New benchmark tasks and datasets</li>
+                    <li>Improved evaluation metrics</li>
+                    <li>Better documentation and tutorials</li>
+                    <li>Integration with additional platforms</li>
+                </ul>
+                
+                <h3>Research Impact</h3>
+                <p>NeuroBench has been cited in numerous research papers and has helped establish more rigorous evaluation standards in the neuromorphic computing community. It has facilitated:</p>
+                <ul>
+                    <li>Fairer comparisons between different approaches</li>
+                    <li>More reproducible research results</li>
+                    <li>Better identification of promising research directions</li>
+                    <li>Improved collaboration between research groups</li>
+                </ul>
+                
+                <h2>Future Directions</h2>
+                <p>The NeuroBench project continues to evolve with several planned improvements:</p>
+                <ul>
+                    <li><strong>Expanded Task Coverage:</strong> Adding more diverse benchmark tasks</li>
+                    <li><strong>Real-time Evaluation:</strong> Supporting real-time performance assessment</li>
+                    <li><strong>Hardware Integration:</strong> Improved support for emerging neuromorphic hardware</li>
+                    <li><strong>Community Tools:</strong> Enhanced collaboration and sharing features</li>
+                </ul>
+                
+                <h2>Conclusion</h2>
+                <p>NeuroBench represents a significant step forward in establishing standards for neuromorphic computing research. By providing a comprehensive, fair, and reproducible benchmarking framework, it has helped accelerate progress in the field and fostered better collaboration between researchers.</p>
+                
+                <p>The framework's success demonstrates the importance of standardized evaluation methods in emerging computing paradigms and serves as a model for similar initiatives in other areas of AI research.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Korneel Vandenberghe. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html> 

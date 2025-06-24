@@ -1,0 +1,101 @@
+%%%% imav.tex
+% This is the tex-file for the IMAV 2014 conference
+% for questions / remarks / bugs regarding the files, please contact info@imavs.org
+% You can use this style for your conference, as long as you refer to the IMAV 2014
+% in a comment similar to this one.
+% Of course, the IMAV 2014 is not liable for any aspects of its use.
+
+\documentclass{article}
+% The style file
+\usepackage{imav}
+% Use the postscript times font!
+\usepackage{times}
+\usepackage{graphicx}
+% \usepackage{algorithmic}
+\usepackage{wasysym}
+\usepackage{hyperref}
+\usepackage{svg}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+% \usepackage{algcompatible}
+\usepackage{pifont}
+\usepackage{wrapfig}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+% \usepackage[demo]{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{siunitx}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{array}
+\usepackage{animate}
+
+\usepackage{booktabs}
+%%%%%% Add comment commands here %%%%%%%%%%%%%
+\definecolor{YB}{RGB}{0,150,255}
+\newcommand{\YB}[1]{\textcolor{YB}{YB: #1}}
+\newcommand{\KVDB}[1]{\textcolor{green}{KVDB: #1}}
+\newcommand{\TODO}[1]{\textcolor{red}{TODO: #1}}
+\newcommand{\note}[1]{\textcolor{blue}{Note: #1}}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+
+\def\thickhline{\noalign{\hrule height.8pt}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\pagenumbering{none}
+%\numberwithin{algorithm}{chapter}
+%\usepackage{algorithmicx}
+% the following package is optional:
+%\usepackage{latexsym}
+
+\title{Reinforcement Learning for a Neuromorphic Controller for UAV}
+\author{K. Van den Berghe\\ \textit{Technische Universiteit van Delft, 1 Kluyverweg, Delft}\vspace{-0.5cm}}
+
+% \renewenvironment{abstract}
+%  {\small
+%   \begin{center}
+%   \bfseries \abstractname\vspace{-.5em}\vspace{0pt}
+%   \end{center}
+%   \list{}{
+%     \setlength{\leftmargin}{0cm}%
+%     \setlength{\rightmargin}{\leftmargin}%
+%   }%
+%   \item\relax}
+%  {\endlist}
+
+\begin{document}
+% \pagenumbering{arabic}
+\maketitle
+
+\begin{abstract}
+ This report presents a study on the application of reinforcement learning to train spiking neural networks (SNNs) for controlling a micro aerial vehicle (MAV) during landing. SNNs, inspired by biological neurons, offer potential for low-power and event-based computation but pose significant training challenges. The methodology combines supervised pre-training and two spiking reinforcement learning algorithms—Deep Q-Networks (DQN) and Advantage Actor-Critic (A2C)—to enable effective training. The controller, consisting of layers of leaky integrate-and-fire (LIF) neurons, was pre-trained to extract velocity information from sonar measurements. The model was then refined using reinforcement learning to enhance its landing performance.
+
+Experimental evaluations were conducted in multiple environments, including a simplified simulator, the PaparazziUAV simulator, and a real drone, demonstrating the generalization capability of the trained SNN. Results indicate that while the SNN successfully managed landing tasks, it exhibited slow training processes and issues with dead and saturated neurons, highlighting areas for improvement. Future work aims to integrate recurrent replay buffers and explore stochastic neuron models to enhance training efficiency and address neuron inactivity.
+\end{abstract}
+
+\input{chapters/01-Introduction}
+
+\input{chapters/02-LiteratureReview}
+
+\input{chapters/03-Methods}
+
+\input{chapters/04-Results}
+
+\input{chapters/05-Discussion}
+
+\input{chapters/06-Recommendations}
+
+
+% BIBLIOGRAPHY:
+% use {unsrt}:
+\bibliographystyle{unsrt}
+\bibliography{imav_bibliography}
+
+% Supplementary materials
+% \input{chapters/S1}
+
+
+\end{document}
+

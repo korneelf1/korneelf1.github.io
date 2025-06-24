@@ -1,0 +1,23 @@
+\begin{table}[ht]
+\centerline{
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{c|cccccccc} \thickhline
+\multirow{2}{*}{Baseline} &
+  \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}$R^2$\end{tabular}} &
+  \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Footprint\\ (bytes)\end{tabular}} &
+  \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Model Exec.\\ Rate (Hz)\end{tabular}} &
+  \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Connection\\ Sparsity\end{tabular}} &
+  \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Activation\\ Sparsity\end{tabular}} &
+  \multicolumn{3}{c}{SynOps (per model exec.)} \\ \cline{7-9} 
+        &       &          &    &     &       & \multicolumn{1}{c}{Dense}    & \multicolumn{1}{c}{Eff\_MACs} & Eff\_ACs \\ \hline
+\multirow{2}{*}{ANN}
+ & 0.593  & 20824  & 250  & 0.0  & 0.683  & \multicolumn{1}{c}{4704}      & \multicolumn{1}{c}{3836}   & \multicolumn{1}{c}{0} \\ 
+ & 0.558  & 33496  & 250  & 0.0  & 0.668  & \multicolumn{1}{c}{7776}      & \multicolumn{1}{c}{6103}  & \multicolumn{1}{c}{0} \\ \hline
+\multirow{2}{*}{SNN}
+ & 0.593  & 19648 & 250  & 0.0  & 0.997  & \multicolumn{1}{c}{4900}       & \multicolumn{1}{c}{0}    & \multicolumn{1}{c}{276} \\ 
+ & 0.568 & 38848 & 250  & 0.0  & 0.999 & \multicolumn{1}{c}{9700}       & \multicolumn{1}{c}{0}    & \multicolumn{1}{c}{551} \\ \thickhline
+\end{tabular}
+}
+\caption{Example results on the primate motor prediction task comparing an ANN against an SN.}
+\label{tab:primate_results}
+\end{table}

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sequence Reinforcement Learning for Spiking Neural Networks - Korneel Vandenberghe</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .blog-page {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .blog-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .blog-title {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+        
+        .blog-meta {
+            color: #6c757d;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            transition: color 0.3s ease;
+        }
+        
+        .back-link:hover {
+            color: #2980b9;
+        }
+        
+        .back-link i {
+            margin-right: 0.5rem;
+        }
+        
+        .blog-content {
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .blog-content h2 {
+            color: #2c3e50;
+            margin: 2rem 0 1rem 0;
+            font-size: 1.8rem;
+        }
+        
+        .blog-content h3 {
+            color: #2c3e50;
+            margin: 1.5rem 0 0.8rem 0;
+            font-size: 1.4rem;
+        }
+        
+        .blog-content p {
+            margin-bottom: 1.2rem;
+        }
+        
+        .blog-content ul {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+        
+        .blog-content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .blog-content strong {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .blog-content em {
+            background-color: #f8f9fa;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="logo">Korneel Van den Berghe</div>
+            <ul class="nav-links">
+                <li><a href="index.html#about">About Me</a></li>
+                <li><a href="index.html#projects">Projects</a></li>
+                <li><a href="index.html#cv">CV</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main style="margin-top: 80px;">
+        <div class="blog-page">
+            <a href="index.html#projects" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                Back to Projects
+            </a>
+            
+            <div class="blog-header">
+                <h1 class="blog-title">Temporal Learning in Spiking Neural Networks</h1>
+                <p class="blog-meta">Published: September 2024 | Reading time: 15 min | Research Project</p>
+            </div>
+            
+            <div class="blog-content">
+                <p>Sequence learning represents a fundamental challenge in artificial intelligence, requiring systems to process and learn from temporal patterns. This project explores how spiking neural networks can be effectively trained to handle sequential tasks through reinforcement learning.</p>
+                
+                <h2>The Challenge of Temporal Learning</h2>
+                <p>Traditional neural networks often struggle with temporal dependencies and sequence learning. Spiking neural networks, with their inherent temporal dynamics, offer a natural framework for addressing these challenges. However, effectively training SNNs for sequential tasks requires novel approaches that leverage their unique properties.</p>
+                
+                <p>The project focuses on developing reinforcement learning methods for spiking neural networks operating in unstable environments, with particular emphasis on sequence learning and temporal dynamics. This work addresses the critical need for robust, temporally-aware learning systems in real-world applications.</p>
+                
+                <h2>Novel Approach: Temporal Credit Assignment</h2>
+                <p>We developed a novel approach to temporal credit assignment in spiking neural networks that addresses the challenges of learning in unstable environments. The method combines several innovative techniques:</p>
+                
+                <h3>Adaptive Time Windows</h3>
+                <p>Dynamic adjustment of temporal learning windows based on task complexity. This allows the network to focus on relevant temporal patterns while ignoring irrelevant noise, improving learning efficiency and robustness.</p>
+                
+                <h3>Spike Timing Dependent Plasticity (STDP)</h3>
+                <p>Integration of biological learning mechanisms that naturally handle temporal correlations. STDP provides a biologically plausible way to learn temporal patterns without requiring explicit recurrence.</p>
+                
+                <h3>Reinforcement Learning Integration</h3>
+                <p>Novel algorithms combining RL with SNN dynamics, specifically designed to handle the challenges of training spiking networks in reinforcement learning settings.</p>
+                
+                <h2>Technical Implementation</h2>
+                <p>The project involved developing a comprehensive framework for training spiking neural networks on sequential tasks:</p>
+                
+                <h3>Network Architecture</h3>
+                <ul>
+                    <li>Multi-layer spiking neural networks with temporal dynamics</li>
+                    <li>Adaptive connectivity patterns based on task requirements</li>
+                    <li>Integration of multiple learning mechanisms</li>
+                    <li>Real-time processing capabilities</li>
+                </ul>
+                
+                <h3>Learning Algorithm</h3>
+                <p>The learning algorithm combines several key components:</p>
+                <ul>
+                    <li><strong>Temporal Credit Assignment:</strong> Novel methods for assigning credit across time steps</li>
+                    <li><strong>Adaptive Learning Rates:</strong> Dynamic adjustment based on temporal complexity</li>
+                    <li><strong>Robustness Mechanisms:</strong> Techniques for handling unstable environments</li>
+                    <li><strong>Efficiency Optimizations:</strong> Methods for reducing computational overhead</li>
+                </ul>
+                
+                <h2>Experimental Validation</h2>
+                <p>Our approach was validated across multiple challenging domains to ensure robustness and generalizability:</p>
+                
+                <h3>Robotic Navigation</h3>
+                <p>Testing in dynamic environments where the robot must learn to navigate through changing obstacles and conditions. The system demonstrated the ability to adapt to new situations and learn from temporal patterns in the environment.</p>
+                
+                <h3>Speech Recognition</h3>
+                <p>Application to speech processing tasks, where temporal patterns are crucial for understanding spoken language. The network showed improved performance on tasks requiring temporal sequence recognition.</p>
+                
+                <h3>Time Series Prediction</h3>
+                <p>Evaluation on various time series prediction tasks, demonstrating the network's ability to learn complex temporal dependencies and make accurate predictions.</p>
+                
+                <h3>Autonomous Vehicle Control</h3>
+                <p>Testing in simulated autonomous vehicle scenarios, where the system must learn to control the vehicle based on temporal sequences of sensor inputs.</p>
+                
+                <h2>Key Results</h2>
+                <p>The results demonstrate significant improvements in sequence learning capabilities compared to traditional approaches:</p>
+                
+                <h3>Performance Improvements</h3>
+                <ul>
+                    <li>Faster convergence on sequential tasks</li>
+                    <li>Better generalization to unseen temporal patterns</li>
+                    <li>Improved robustness in unstable environments</li>
+                    <li>More efficient learning with fewer training examples</li>
+                </ul>
+                
+                <h3>Computational Efficiency</h3>
+                <p>The approach achieved these improvements while maintaining computational efficiency, making it suitable for real-time applications and deployment on resource-constrained devices.</p>
+                
+                <h2>Challenges and Solutions</h2>
+                <p>The project addressed several significant challenges in temporal learning with spiking neural networks:</p>
+                
+                <h3>Credit Assignment Problem</h3>
+                <p>One of the main challenges was developing effective methods for assigning credit across multiple time steps. Our solution involved novel temporal credit assignment mechanisms that work naturally with spiking dynamics.</p>
+                
+                <h3>Stability in Unstable Environments</h3>
+                <p>Learning in unstable environments requires robust mechanisms that can handle changing conditions. We developed adaptive learning strategies that maintain performance even when the environment changes.</p>
+                
+                <h3>Computational Complexity</h3>
+                <p>Temporal learning can be computationally expensive. We implemented several optimizations that reduce the computational overhead while maintaining learning effectiveness.</p>
+                
+                <h2>Future Directions</h2>
+                <p>Future work will focus on scaling these methods to larger networks and exploring their application in real-world robotics scenarios:</p>
+                <ul>
+                    <li><strong>Scalability:</strong> Extending the approach to larger, more complex networks</li>
+                    <li><strong>Real-world Deployment:</strong> Testing on physical robotic systems</li>
+                    <li><strong>Multi-modal Learning:</strong> Integrating multiple sensory modalities</li>
+                    <li><strong>Online Learning:</strong> Developing methods for continuous learning in changing environments</li>
+                </ul>
+                
+                <h2>Impact and Significance</h2>
+                <p>This work represents a significant advance in temporal learning with spiking neural networks. The developed methods provide a foundation for building more sophisticated temporal learning systems that can operate effectively in real-world environments.</p>
+                
+                <p>The research contributes to the broader goal of developing biologically-inspired learning systems that can handle complex temporal tasks, with potential applications in robotics, autonomous systems, and artificial intelligence.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Korneel Vandenberghe. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html> 

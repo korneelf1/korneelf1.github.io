@@ -1,0 +1,27 @@
+\section{Methods}
+\label{section:methods}
+Building on previous work on spiking implementations of DQN and A2C, SNN based controllers can be trained on custom environments. The task of the SNN consisted in landing an MAV as fast as possible, without exceeding a predefined landing velocity, using only sonar altitude readings. Due to the implicit recurrence of spiking neurons, it was hypothesized that SNN would be able to estimate velocity and land the vehicle without the need for explicitly recurrent layers. The engineering process for this training pipeline was meticulously designed and comprised several steps. Firstly, a lightweight simulator was constructed to replicate pertinent dynamics while providing rapid simulation for efficient training. To expedite the learning process, a pre-training task was devised. It was observed that without proper guidance, the network encountered difficulties in developing an internal representation of velocity, which is crucial for calculating the necessary thrust to guarantee safe landings. This pre-trained network then underwent further training using A2C and DQN algorithms. Ultimately, the controller was integrated into a simulation environment and subsequently deployed on a physical drone using PaparazziUAV, showcasing its real-world applicability.
+ \subsection{Spiking Neural Network}
+ The architecture used for the controller consists of 2 hidden layers, each with 32 leaky integrate-and-fire (LIF) neurons, connected with linear feedforward layers. The input, which is the altitude read by the sonar, is passed to the first layer without encoding. The output is discretized to 7 neurons, each corresponding to an acceleration command. A softmax function is applied to the membrane potentials, from which the action can be extracted. During training, the time constants and thresholds related to the neurons are trained together with the weights.
+ 
+\subsection{Pretraining}
+In the field of reinforcement learning (RL), spiking neural networks (SNNs) often face challenges due to their relatively slow training process. However, a simple yet effective solution to enhance their performance lies in incorporating a pretraining task focused on improving scene understanding. It was observed that SNNs trained directly with RL struggled to retrieve a velocity representation, which is crucial to land the MAV. However, when performing a supervised pretraining task, where the SNN learns velocity given sonar readings, the network significantly outperformed the networks only trained by RL, saving significant computational resources and speeding up the training process by an order of magnitude.
+
+\subsection{Simulator}\label{simulator}
+The training is conducted in a simple environment designed to increase training speed, featuring rudimentary dynamics. The real MAV is controlled using throttle inputs. However, in simulation, the model outputs a target acceleration with respect to the hover acceleration, which are passed through a low-pass filter. Acceleration commands are between $-1 \frac{m}{s^2}$ and $1 \frac{m}{s^2}$. The dynamics are then described by the following equations:
+\begin{align}\label{eq:dynamics}
+\Dot{h}t &= \Dot{h}{t-1} + \Ddot{h}t \cdot \Delta t \\
+h_t &= h{t-1} + \Dot{h}_t \cdot \Delta t \
+\end{align}
+Where $h$ is the altitude, $\Dot{h}$ is the vertical velocity and $\Ddot{h}$ is the vertical acceleration after passing through the low-pass filter. \\
+
+To enhance the controller's robustness, the starting altitude, and starting velocity are varied across episodes. The agent receives the altitude as its observation, requiring the network to learn a derivative of the altitude, a task unsolvable for conventional feedforward neural networks. 
+
+
+\subsection{Reinforcement Learning}
+With the pretrained network, the training process for the lander can begin. By employing a spiking version of the A2C algorithm \cite{A3C, A2CvsA3C} and utilizing the dynamics model described in \autoref{simulator}, a spiking neural network can be trained to solve the task. Alternatively, a spiking version of DQN \cite{mnih2013playing}, which replaces transitions in the replay buffer with sequences of transitions, was also used for training a model. However, this approach resulted in very noisy training and failed to generalize to a reliable lander.
+
+Previous research on reinforcement learning for temporal information has demonstrated that actor-critic methods outperform the unstable value function methods \cite{HeessMemory-basedNetworks, Yang2021RecurrentControl, Ni2021RecurrentPOMDPs}. Our findings confirm this, as the actor-critic approach proved more effective than the value function methods, which struggled to maintain stability.
+
+\subsection{Deployment on the Parrot Bebop 2}
+After training on the basic simulator, the model is deployed in the PaparazziUAV framework \cite{brisset2006Paparazzi}, an open-source UAV autopilot platform that facilitates fast, iterative development, targeting the Parrot Bebop 2 MAV. When the algorithm is verified within the PaparazziUAV simulation framework, the controller can be deployed on the real Parrot Bebop 2 MAV.
