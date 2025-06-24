@@ -113,28 +113,28 @@
             </a>
             
             <div class="blog-header">
-                <h1 class="blog-title">Spiking Neural Networks for Micro Aerial Vehicle Landing Control</h1>
-                <p class="blog-meta">Published: December 2024 | Reading time: 12 min | Research Project</p>
+                <h1 class="blog-title">On-Policy Reinforcement Learning with Spiking Neural Networks for Micro Aerial Vehicle Landing Control</h1>
+                <p class="blog-meta">Published: June 2024, at ICNCE 2024, Aachen, Germany | Reading time: 12 min | Research Project</p>
             </div>
             
             <div class="blog-content">
-                <p>This project presents a novel approach to training spiking neural networks (SNNs) for real-world control applications, specifically focusing on autonomous landing of micro aerial vehicles (MAVs). The work addresses the fundamental challenge of training SNNs effectively while leveraging their potential for low-power, event-based computation.</p>
+                <p>This project explores training spiking neural networks (SNNs) for real-world control applications using on-policy reinforcement learning, specifically focusing on autonomous landing of micro aerial vehicles (MAVs). The work analyzes the challenges of training SNNs effectively using the A2C algorithm, while leveraging their potential for low-power, event-based computation.</p>
                 
                 <h2>Project Overview and Motivation</h2>
                 <p>Spiking neural networks represent a bio-inspired model of neural computation that processes information through discrete spikes rather than continuous activation values. While SNNs offer significant advantages in energy efficiency and temporal processing, training them effectively remains a significant challenge, particularly for complex control tasks.</p>
                 
                 <p>The primary objective was to develop a complete pipeline for training SNN-based controllers that could successfully land a MAV using only sonar altitude readings. This required addressing several key challenges:</p>
                 <ul>
-                    <li><strong>Temporal Information Processing:</strong> SNNs operate on spike sequences over time, necessitating adaptations to traditional deep learning algorithms</li>
+                    <li><strong>Temporal Information Processing:</strong> SNNs operate on spike sequences over time, necessitating adaptations to the conventional transition based RL algorithms to accomodate trainign on sequences</li>
                     <li><strong>Velocity Estimation:</strong> The network needed to learn internal representations of velocity from altitude sequences</li>
                     <li><strong>Real-world Deployment:</strong> The controller had to generalize from simulation to physical hardware</li>
                 </ul>
                 
                 <h2>Technical Implementation</h2>
-                <p>The project employed a sophisticated training pipeline with several key components:</p>
+                <p>The project employed an actor-critic training pipeline with several key components:</p>
                 
                 <h3>Network Architecture</h3>
-                <p>The controller architecture consisted of 2 hidden layers, each with 32 leaky integrate-and-fire (LIF) neurons, connected with linear feedforward layers. The input (sonar altitude) was passed directly to the first layer without encoding, while the output was discretized to 7 neurons corresponding to acceleration commands. A softmax function was applied to membrane potentials for action selection.</p>
+                <p>The controller architecture consisted of 2 hidden layers, each with 32 leaky integrate-and-fire (LIF) neurons, connected with linear feedforward layers. The input (sonar altitude) was passed directly to the first layer without encoding, as an input current, while the output was discretized to 7 neurons corresponding to acceleration commands. A softmax function was applied to membrane potentials for action selection.</p>
                 
                 <h3>Pre-training Strategy</h3>
                 <p>A critical insight was the necessity of supervised pre-training to help the SNN develop meaningful internal representations. Without proper guidance, the network struggled to learn velocity representations crucial for safe landings. The pre-training task involved learning velocity from sonar readings, which significantly improved training efficiency and reduced computational requirements by an order of magnitude.</p>
