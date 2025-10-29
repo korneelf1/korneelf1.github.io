@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bridging the Reality Gap - Korneel Vandenberghe</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .blog-page {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .blog-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .blog-title {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+        
+        .blog-meta {
+            color: #6c757d;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            transition: color 0.3s ease;
+        }
+        
+        .back-link:hover {
+            color: #2980b9;
+        }
+        
+        .back-link i {
+            margin-right: 0.5rem;
+        }
+        
+        .blog-content {
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .blog-content h2 {
+            color: #2c3e50;
+            margin: 2rem 0 1rem 0;
+            font-size: 1.8rem;
+        }
+        
+        .blog-content h3 {
+            color: #2c3e50;
+            margin: 1.5rem 0 0.8rem 0;
+            font-size: 1.4rem;
+        }
+        
+        .blog-content p {
+            margin-bottom: 1.2rem;
+        }
+        
+        .blog-content ul {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+        
+        .blog-content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .blog-content strong {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .blog-content em {
+            background-color: #f8f9fa;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .figure-container {
+            margin-bottom: 2rem;
+        }
+        
+        .blog-figure {
+            width: 100%;
+            height: auto;
+            margin-bottom: 0.5rem;
+        }
+        
+        .figure-caption {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        .authors {
+            font-style: italic;
+            color: #6c757d;
+            margin-bottom: 1rem;
+        }
+        
+        .conference-badge {
+            display: inline-block;
+            background-color: #27ae60;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            margin-left: 1rem;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin: 2rem 0;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .comparison-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .comparison-table tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .highlight-box {
+            background-color: #e8f5e9;
+            border-left: 4px solid #27ae60;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        
+        .highlight-box h4 {
+            margin-top: 0;
+            color: #27ae60;
+        }
+        
+        .video-container {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .video-link {
+            display: inline-flex;
+            align-items: center;
+            color: #e74c3c;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .video-link i {
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .video-link:hover {
+            color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="logo">Korneel Van den Berghe</div>
+            <ul class="nav-links">
+                <li><a href="index.html#about">About Me</a></li>
+                <li><a href="index.html#projects">Projects</a></li>
+                <li><a href="index.html#cv">CV</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main style="margin-top: 80px;">
+        <div class="blog-page">
+            <a href="index.html#projects" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                Back to Projects
+            </a>
+            
+            <div class="blog-header">
+                <h1 class="blog-title">Adaptive Surrogate Gradients for SNNs - Part 3: Bridging the Reality Gap</h1>
+                <p class="blog-meta">Published: 2024 | Reading time: 12 min | Blog Series</p>
+                <p class="authors"><strong>Paper accepted at:</strong> NeurIPS 2025 <span class="conference-badge">Accepted</span></p>
+                <p style="font-size: 0.95rem; color: #6c757d; margin-top: 1rem;"><a href="blog-sequence.html" style="color: #3498db;">← Part 2: Sequential RL</a> | Part 3 of 3: Real-World Deployment & Evaluation</p>
+            </div>
+            
+            <div class="blog-content">
+                <p>The ultimate test of any robotic learning algorithm is its ability to transfer from simulation to real-world hardware. This final part of our blog series examines how our temporally-trained spiking neural networks perform when deployed on the Crazyflie quadrotor, comparing their computational efficiency, flight performance, and practical advantages over traditional artificial neural networks.</p>
+                
+                <p>Our results demonstrate that SNNs trained with TD3BC+JSRL can successfully bridge the sim-to-real gap without requiring observation history augmentation, while offering significant computational advantages for neuromorphic deployment.</p>
+                
+                <h2>Computational Efficiency Analysis</h2>
+                <p>We quantitatively evaluated the computational efficiency of our sequential SNN approach using NeuroBench, a comprehensive benchmarking framework for neuromorphic computing. The trained SNN is compared to a feedforward ANN that achieves similar performance, trained using TD3. Importantly, the ANN controller requires explicit action history (32 timesteps) to control the drone successfully, while our SNN leverages its inherent temporal dynamics.</p>
+                
+                <h3>NeuroBench Performance Comparison</h3>
+                <p>Results show that temporally-trained SNNs match ANN performance while exhibiting distinct computational characteristics that make them particularly suitable for neuromorphic hardware:</p>
+                
+                <div class="table-container">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Model</th>
+                                <th>Reward</th>
+                                <th>Footprint (KB)</th>
+                                <th>Activation Sparsity</th>
+                                <th>Dense SynOps</th>
+                                <th>Effective MACs</th>
+                                <th>Effective ACs</th>
+                                <th>Requires History</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>ANN (64-64)</strong></td>
+                                <td><strong>447</strong></td>
+                                <td>55.3</td>
+                                <td>0.00</td>
+                                <td>13.7×10³</td>
+                                <td>13.7×10³</td>
+                                <td>0.0</td>
+                                <td>Yes</td>
+                            </tr>
+                            <tr>
+                                <td><strong>SNN (256-128)</strong></td>
+                                <td>446</td>
+                                <td>158.3</td>
+                                <td><strong>0.79</strong></td>
+                                <td>37.9×10³</td>
+                                <td><strong>4.6×10³</strong></td>
+                                <td><strong>12.2×10³</strong></td>
+                                <td><strong>No</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="highlight-box">
+                    <h4>Key Insight: Computational Trade-offs</h4>
+                    <p>Despite a higher memory footprint (158.3 KB vs. 55.3 KB), SNNs benefit from <strong>79% activation sparsity</strong> and primarily use energy-efficient accumulates (ACs) instead of energy-hungry multiply-accumulates (MACs). While the number of dense operations is higher for the SNN, the nature of the underlying ACs opens opportunities for energy-efficient compute.</p>
+                </div>
+                
+                <h3>Energy Consumption Estimate</h3>
+                <p>Using the methodology proposed by Davies et al., we computed a rough energy consumption estimate of <strong>9.7×10⁻⁵ mJ</strong> per inference step. This energy efficiency, combined with the elimination of observation history requirements, makes SNNs particularly attractive for deployment on resource-constrained embedded systems and neuromorphic hardware platforms.</p>
+                
+                <h2>Real-World Deployment Results</h2>
+                <p>When deployed on the Crazyflie quadrotor, our SNN controller demonstrated successful sim-to-real transfer, executing complex maneuvers without requiring any fine-tuning or domain randomization. This represents a significant achievement in neuromorphic robotics.</p>
+                
+                <div class="figure-container">
+                    <img src="projects_Latex/Surrogate Gradient NeurIPS 2025 (1)/figures/CrazyFlieFlight.png" alt="Crazyflie performing circular flight" class="blog-figure">
+                    <p class="figure-caption"><strong>Figure 1:</strong> When deployed on the Crazyflie, the spiking actor exhibits oscillatory behavior but consistently performs maneuvers such as circular flight successfully.</p>
+                </div>
+                
+                <h3>Flight Performance</h3>
+                <p>The SNN controller exhibits slightly oscillatory behavior compared to ANN controllers with full action history. However, it successfully executes complex maneuvers including:</p>
+                
+                <ul>
+                    <li><strong>Circular trajectories:</strong> Smooth circular flight patterns without failure</li>
+                    <li><strong>Figure-eight patterns:</strong> Complex trajectory tracking with temporal coordination</li>
+                    <li><strong>Square trajectories:</strong> Sharp turns and position holding at corners</li>
+                </ul>
+                
+                <p>ANN controllers benefiting from full action history (32 timesteps) show smoother control. However, when comparing our SNN to an ANN which does not receive action history, we find that the ANN can no longer control the drone at all, highlighting the critical advantage of the SNN's inherent temporal processing capabilities.</p>
+                
+                <div class="video-container">
+                    <p style="margin-bottom: 1rem;">Watch our SNN controller in action on the real Crazyflie drone:</p>
+                    <a href="https://www.youtube.com/playlist?list=PLAS2CClQ48jX2R-tqza9kRPx0NW1EfKj0" target="_blank" class="video-link">
+                        <i class="fab fa-youtube"></i>
+                        View Demonstration Videos
+                    </a>
+                </div>
+                
+                <h2>Quantitative Performance Comparison</h2>
+                <p>We benchmarked our SNN controller against the best-performing ANN policies from Eschmann et al. Compared to ANN controllers, SNNs trained with our approach achieved lower position error under ideal conditions but had reduced reliability in trajectory tracking:</p>
+                
+                <div class="table-container">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th>ANN with Action History</th>
+                                <th>ANN without Action History</th>
+                                <th>SNN without Action History (Ours)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Position Error (m)</strong></td>
+                                <td>0.10</td>
+                                <td>0.25</td>
+                                <td><strong>0.04</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Trajectory Error (m)</strong></td>
+                                <td><strong>0.21</strong></td>
+                                <td>N/A (Failed to stabilize)</td>
+                                <td>0.24</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="highlight-box">
+                    <h4>Critical Finding: Temporal Processing vs. Explicit History</h4>
+                    <p>While ANNs without action history completely failed to stabilize the quadrotor, our SNN successfully maintained control by leveraging its temporal dynamics. This demonstrates that SNNs can effectively encode temporal information internally, eliminating the need for explicit observation history augmentation.</p>
+                </div>
+                
+                <h3>Performance Analysis</h3>
+                <ul>
+                    <li><strong>Position Control:</strong> SNNs achieved the lowest position error (0.04m) compared to all baselines, including ANNs with full action history</li>
+                    <li><strong>Trajectory Tracking:</strong> Slightly higher trajectory error (0.24m vs. 0.21m) compared to ANNs with action history, likely due to oscillatory behavior</li>
+                    <li><strong>Stability:</strong> Successfully maintained stable flight throughout all test maneuvers without crashes</li>
+                    <li><strong>Generalization:</strong> Zero-shot transfer from simulation to real hardware without fine-tuning</li>
+                </ul>
+                
+                <h2>Ablation Study: Understanding the Components</h2>
+                <p>To analyze the contribution of each component of our TD3BC+JSRL algorithm, we performed a comprehensive ablation study. We systematically removed the behavioral cloning (BC) term and the jump-start period to understand their individual and combined effects.</p>
+                
+                <div class="table-container">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>BC-term</th>
+                                <th>Jump-start</th>
+                                <th>Final Reward</th>
+                                <th>Steps to Reward 100</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background-color: #e8f5e9;">
+                                <td><strong>Yes</strong></td>
+                                <td><strong>Yes</strong></td>
+                                <td><strong>412 ± 6.72</strong></td>
+                                <td><strong>2,200 ± 124</strong></td>
+                            </tr>
+                            <tr>
+                                <td>No</td>
+                                <td>Yes</td>
+                                <td>334 ± 25.59</td>
+                                <td>33,030 ± 1,600</td>
+                            </tr>
+                            <tr>
+                                <td>Yes</td>
+                                <td>No</td>
+                                <td>32 ± 1.2</td>
+                                <td>N/A (Failed)</td>
+                            </tr>
+                            <tr>
+                                <td>No</td>
+                                <td>No</td>
+                                <td>36 ± 4.1</td>
+                                <td>N/A (Failed)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h3>Key Findings from Ablation</h3>
+                <ul>
+                    <li><strong>BC-term Impact:</strong> Removing the BC term allows the SNN controller to eventually show improvements, but convergence becomes substantially slower—approximately <strong>15× more training steps</strong> are required to achieve a reward of 100</li>
+                    <li><strong>Jump-start Necessity:</strong> Eliminating the jump-starting actor entirely prevents the SNN from collecting sequences long enough to bridge the warm-up period, resulting in complete failure to learn stable flight</li>
+                    <li><strong>Synergistic Effect:</strong> The BC term improves training efficiency when the jump-start period allows bridging the warm-up period and fills the buffer with demonstrations from the guiding policy</li>
+                </ul>
+                
+                <h2>Challenges and Future Improvements</h2>
+                <p>While our approach demonstrates successful sim-to-real transfer, several opportunities for improvement have been identified:</p>
+                
+                <h3>Oscillatory Behavior</h3>
+                <p>The SNN controller exhibits slightly oscillatory behavior compared to ANNs with full action history. This is likely due to:</p>
+                <ul>
+                    <li>Limited output resolution from population-based decoding</li>
+                    <li>Lack of explicit action history for smoothing motor commands</li>
+                    <li>First-order LIF neuron dynamics that may not capture all temporal dependencies</li>
+                </ul>
+                
+                <h3>Proposed Solutions</h3>
+                <p>To improve stability and performance, future work could explore:</p>
+                <ul>
+                    <li><strong>Reward Function Refinement:</strong> Incorporating angular velocity penalties to encourage smoother control</li>
+                    <li><strong>Output Representation:</strong> Using throttle deviation outputs rather than absolute throttle settings for finer control</li>
+                    <li><strong>Extended Training:</strong> Longer training periods to allow the network to discover smoother control strategies</li>
+                    <li><strong>Higher Control Frequency:</strong> Increasing the control rate from 100Hz, as prior work has shown smoother SNN control at higher rates</li>
+                    <li><strong>Second-Order Neurons:</strong> Exploring second-order neuron models for richer temporal dynamics</li>
+                </ul>
+                
+                <h2>Practical Implications</h2>
+                <p>The successful deployment of our SNN controller on real hardware has several important practical implications for neuromorphic robotics:</p>
+                
+                <h3>1. Elimination of Observation History</h3>
+                <p>By leveraging the inherent temporal dynamics of SNNs, we eliminate the need for explicit observation and action history. This reduces memory requirements and computational overhead, making the approach more suitable for resource-constrained platforms.</p>
+                
+                <h3>2. Energy Efficiency for Edge Deployment</h3>
+                <p>The high activation sparsity (79%) and reliance on efficient accumulate operations make SNNs particularly well-suited for deployment on neuromorphic hardware platforms like Intel's Loihi or IBM's TrueNorth, where energy consumption can be reduced by orders of magnitude.</p>
+                
+                <h3>3. Zero-Shot Sim-to-Real Transfer</h3>
+                <p>Our approach achieves successful sim-to-real transfer without requiring domain randomization, fine-tuning, or real-world data collection. This significantly reduces the engineering effort required for deployment.</p>
+                
+                <h3>4. Scalability to Complex Tasks</h3>
+                <p>The TD3BC+JSRL framework is general and can be applied to other continuous control tasks where temporal dynamics are important, opening opportunities for broader applications in autonomous systems.</p>
+                
+                <h2>Comparison with State-of-the-Art</h2>
+                <p>Our work advances the state-of-the-art in neuromorphic control in several key dimensions:</p>
+                
+                <ul>
+                    <li><strong>Position Control Accuracy:</strong> Achieved the lowest position error (0.04m) compared to all baseline methods, including traditional ANNs with explicit history</li>
+                    <li><strong>Training Efficiency:</strong> TD3BC+JSRL achieves 400-point average reward under curriculum learning, while baseline methods (BC, TD3BC, vanilla TD3) fail to exceed -200 points—a 600-point performance gap</li>
+                    <li><strong>Temporal Processing:</strong> First demonstration of successful drone control using SNNs without explicit observation history augmentation</li>
+                    <li><strong>Real-World Validation:</strong> Successful deployment on physical hardware with complex maneuver execution</li>
+                </ul>
+                
+                <h2>Lessons Learned</h2>
+                <p>Through the process of bridging the reality gap, we learned several valuable lessons about deploying spiking neural networks in real-world robotic systems:</p>
+                
+                <h3>1. Warm-Up Period is Critical</h3>
+                <p>The jump-start mechanism is essential for gathering sequences long enough to bridge the warm-up period. Without it, the network cannot learn stable flight behavior at all.</p>
+                
+                <h3>2. Behavioral Cloning Accelerates Learning</h3>
+                <p>The BC term provides a 15× speedup in training convergence, making it practical to train complex control policies in reasonable time frames.</p>
+                
+                <h3>3. Temporal Dynamics Reduce Memory Requirements</h3>
+                <p>By encoding temporal information in the network's internal state, SNNs can achieve comparable performance to ANNs without requiring explicit observation history, reducing memory footprint significantly.</p>
+                
+                <h3>4. Surrogate Gradient Scheduling Matters</h3>
+                <p>As discussed in Part 1, adaptive surrogate gradient scheduling is crucial for achieving both training stability and optimal performance in reinforcement learning scenarios.</p>
+                
+                <h2>Conclusion</h2>
+                <p>This final part of our blog series demonstrates that spiking neural networks trained with our TD3BC+JSRL algorithm can successfully bridge the sim-to-real gap and perform complex control tasks on real hardware. The key achievements include:</p>
+                
+                <ul>
+                    <li>Successful zero-shot transfer from simulation to real Crazyflie quadrotor</li>
+                    <li>Lower position error than ANNs with explicit action history</li>
+                    <li>79% activation sparsity enabling energy-efficient neuromorphic deployment</li>
+                    <li>Elimination of observation history requirements through temporal processing</li>
+                    <li>600-point performance improvement over baseline methods under curriculum learning</li>
+                </ul>
+                
+                <p>These results represent a significant step forward in neuromorphic robotics, demonstrating that spiking neural networks can be effectively trained for real-world control tasks while offering substantial computational and energy efficiency advantages. The successful deployment on physical hardware validates the practical viability of our approach and opens new opportunities for deploying energy-efficient intelligent agents on resource-constrained robotic platforms.</p>
+                
+                <div class="highlight-box">
+                    <h4>Paper Accepted at NeurIPS 2025</h4>
+                    <p>This work has been accepted for presentation at the Conference on Neural Information Processing Systems (NeurIPS) 2025. The complete paper includes additional technical details, ablation studies, and theoretical analysis of the approach.</p>
+                </div>
+                
+                <h2>Series Recap</h2>
+                <p>This concludes our 3-part blog series on Adaptive Surrogate Gradients for Spiking Neural Networks:</p>
+                <ul>
+                    <li><a href="blog-surrogate.html"><strong>Part 1: Surrogate Gradient Effects</strong></a> - Understanding how surrogate gradient slope settings affect training in deep SNNs</li>
+                    <li><a href="blog-sequence.html"><strong>Part 2: Sequential Reinforcement Learning</strong></a> - Developing the TD3BC+JSRL algorithm for temporal learning</li>
+                    <li><strong>Part 3: Bridging the Reality Gap</strong> - Real-world deployment and evaluation on the Crazyflie quadrotor</li>
+                </ul>
+                
+                <p>Together, these posts provide a comprehensive overview of the challenges and solutions for training and deploying spiking neural networks in real-world robotic control applications.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Korneel Vandenberghe. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
+
