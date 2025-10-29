@@ -181,7 +181,7 @@
                 <p>The controller architecture consisted of 2 hidden layers, each with 32 leaky integrate-and-fire (LIF) neurons, connected with linear feedforward layers. The input (sonar altitude) was passed directly to the first layer without encoding, as an input current, while the output was discretized to 7 neurons corresponding to acceleration commands. A softmax function was applied to membrane potentials for action selection.</p>
                 
                 <div class="figure-container">
-                    <img src="projects_Latex/A2C-spiking/cno/Figures/Training_SNN_ANN_1l246.png" alt="Training comparison between SNN and ANN architectures" class="blog-figure">
+                    <img src="project_figures/cno_training_snn_ann_1l246.png" alt="Training comparison between SNN and ANN architectures" class="blog-figure">
                     <p class="figure-caption"><strong>Figure 1:</strong> Training performance comparison between SNN and ANN architectures. The SNN shows different convergence characteristics due to its spiking nature and temporal dynamics.</p>
                 </div>
                 
@@ -189,7 +189,7 @@
                 <p>A critical insight was the necessity of supervised pre-training to help the SNN develop meaningful internal representations. Without proper guidance, the network struggled to learn velocity representations crucial for safe landings. The pre-training task involved learning velocity from sonar readings, which significantly improved training efficiency and reduced computational requirements by an order of magnitude.</p>
                 
                 <div class="figure-container">
-                    <img src="projects_Latex/A2C-spiking/cno/Figures/training_3models.png" alt="Training performance of different model configurations" class="blog-figure">
+                    <img src="project_figures/cno_training_3models.png" alt="Training performance of different model configurations" class="blog-figure">
                     <p class="figure-caption"><strong>Figure 2:</strong> Training performance comparison across different model configurations, showing the impact of pre-training and network architecture choices.</p>
                 </div>
                 
@@ -216,7 +216,7 @@
                 <p>In the simple simulator, the network exhibited intelligent landing behavior. When starting with non-zero velocity, it promptly issued positive thrust commands to reduce downward velocity, progressively increasing thrust as the MAV approached the ground. This demonstrated the network's ability to modulate thrust based on proximity to the landing surface and its internal velocity representation.</p>
                 
                 <div class="figure-container">
-                    <img src="projects_Latex/A2C-spiking/cno/Figures/drone_landing_seed50_drone_snn_pos_06-05-02.png" alt="SNN controller performance in basic simulation" class="blog-figure">
+                    <img src="project_figures/cno_drone_landing.png" alt="SNN controller performance in basic simulation" class="blog-figure">
                     <p class="figure-caption"><strong>Figure 3:</strong> Performance of the SNN-based controller in the basic simulation model. The controller shows intelligent landing behavior with appropriate thrust modulation.</p>
                 </div>
                 
@@ -245,7 +245,7 @@
                 </ul>
                 
                 <div class="figure-container">
-                    <img src="projects_Latex/A2C-spiking/cno/Figures/Noise_Robustness_5Models.png" alt="Noise robustness comparison" class="blog-figure">
+                    <img src="project_figures/cno_noise_robustness.png" alt="Noise robustness comparison" class="blog-figure">
                     <p class="figure-caption"><strong>Figure 5:</strong> Noise robustness analysis showing SNNs with temporal dynamics outperform traditional ANNs under noisy conditions.</p>
                 </div>
                 
@@ -263,7 +263,7 @@
                 </ul>
                 
                 <div class="figure-container">
-                    <img src="projects_Latex/A2C-spiking/cno/Figures/SNN_histogram1K_noLeak.png" alt="SNN neuron activity distribution" class="blog-figure">
+                    <img src="project_figures/cno_snn_histogram.png" alt="SNN neuron activity distribution" class="blog-figure">
                     <p class="figure-caption"><strong>Figure 6:</strong> Distribution of neuron activity in the trained SNN, showing the challenge of dead and saturated neurons that limit training efficiency.</p>
                 </div>
                 

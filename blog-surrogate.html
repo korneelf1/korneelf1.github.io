@@ -189,7 +189,7 @@
                 <p>A critical hyperparameter in this process is the slope <em>k</em> of the surrogate function, which determines the sensitivity of the gradient near the spiking threshold. We adopt a fast sigmoid function and examine slope configurations ranging from shallow (<em>k = 1</em>) to steep (<em>k = 100</em>).</p>
                 
                 <div class="figure-container">
-                    <img src="projects_Latex/Surrogate Gradient NeurIPS 2025 (1)/figures/neurips_surrogate_gradients.png" alt="Surrogate gradient slope effects" class="blog-figure">
+                    <img src="project_figures/surrogate_gradients_effects.png" alt="Surrogate gradient slope effects" class="blog-figure">
                     <p class="figure-caption"><strong>Figure 1:</strong> The slope of the surrogate gradient dictates the range of inputs for which a gradient exists. Steeper slopes closely resemble the Dirac delta function but restrict non-zero gradients to a narrow input range.</p>
                 </div>
                 
@@ -197,7 +197,7 @@
                 <p>Our analysis reveals that surrogate gradient slope settings have profound effects on gradient propagation through deep networks. As shown in Figure 1, steeper slopes closely resemble the Dirac delta function but restrict non-zero gradients to a narrow input range. In contrast, shallower slopes lead to a greater number of non-zero gradients and thus increase the total gradient magnitude, particularly in deeper layers.</p>
                 
                 <div class="figure-container">
-                    <img src="projects_Latex/Surrogate Gradient NeurIPS 2025 (1)/figures/neurips_avg_grad_magnitude.png" alt="Gradient magnitude analysis" class="blog-figure">
+                    <img src="project_figures/surrogate_grad_magnitude.png" alt="Gradient magnitude analysis" class="blog-figure">
                     <p class="figure-caption"><strong>Figure 2:</strong> A more shallow slope carries the gradient deeper through the network, suffering less from vanishing gradients. The network has 4 hidden layers; layer 0 is the first hidden layer, and layer 4 is the output layer.</p>
                 </div>
                 
@@ -208,7 +208,7 @@
                 </div>
                 
                 <div class="figure-container">
-                    <img src="projects_Latex/Surrogate Gradient NeurIPS 2025 (1)/figures/neurips_cosine_similarity_line.png" alt="Cosine similarity analysis" class="blog-figure">
+                    <img src="project_figures/surrogate_cosine_similarity.png" alt="Cosine similarity analysis" class="blog-figure">
                     <p class="figure-caption"><strong>Figure 3:</strong> A shallower slope introduces bias and variance, computed using the cosine similarity. The cosine similarity for shallow slopes reduces to 0, meaning weight updates in deeper networks become essentially random.</p>
                 </div>
                 
@@ -247,12 +247,12 @@
                 <p>Where <em>k_t</em> is the slope at time <em>t</em>, <em>r_{t-i}</em> is the reward score at time <em>t-i</em>, and <em>r'_{t-i}</em> is the first-order derivative of the reward score at time <em>t-i</em>. The proportional term is largely responsible for not decreasing the slope when maximum performance is reached, preventing the destruction of progress.</p>
                 
                 <div class="figure-container">
-                    <img src="projects_Latex/Surrogate Gradient NeurIPS 2025 (1)/figures/neurips_time_to_100_plot.png" alt="Training efficiency comparison" class="blog-figure">
+                    <img src="project_figures/surrogate_time_to_100.png" alt="Training efficiency comparison" class="blog-figure">
                     <p class="figure-caption"><strong>Figure 4:</strong> Scheduled slope settings improve training efficiency, greatly reducing the number of epochs to reach a reward of 100.</p>
                 </div>
                 
                 <div class="figure-container">
-                    <img src="projects_Latex/Surrogate Gradient NeurIPS 2025 (1)/figures/neurips_best_performance_plot.png" alt="Final performance comparison" class="blog-figure">
+                    <img src="project_figures/surrogate_best_performance.png" alt="Final performance comparison" class="blog-figure">
                     <p class="figure-caption"><strong>Figure 5:</strong> Final performance of trained agents lies in the same regime as fixed slope experiments, but with improved training efficiency.</p>
                 </div>
                 

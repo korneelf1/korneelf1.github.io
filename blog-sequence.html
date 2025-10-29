@@ -197,7 +197,7 @@
                 <p>When controlling a drone, subpar controller performance leads to too short interactions, making it challenging to achieve baseline performance. The agent cannot act long enough to gather data that would allow it to improve, creating a fundamental chicken-and-egg problem in training.</p>
                 
                 <div class="figure-container">
-                    <img src="projects_Latex/Surrogate Gradient NeurIPS 2025 (1)/figures/task_draw.png" alt="Drone control task overview" class="blog-figure">
+                    <img src="project_figures/surrogate_task_draw.png" alt="Drone control task overview" class="blog-figure">
                     <p class="figure-caption"><strong>Figure 1:</strong> The spiking controller receives position, velocity, orientation, and angular velocity inputs and outputs motor commands for the Crazyflie quadrotor.</p>
                 </div>
                 
@@ -265,7 +265,7 @@
                 <p>Based on these inputs, the SNN outputs motor commands for each motor (m₁, m₂, m₃, m₄) at a control frequency of 100Hz.</p>
                 
                 <div class="figure-container">
-                    <img src="projects_Latex/Surrogate Gradient NeurIPS 2025 (1)/figures/CrazyFlie_Coord.png" alt="Crazyflie coordinate system" class="blog-figure">
+                    <img src="project_figures/surrogate_crazyflie_coord.png" alt="Crazyflie coordinate system" class="blog-figure">
                     <p class="figure-caption"><strong>Figure 2:</strong> The Crazyflie quadrotor platform and coordinate system used for position control.</p>
                 </div>
                 
@@ -276,12 +276,12 @@
                 <p>To fully leverage the temporal processing capabilities of SNNs in reinforcement learning, we extend training from single transitions to full sequences and introduce a reward curriculum that gradually increases penalties on position, velocity, and action magnitude to encourage stable, robust behavior.</p>
                 
                 <div class="figure-container">
-                    <img src="projects_Latex/Surrogate Gradient NeurIPS 2025 (1)/figures/neurips_comparison_plot_reward.png" alt="Training comparison across methods" class="blog-figure">
+                    <img src="project_figures/surrogate_comparison_reward.png" alt="Training comparison across methods" class="blog-figure">
                     <p class="figure-caption"><strong>Figure 3:</strong> Offline methods (BC and TD3BC) struggle as the reward function adapts, failing to generalize beyond the initial dataset.</p>
                 </div>
                 
                 <div class="figure-container">
-                    <img src="projects_Latex/Surrogate Gradient NeurIPS 2025 (1)/figures/neurips_comparison_plot_lens.png" alt="Sequence length comparison" class="blog-figure">
+                    <img src="project_figures/surrogate_comparison_lens.png" alt="Sequence length comparison" class="blog-figure">
                     <p class="figure-caption"><strong>Figure 4:</strong> While all methods eventually learn to fly, TD3-trained policies frequently terminate early due to unstable exploration, whereas TD3BC+JSRL achieves longer and more stable flight trajectories.</p>
                 </div>
                 
@@ -299,7 +299,7 @@
                 <p>We quantitatively evaluated the computational efficiency of our sequential SNN approach using NeuroBench. Results show that temporally-trained SNNs match ANN performance while exhibiting distinct computational traits.</p>
                 
                 <div class="figure-container">
-                    <img src="projects_Latex/Surrogate Gradient NeurIPS 2025 (1)/figures/CrazyFlieFlight.png" alt="Real-world deployment on Crazyflie" class="blog-figure">
+                    <img src="project_figures/surrogate_crazyflie_flight.png" alt="Real-world deployment on Crazyflie" class="blog-figure">
                     <p class="figure-caption"><strong>Figure 5:</strong> When deployed on the Crazyflie, the spiking actor displays oscillatory behavior but can successfully fly maneuvers such as circles.</p>
                 </div>
                 
