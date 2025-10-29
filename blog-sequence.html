@@ -91,6 +91,55 @@
             border-radius: 3px;
             font-family: 'Courier New', monospace;
         }
+        
+        .figure-container {
+            margin-bottom: 2rem;
+        }
+        
+        .blog-figure {
+            width: 100%;
+            height: auto;
+            margin-bottom: 0.5rem;
+        }
+        
+        .figure-caption {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        .authors {
+            font-style: italic;
+            color: #6c757d;
+            margin-bottom: 1rem;
+        }
+        
+        .conference-badge {
+            display: inline-block;
+            background-color: #e74c3c;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            margin-left: 1rem;
+        }
+        
+        .equation {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+        }
+        
+        .algorithm-box {
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
@@ -113,104 +162,159 @@
             </a>
             
             <div class="blog-header">
-                <h1 class="blog-title">Temporal Learning in Spiking Neural Networks</h1>
-                <p class="blog-meta">Published: September 2024 | Reading time: 15 min | Research Project</p>
+                <h1 class="blog-title">Sequence Reinforcement Learning for Spiking Neural Networks</h1>
+                <p class="blog-meta">Published: 2024 | Reading time: 15 min | Research Project</p>
+                <p class="authors"><strong>Under review at:</strong> NeurIPS 2025 <span class="conference-badge">Conference</span></p>
             </div>
             
             <div class="blog-content">
-                <p>Sequence learning represents a fundamental challenge in artificial intelligence, requiring systems to process and learn from temporal patterns. This project explores how spiking neural networks can be effectively trained to handle sequential tasks through reinforcement learning.</p>
+                <p>Leveraging the temporal processing capabilities of spiking neural networks (SNNs) in reinforcement learning requires training on sequences rather than individual transitions. However, this presents a critical challenge: subpar initial policies often lead to early episode termination, preventing the collection of sufficiently long sequences to bridge the warm-up period required by stateful networks.</p>
                 
-                <h2>The Challenge of Temporal Learning</h2>
-                <p>Traditional neural networks often struggle with temporal dependencies and sequence learning. Spiking neural networks, with their inherent temporal dynamics, offer a natural framework for addressing these challenges. However, effectively training SNNs for sequential tasks requires novel approaches that leverage their unique properties.</p>
+                <p>This research introduces a novel reinforcement learning algorithm tailored for continuous control with spiking neural networks, explicitly leveraging their inherent temporal dynamics without relying on frame stacking. We demonstrate the efficacy of our approach by training a low-level spiking neural controller for the Crazyflie quadrotor, successfully bridging the reality gap without observation history augmentation.</p>
                 
-                <p>The project focuses on developing reinforcement learning methods for spiking neural networks operating in unstable environments, with particular emphasis on sequence learning and temporal dynamics. This work addresses the critical need for robust, temporally-aware learning systems in real-world applications.</p>
+                <h2>The Warm-Up Period Challenge</h2>
+                <p>A key consideration when training stateful neural networks with reinforcement learning is gathering sufficiently long sequences to enable efficient training, while also allowing the hidden states to stabilize for several timesteps after initialization before calculating the gradient. This stabilization period, which we call the warm-up period, is crucial for proper gradient computation in spiking neural networks.</p>
                 
-                <h2>Novel Approach: Temporal Credit Assignment</h2>
-                <p>We developed a novel approach to temporal credit assignment in spiking neural networks that addresses the challenges of learning in unstable environments. The method combines several innovative techniques:</p>
+                <p>When controlling a drone, subpar controller performance leads to too short interactions, making it challenging to achieve baseline performance. The agent cannot act long enough to gather data that would allow it to improve, creating a fundamental chicken-and-egg problem in training.</p>
                 
-                <h3>Adaptive Time Windows</h3>
-                <p>Dynamic adjustment of temporal learning windows based on task complexity. This allows the network to focus on relevant temporal patterns while ignoring irrelevant noise, improving learning efficiency and robustness.</p>
+                <div class="figure-container">
+                    <img src="projects_Latex/Surrogate Gradient NeurIPS 2025 (1)/figures/task_draw.png" alt="Drone control task overview" class="blog-figure">
+                    <p class="figure-caption"><strong>Figure 1:</strong> The spiking controller receives position, velocity, orientation, and angular velocity inputs and outputs motor commands for the Crazyflie quadrotor.</p>
+                </div>
                 
-                <h3>Spike Timing Dependent Plasticity (STDP)</h3>
-                <p>Integration of biological learning mechanisms that naturally handle temporal correlations. STDP provides a biologically plausible way to learn temporal patterns without requiring explicit recurrence.</p>
+                <h2>Jump-Start Reinforcement Learning Framework</h2>
+                <p>To address the warm-up period challenge in sequential SNN training, we adapt the Jump-Start Reinforcement Learning (JSRL) framework. This approach leverages a pre-trained guide policy to create a curriculum of starting conditions for a secondary policy.</p>
                 
-                <h3>Reinforcement Learning Integration</h3>
-                <p>Novel algorithms combining RL with SNN dynamics, specifically designed to handle the challenges of training spiking networks in reinforcement learning settings.</p>
+                <p>We implement a privileged, non-spiking actor trained through TD3, whose primary function is to bridge the critical warm-up period required by the SNN. Both this guiding policy and the non-spiking critic receive privileged information in the form of action and observation histories.</p>
                 
-                <h2>Technical Implementation</h2>
-                <p>The project involved developing a comprehensive framework for training spiking neural networks on sequential tasks:</p>
+                <h2>Sequential Reinforcement Learning Algorithm</h2>
+                <p>Our approach combines the benefits of both offline and online learning through a hybrid training strategy:</p>
                 
-                <h3>Network Architecture</h3>
+                <div class="algorithm-box">
+                    <h4>Key Components:</h4>
+                    <ul>
+                        <li><strong>Guiding Policy:</strong> TD3-trained non-spiking actor that provides stable initial behavior</li>
+                        <li><strong>Spiking Policy:</strong> LIF-based neural network that learns temporal dynamics</li>
+                        <li><strong>Hybrid Replay Buffer:</strong> Contains transitions from both guiding and spiking policies</li>
+                        <li><strong>Behavioral Cloning Term:</strong> Gradually decaying BC regularization for stable training</li>
+                    </ul>
+                </div>
+                
+                <h3>Training Objective Function</h3>
+                <p>The function to be maximized combines reinforcement learning objectives with behavioral cloning:</p>
+                
+                <div class="equation">
+                    L_π = E[τ∼D] [Σ(i=0 to 100) Q_φ₁(s_τ,i, π_θ(s_τ,i|(s_τ,i-1,...,s_τ,i))) · 1_{i≥50}] + λ E[τ∼D] [Σ(i=0 to 100) ||π_θ(s_τ,i|(s_τ,i-1...s_τ,i)) - a_τ,i||² · 1_{i≥50}]
+                </div>
+                
+                <p>Where:</p>
                 <ul>
-                    <li>Multi-layer spiking neural networks with temporal dynamics</li>
-                    <li>Adaptive connectivity patterns based on task requirements</li>
-                    <li>Integration of multiple learning mechanisms</li>
-                    <li>Real-time processing capabilities</li>
+                    <li><em>Q_φ₁</em> represents the first critic network (as used in TD3)</li>
+                    <li><em>τ</em> denotes a sequence sampled from the replay buffer (length 100)</li>
+                    <li><em>s_τ,i</em> and <em>a_τ,i</em> correspond to the i-th observation and action</li>
+                    <li><em>λ</em> controls the strength of BC regularization and decays over time</li>
+                    <li><em>1_{i≥50}</em> equals zero during the warm-up period (50 steps) and switches to one afterward</li>
                 </ul>
                 
-                <h3>Learning Algorithm</h3>
-                <p>The learning algorithm combines several key components:</p>
+                <h2>Spiking Actor-Critic Architecture</h2>
+                <p>The spiking policy employs two hidden layers of Leaky Integrate-and-Fire (LIF) neurons. Each neuron receives an input current <em>I_in</em>, which incrementally charges its membrane potential <em>U</em>. Over time, the potential decays at a rate determined by the leak factor <em>β</em>.</p>
+                
+                <p>When the membrane potential exceeds a defined threshold <em>U_thr</em>, the neuron emits a spike <em>s</em> and its potential is subsequently reset:</p>
+                
+                <div class="equation">
+                    U[t+1] = β U[t] + I_in[t+1] - s · U_thr
+                </div>
+                
+                <p>Where the spiking mechanism is described by:</p>
+                
+                <div class="equation">
+                    s = {1, if U[t] > U_thr; 0, otherwise}
+                </div>
+                
+                <p>While the actor is spiking, the critic is an artificial neural network that receives the aforementioned states and an action history of 32 timesteps. This asymmetric setup has been demonstrated to successfully leverage the improved training stability of ANNs while maintaining the temporal processing capabilities of SNNs.</p>
+                
+                <h2>Micro Aerial Vehicle Control Task</h2>
+                <p>We implement and evaluate our approach on a quadrotor position control task using the Crazyflie 2.1 platform. The control architecture employs a spiking neural network that processes a state vector comprising:</p>
+                
                 <ul>
-                    <li><strong>Temporal Credit Assignment:</strong> Novel methods for assigning credit across time steps</li>
-                    <li><strong>Adaptive Learning Rates:</strong> Dynamic adjustment based on temporal complexity</li>
-                    <li><strong>Robustness Mechanisms:</strong> Techniques for handling unstable environments</li>
-                    <li><strong>Efficiency Optimizations:</strong> Methods for reducing computational overhead</li>
+                    <li><strong>Position:</strong> (x, y, z) coordinates</li>
+                    <li><strong>Linear velocity:</strong> (v_x, v_y, v_z)</li>
+                    <li><strong>Orientation angles:</strong> (θ, φ, ψ)</li>
+                    <li><strong>Angular velocities:</strong> (p, q, r)</li>
                 </ul>
                 
-                <h2>Experimental Validation</h2>
-                <p>Our approach was validated across multiple challenging domains to ensure robustness and generalizability:</p>
+                <p>Based on these inputs, the SNN outputs motor commands for each motor (m₁, m₂, m₃, m₄) at a control frequency of 100Hz.</p>
                 
-                <h3>Robotic Navigation</h3>
-                <p>Testing in dynamic environments where the robot must learn to navigate through changing obstacles and conditions. The system demonstrated the ability to adapt to new situations and learn from temporal patterns in the environment.</p>
+                <div class="figure-container">
+                    <img src="projects_Latex/Surrogate Gradient NeurIPS 2025 (1)/figures/CrazyFlie_Coord.png" alt="Crazyflie coordinate system" class="blog-figure">
+                    <p class="figure-caption"><strong>Figure 2:</strong> The Crazyflie quadrotor platform and coordinate system used for position control.</p>
+                </div>
                 
-                <h3>Speech Recognition</h3>
-                <p>Application to speech processing tasks, where temporal patterns are crucial for understanding spoken language. The network showed improved performance on tasks requiring temporal sequence recognition.</p>
+                <h3>Encoding and Decoding</h3>
+                <p>SNNs work in a spike-based domain. To encode continuous values to spikes and vice versa, population-based encoding and decoding are used. A linear layer encodes input values into currents, and another decodes output spikes into motor commands.</p>
                 
-                <h3>Time Series Prediction</h3>
-                <p>Evaluation on various time series prediction tasks, demonstrating the network's ability to learn complex temporal dependencies and make accurate predictions.</p>
+                <h2>Training on Sequences</h2>
+                <p>To fully leverage the temporal processing capabilities of SNNs in reinforcement learning, we extend training from single transitions to full sequences and introduce a reward curriculum that gradually increases penalties on position, velocity, and action magnitude to encourage stable, robust behavior.</p>
                 
-                <h3>Autonomous Vehicle Control</h3>
-                <p>Testing in simulated autonomous vehicle scenarios, where the system must learn to control the vehicle based on temporal sequences of sensor inputs.</p>
+                <div class="figure-container">
+                    <img src="projects_Latex/Surrogate Gradient NeurIPS 2025 (1)/figures/neurips_comparison_plot_reward.png" alt="Training comparison across methods" class="blog-figure">
+                    <p class="figure-caption"><strong>Figure 3:</strong> Offline methods (BC and TD3BC) struggle as the reward function adapts, failing to generalize beyond the initial dataset.</p>
+                </div>
                 
-                <h2>Key Results</h2>
-                <p>The results demonstrate significant improvements in sequence learning capabilities compared to traditional approaches:</p>
+                <div class="figure-container">
+                    <img src="projects_Latex/Surrogate Gradient NeurIPS 2025 (1)/figures/neurips_comparison_plot_lens.png" alt="Sequence length comparison" class="blog-figure">
+                    <p class="figure-caption"><strong>Figure 4:</strong> While all methods eventually learn to fly, TD3-trained policies frequently terminate early due to unstable exploration, whereas TD3BC+JSRL achieves longer and more stable flight trajectories.</p>
+                </div>
                 
-                <h3>Performance Improvements</h3>
+                <h3>Comparison with Baseline Methods</h3>
+                <p>We compare our TD3BC+JSRL approach with several baseline methods:</p>
+                
                 <ul>
-                    <li>Faster convergence on sequential tasks</li>
-                    <li>Better generalization to unseen temporal patterns</li>
-                    <li>Improved robustness in unstable environments</li>
-                    <li>More efficient learning with fewer training examples</li>
+                    <li><strong>Behavioral Cloning (BC):</strong> Suffers from the unseen curriculum, unable to adapt to changing reward functions</li>
+                    <li><strong>TD3BC:</strong> Initially shows ability to leverage reward information but performance drops as the reward function diverges from the dataset</li>
+                    <li><strong>TD3:</strong> Struggles to gather meaningful sequences early in training, often resulting in premature episode terminations</li>
+                    <li><strong>TD3BC+JSRL:</strong> Demonstrates robust learning even under challenging curriculum, with substantial performance improvements</li>
                 </ul>
                 
-                <h3>Computational Efficiency</h3>
-                <p>The approach achieved these improvements while maintaining computational efficiency, making it suitable for real-time applications and deployment on resource-constrained devices.</p>
+                <h2>Bridging the Reality Gap</h2>
+                <p>We quantitatively evaluated the computational efficiency of our sequential SNN approach using NeuroBench. Results show that temporally-trained SNNs match ANN performance while exhibiting distinct computational traits.</p>
                 
-                <h2>Challenges and Solutions</h2>
-                <p>The project addressed several significant challenges in temporal learning with spiking neural networks:</p>
+                <div class="figure-container">
+                    <img src="projects_Latex/Surrogate Gradient NeurIPS 2025 (1)/figures/CrazyFlieFlight.png" alt="Real-world deployment on Crazyflie" class="blog-figure">
+                    <p class="figure-caption"><strong>Figure 5:</strong> When deployed on the Crazyflie, the spiking actor displays oscillatory behavior but can successfully fly maneuvers such as circles.</p>
+                </div>
                 
-                <h3>Credit Assignment Problem</h3>
-                <p>One of the main challenges was developing effective methods for assigning credit across multiple time steps. Our solution involved novel temporal credit assignment mechanisms that work naturally with spiking dynamics.</p>
+                <h3>Computational Efficiency Analysis</h3>
+                <p>Despite a higher memory footprint, SNNs benefit from activation sparsity and primarily use energy-efficient accumulates (ACs) instead of energy-hungry multiply-accumulates (MACs), making them well-suited for neuromorphic deployment.</p>
                 
-                <h3>Stability in Unstable Environments</h3>
-                <p>Learning in unstable environments requires robust mechanisms that can handle changing conditions. We developed adaptive learning strategies that maintain performance even when the environment changes.</p>
+                <h3>Real-World Deployment Results</h3>
+                <p>When deployed on the Crazyflie, the SNN controller exhibits oscillatory behavior, likely due to limited output resolution and lack of explicit action history. However, the SNN is still able to execute complex maneuvers like circles, eight figures, and squares.</p>
                 
-                <h3>Computational Complexity</h3>
-                <p>Temporal learning can be computationally expensive. We implemented several optimizations that reduce the computational overhead while maintaining learning effectiveness.</p>
+                <p>We deployed the trained SNNs on Crazyflie variants with standard and modified motor-propeller setups. Compared to ANN controllers, SNNs achieved lower position error under ideal conditions but had reduced reliability. Notably, while ANNs without action history failed to control the drone, our SNN leveraged temporal dynamics to maintain control, albeit with occasional crashes.</p>
                 
-                <h2>Future Directions</h2>
-                <p>Future work will focus on scaling these methods to larger networks and exploring their application in real-world robotics scenarios:</p>
+                <h2>Key Contributions and Impact</h2>
+                <p>This work makes several significant contributions to the field of neuromorphic reinforcement learning:</p>
+                
                 <ul>
-                    <li><strong>Scalability:</strong> Extending the approach to larger, more complex networks</li>
-                    <li><strong>Real-world Deployment:</strong> Testing on physical robotic systems</li>
-                    <li><strong>Multi-modal Learning:</strong> Integrating multiple sensory modalities</li>
-                    <li><strong>Online Learning:</strong> Developing methods for continuous learning in changing environments</li>
+                    <li><strong>Novel RL Algorithm:</strong> Introduces TD3BC+JSRL specifically designed for spiking neural networks</li>
+                    <li><strong>Warm-Up Period Solution:</strong> Addresses the critical challenge of bridging the warm-up period in sequential training</li>
+                    <li><strong>Real-World Validation:</strong> Successfully demonstrates sim-to-real transfer without observation history augmentation</li>
+                    <li><strong>Computational Efficiency:</strong> Shows that SNNs can match ANN performance while offering energy efficiency advantages</li>
                 </ul>
                 
-                <h2>Impact and Significance</h2>
-                <p>This work represents a significant advance in temporal learning with spiking neural networks. The developed methods provide a foundation for building more sophisticated temporal learning systems that can operate effectively in real-world environments.</p>
+                <h2>Future Research Directions</h2>
+                <p>Several promising avenues for future work have been identified:</p>
+                <ul>
+                    <li><strong>Improved Stability:</strong> Incorporating angular velocity penalties, throttle deviation outputs, or increased control frequency</li>
+                    <li><strong>Enhanced Encoding:</strong> Developing more sophisticated encoding and decoding methods for continuous control</li>
+                    <li><strong>Multi-Agent Systems:</strong> Extending the approach to multi-agent scenarios and swarm robotics</li>
+                    <li><strong>Hardware Optimization:</strong> Optimizing the algorithm for specific neuromorphic hardware platforms</li>
+                </ul>
                 
-                <p>The research contributes to the broader goal of developing biologically-inspired learning systems that can handle complex temporal tasks, with potential applications in robotics, autonomous systems, and artificial intelligence.</p>
+                <h2>Conclusion</h2>
+                <p>This research successfully addresses the critical challenges of training spiking neural networks for real-world control tasks. By introducing a novel reinforcement learning algorithm that explicitly leverages the temporal dynamics of SNNs and providing a solution to the warm-up period problem, we demonstrate that spiking neural networks can be effectively trained for complex control tasks and successfully deployed in real-world robotic systems.</p>
+                
+                <p>The work contributes to the broader goal of making neuromorphic computing more accessible and effective for real-world applications, particularly in resource-constrained environments where energy efficiency is critical. The successful sim-to-real transfer without observation history augmentation represents a significant step forward in the field of neuromorphic robotics.</p>
             </div>
         </div>
     </main>

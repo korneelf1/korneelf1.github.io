@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A2Perf: Real-World Autonomous Agents Benchmark - Korneel Vandenberghe</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .blog-page {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .blog-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .blog-title {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+        
+        .blog-meta {
+            color: #6c757d;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            transition: color 0.3s ease;
+        }
+        
+        .back-link:hover {
+            color: #2980b9;
+        }
+        
+        .back-link i {
+            margin-right: 0.5rem;
+        }
+        
+        .blog-content {
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .blog-content h2 {
+            color: #2c3e50;
+            margin: 2rem 0 1rem 0;
+            font-size: 1.8rem;
+        }
+        
+        .blog-content h3 {
+            color: #2c3e50;
+            margin: 1.5rem 0 0.8rem 0;
+            font-size: 1.4rem;
+        }
+        
+        .blog-content p {
+            margin-bottom: 1.2rem;
+        }
+        
+        .blog-content ul {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+        
+        .blog-content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .blog-content strong {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .blog-content em {
+            background-color: #f8f9fa;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .figure-container {
+            margin-bottom: 2rem;
+        }
+        
+        .blog-figure {
+            width: 100%;
+            height: auto;
+            margin-bottom: 0.5rem;
+        }
+        
+        .figure-caption {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        .authors {
+            font-style: italic;
+            color: #6c757d;
+            margin-bottom: 1rem;
+        }
+        
+        .journal-badge {
+            display: inline-block;
+            background-color: #27ae60;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            margin-left: 1rem;
+        }
+        
+        .affiliations {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-size: 0.95rem;
+        }
+        
+        .affiliations h4 {
+            margin: 0 0 0.5rem 0;
+            color: #2c3e50;
+        }
+        
+        .affiliations ul {
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+        
+        .affiliations li {
+            margin-bottom: 0.3rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="logo">Korneel Van den Berghe</div>
+            <ul class="nav-links">
+                <li><a href="index.html#about">About Me</a></li>
+                <li><a href="index.html#projects">Projects</a></li>
+                <li><a href="index.html#cv">CV</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main style="margin-top: 80px;">
+        <div class="blog-page">
+            <a href="index.html#projects" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                Back to Projects
+            </a>
+            
+            <div class="blog-header">
+                <h1 class="blog-title">A2Perf: Real-World Autonomous Agents Benchmark</h1>
+                <p class="blog-meta">Published: 2024 | Reading time: 8 min | Research Project</p>
+                <p class="authors"><strong>Accepted at:</strong> Transactions on Machine Learning Research (TMLR) <span class="journal-badge">Journal</span></p>
+            </div>
+            
+            <div class="blog-content">
+                <p>A2Perf is a comprehensive benchmarking suite designed to bridge the gap between algorithms research and real-world applications for autonomous agents. This work addresses the critical need for benchmarks that incorporate practical metrics beyond raw task performance, enabling researchers to develop algorithms with real-world deployment considerations in mind.</p>
+                
+                <div class="affiliations">
+                    <h4>Authors and Affiliations:</h4>
+                    <ul>
+                        <li><strong>Ikechukwu Uchendu</strong> - Google DeepMind & Harvard University</li>
+                        <li><strong>Jason Jabbour</strong> - Harvard University</li>
+                        <li><strong>Korneel Van den Berghe</strong> - Delft University of Technology</li>
+                        <li><strong>Joel Runevic</strong> - Harvard University</li>
+                        <li><strong>Matthew Stewart</strong> - Harvard University</li>
+                        <li><strong>Jeffrey Ma</strong> - Harvard University</li>
+                        <li><strong>Srivatsan Krishnan</strong> - Harvard University</li>
+                        <li><strong>Izzeddin Gur</strong> - Google DeepMind</li>
+                        <li><strong>Austin Huang</strong> - Google DeepMind</li>
+                        <li><strong>Colton Bishop</strong> - Google DeepMind</li>
+                        <li><strong>Paige Bailey</strong> - Google DeepMind</li>
+                        <li><strong>Wenjie Jiang</strong> - Google DeepMind</li>
+                        <li><strong>Ebrahim M. Songhori</strong> - Google DeepMind</li>
+                        <li><strong>Sergio Guadarrama</strong> - Google DeepMind</li>
+                        <li><strong>Jie Tan</strong> - Google DeepMind</li>
+                        <li><strong>Jordan K. Terry</strong> - Farama Foundation</li>
+                        <li><strong>Aleksandra Faust</strong> - Google DeepMind</li>
+                        <li><strong>Vijay Janapa Reddi</strong> - Google DeepMind & Harvard University</li>
+                    </ul>
+                </div>
+                
+                <h2>Project Overview</h2>
+                <p>Autonomous agents observe their environment, make decisions, and perform tasks with minimal human interference. While these agents have been successfully evaluated across a wide range of application domains, developing algorithms for autonomous agents that can be deployed in real-world scenarios presents significant challenges.</p>
+                
+                <p>These challenges include dealing with high-dimensional state and action spaces, partial observability, non-stationarity, sparse rewards, and the need for safety constraints. Furthermore, real-world environments often have multiple objectives, require sample efficiency, and necessitate robust and explainable decision-making.</p>
+                
+                <h2>Key Contributions</h2>
+                <p>A2Perf introduces several key innovations in benchmarking autonomous agents:</p>
+                
+                <ul>
+                    <li><strong>Unified Evaluation Framework:</strong> Combines critical metrics spanning data cost, system resources, reliability, and generalization</li>
+                    <li><strong>Real-World Domains:</strong> Three challenging domains with demonstrated real-world applicability</li>
+                    <li><strong>Novel Data Cost Metric:</strong> Enables fair comparisons between different learning paradigms</li>
+                    <li><strong>Open-Source Implementation:</strong> Extensible framework that facilitates reproducible evaluation</li>
+                </ul>
+                
+                <h2>Three Real-World Domains</h2>
+                <p>A2Perf incorporates three challenging domains that closely mirror scenarios demonstrated in the real world:</p>
+                
+                <div class="figure-container">
+                    <img src="projects_Latex/A2Perf  TMLR/img/a2perf_envs2.png" alt="A2Perf domains overview" class="blog-figure">
+                    <p class="figure-caption"><strong>Figure 1:</strong> The three domains included in A2Perf: computer chip floorplanning for optimizing integrated circuit layouts, web navigation for automated form filling and website interaction, and quadruped locomotion for robotic control.</p>
+                </div>
+                
+                <h3>1. Computer Chip Floorplanning</h3>
+                <p>This domain was used to help create an iteration of Google's Tensor Processing Unit, where the agent optimizes the layout of chip components. The computer chip-floorplanning domain exhibits a small Sim2Real gap, making it highly relevant for real-world applications in semiconductor design.</p>
+                
+                <h3>2. Web Navigation</h3>
+                <p>Agents autonomously navigate and interact with websites in a Google Chrome browser, making it identical to real-world web navigation. This domain includes form-filling and website interaction tasks that are commonly performed in industrial and consumer contexts.</p>
+                
+                <h3>3. Quadruped Locomotion</h3>
+                <p>This domain has demonstrated successful transfer of learned walking gaits to the Unitree Laikago robot. The quadruped locomotion domain represents a critical application area for autonomous robotics with clear real-world implications.</p>
+                
+                <h2>Comprehensive Metrics Framework</h2>
+                <p>A2Perf provides an open-source benchmarking suite that evaluates agents across four key metric categories:</p>
+                
+                <h3>1. Data Cost</h3>
+                <p>Quantifies the effort required to gather training data for imitation learning, enabling fair comparisons between different learning paradigms (e.g., imitation learning vs reinforcement learning).</p>
+                
+                <h3>2. Application Performance</h3>
+                <p>Relates to the quality of the agent's task-specific execution and its ability to generalize to tasks that it was not explicitly trained to perform.</p>
+                
+                <h3>3. System Resource Efficiency</h3>
+                <p>Focuses on the hardware resources used during training and inference, including compute requirements, wall-clock time, and memory usage.</p>
+                
+                <h3>4. Reliability</h3>
+                <p>Denotes the consistency of an agent's performance over training and inference, which is crucial for real-world deployment scenarios.</p>
+                
+                <div class="figure-container">
+                    <img src="projects_Latex/A2Perf  TMLR/img/a2perf_comparison.png" alt="A2Perf comparison with other benchmarks" class="blog-figure">
+                    <p class="figure-caption"><strong>Figure 2:</strong> A2Perf compared to existing benchmarks that evaluate autonomous agents. A2Perf distinguishes itself by including metrics for generalization, system resource efficiency, data cost, and reliability.</p>
+                </div>
+                
+                <h2>Experimental Insights</h2>
+                <p>Our experimental evaluation yields valuable insights into the real-world applicability of autonomous agents across diverse domains:</p>
+                
+                <h3>Web Navigation Performance</h3>
+                <p>In the web navigation domain, we explore the feasibility of deploying agents by analyzing their inference time, power usage, and memory consumption. The results demonstrate that trained agents can operate with latencies comparable to human reaction times on consumer-grade hardware.</p>
+                
+                <div class="figure-container">
+                    <img src="projects_Latex/A2Perf  TMLR/img/human_vs_webnav_agent.png" alt="Human vs web navigation agent comparison" class="blog-figure">
+                    <p class="figure-caption"><strong>Figure 3:</strong> Comparison between human and web navigation agent performance, showing that trained agents can achieve latencies comparable to human reaction times.</p>
+                </div>
+                
+                <h3>Reliability in Chip Floorplanning</h3>
+                <p>For chip floorplanning, we find that the PPO algorithm provides more consistent initial placements compared to DDQN, reducing variability for designers. This highlights the importance of considering reliability metrics in real-world applications.</p>
+                
+                <h3>Quadruped Locomotion Stability</h3>
+                <p>In quadruped locomotion, PPO exhibits superior stability during training, while SAC demonstrates more consistent gaits during deployment. These findings underscore the importance of considering reliability in real-world scenarios.</p>
+                
+                <div class="figure-container">
+                    <img src="projects_Latex/A2Perf  TMLR/img/dog_pace_inference_reliability.png" alt="Quadruped locomotion reliability analysis" class="blog-figure">
+                    <p class="figure-caption"><strong>Figure 4:</strong> Reliability analysis for quadruped locomotion, showing the consistency of different algorithms during deployment.</p>
+                </div>
+                
+                <h2>Impact and Significance</h2>
+                <p>A2Perf represents a significant step forward in benchmarking autonomous agents for real-world applications. By providing a comprehensive evaluation framework that goes beyond raw task performance, A2Perf enables researchers to develop algorithms with practical deployment considerations in mind.</p>
+                
+                <p>The benchmark's focus on real-world domains with demonstrated transfer capabilities ensures that the results are relevant and applicable to practical applications. The inclusion of novel metrics such as data cost and reliability provides insights that are crucial for successful real-world deployment.</p>
+                
+                <p>As an open-source and extensible benchmark, A2Perf is designed to remain accessible, documented, up-to-date, and useful to the research community over the long term. The framework allows for straightforward expansion to benchmark on custom domains and for custom metrics, making it a valuable tool for the broader autonomous systems research community.</p>
+                
+                <h2>Code and Resources</h2>
+                <p>The A2Perf implementation is available as open-source software: <a href="https://github.com/Farama-Foundation/A2Perf" target="_blank">https://github.com/Farama-Foundation/A2Perf</a></p>
+                
+                <p>For more information about the Farama Foundation and their mission to advance reinforcement learning research, visit: <a href="https://farama.org" target="_blank">https://farama.org</a></p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Korneel Vandenberghe. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html> 

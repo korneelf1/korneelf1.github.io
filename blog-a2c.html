@@ -91,6 +91,21 @@
             border-radius: 3px;
             font-family: 'Courier New', monospace;
         }
+        
+        .figure-container {
+            margin-bottom: 2rem;
+        }
+        
+        .blog-figure {
+            width: 100%;
+            height: auto;
+            margin-bottom: 0.5rem;
+        }
+        
+        .figure-caption {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
     </style>
 </head>
 <body>
@@ -113,82 +128,144 @@
             </a>
             
             <div class="blog-header">
-                <h1 class="blog-title">On-Policy Reinforcement Learning with Spiking Neural Networks for Micro Aerial Vehicle Landing Control</h1>
-                <p class="blog-meta">Published: June 2024, at ICNCE 2024, Aachen, Germany | Reading time: 12 min | Research Project</p>
+                <h1 class="blog-title">A Comparative Study of Spiking and Non-Spiking Neural Networks in Actor-Critic Reinforcement Learning</h1>
+                <p class="blog-meta">Published: June 2024 | Reading time: 15 min | Research Project</p>
+                <p class="blog-authors"><strong>Author:</strong> K. Van den Berghe, Technische Universiteit van Delft</p>
             </div>
             
             <div class="blog-content">
-                <p>This project explores training spiking neural networks (SNNs) for real-world control applications using on-policy reinforcement learning, specifically focusing on autonomous landing of micro aerial vehicles (MAVs). The work analyzes the challenges of training SNNs effectively using the A2C algorithm, while leveraging their potential for low-power, event-based computation.</p>
+                <p>Within the world of autonomous micro robotics, constraints in computational resources and energy usage is a pressing issue, motivating the exploration of novel innovative algorithms to bring intelligence to these systems. This work explores the challenges and opportunities that arise when deploying spiking neural networks as workers in actor-critic deep reinforcement learning, specifically using the A2C algorithm on the CartPole task.</p>
                 
                 <h2>Project Overview and Motivation</h2>
-                <p>Spiking neural networks represent a bio-inspired model of neural computation that processes information through discrete spikes rather than continuous activation values. While SNNs offer significant advantages in energy efficiency and temporal processing, training them effectively remains a significant challenge, particularly for complex control tasks.</p>
+                <p>Reinforcement learning (RL) has experienced significant advancements in recent years, enabling robots to achieve human-like performance on complex tasks. Actor-critic reinforcement learning algorithms have shown to be pivotal in training efficiently in challenging environments, offering potential for higher sample efficiency through parallel training.</p>
                 
-                <p>The primary objective was to develop a complete pipeline for training SNN-based controllers that could successfully land a MAV using only sonar altitude readings. This required addressing several key challenges:</p>
+                <p>Concurrently, neuromorphic algorithms, such as spiking neural networks (SNN), have garnered attention in the field of deep learning. These bio-inspired algorithms have demonstrated utility in handling temporal data and offer high energy efficiency when run on specialized hardware. Combining the possibility to learn from experience through reinforcement learning with the energy-efficient characteristics of spiking neural networks holds great opportunity in the field of small mobile robotics, where computational resources are constrained.</p>
+                
+                <p>The primary objective was to compare the performance and computational complexity of spiking neural networks against traditional artificial neural networks in actor-critic reinforcement learning, specifically addressing:</p>
                 <ul>
-                    <li><strong>Temporal Information Processing:</strong> SNNs operate on spike sequences over time, necessitating adaptations to the conventional transition based RL algorithms to accomodate trainign on sequences</li>
-                    <li><strong>Velocity Estimation:</strong> The network needed to learn internal representations of velocity from altitude sequences</li>
-                    <li><strong>Real-world Deployment:</strong> The controller had to generalize from simulation to physical hardware</li>
+                    <li><strong>Training Efficiency:</strong> Comparing convergence patterns between SNN and ANN architectures</li>
+                    <li><strong>Computational Complexity:</strong> Analyzing energy efficiency and operational requirements</li>
+                    <li><strong>Noise Robustness:</strong> Evaluating performance under realistic sensor noise conditions</li>
+                    <li><strong>Pruning Opportunities:</strong> Exploring model compression techniques unique to SNNs</li>
                 </ul>
                 
                 <h2>Technical Implementation</h2>
-                <p>The project employed an actor-critic training pipeline with several key components:</p>
+                <p>The project employed a comprehensive comparison framework using the A2C (Advantage Actor-Critic) algorithm on the CartPole task:</p>
                 
-                <h3>Network Architecture</h3>
-                <p>The controller architecture consisted of 2 hidden layers, each with 32 leaky integrate-and-fire (LIF) neurons, connected with linear feedforward layers. The input (sonar altitude) was passed directly to the first layer without encoding, as an input current, while the output was discretized to 7 neurons corresponding to acceleration commands. A softmax function was applied to membrane potentials for action selection.</p>
+                <h3>A2C Reinforcement Learning</h3>
+                <p>The A2C algorithm was chosen for its advantages over DQN-based approaches. Unlike DQN, which requires experience replay and batch processing, A2C uses multiple workers operating in parallel, eliminating the need for experience replay. This opens doors to learning on resource-constrained systems, where the overhead required for storing past experiences and training in batches can be detrimental to system performance.</p>
                 
-                <h3>Pre-training Strategy</h3>
-                <p>A critical insight was the necessity of supervised pre-training to help the SNN develop meaningful internal representations. Without proper guidance, the network struggled to learn velocity representations crucial for safe landings. The pre-training task involved learning velocity from sonar readings, which significantly improved training efficiency and reduced computational requirements by an order of magnitude.</p>
+                <h3>CartPole Task</h3>
+                <p>The CartPole task consists of balancing a pole on a cart as long as possible, receiving +1 reward for every timestep where the pole is balanced. The actor can apply either a force to the left or to the right on the cart, while observing the position and velocity of the cart and angle and angular velocity of the pole. For all models, the environment runs at a frequency of 20Hz.</p>
                 
-                <h3>Reinforcement Learning Algorithms</h3>
-                <p>Two spiking reinforcement learning algorithms were implemented and compared:</p>
+                <h3>Network Architecture and Neuron Models</h3>
+                <p>To compare ANN to SNN, two models with the same architecture were used. The only difference between the models is the spiking neurons in the SNN, replacing the regular activation functions. The architecture is kept small to avoid long training times, which is an issue for SNN.</p>
+                
+                <p><strong>Single Layer Architecture:</strong> Input layer with 4 continuous neurons, one hidden layer with 246 neurons, and two output heads representing the actor and critic outputs.</p>
+                
+                <p><strong>Two Layer Architecture:</strong> Input layer with 4 neurons, two hidden layers with 128 neurons each, and two output heads.</p>
+                
+                <div class="figure-container">
+                    <img src="projects_Latex/A2C-spiking/A Comparative Study of Spiking and Non-Spiking Neural Networks in Actor-Critic Reinforcement Learning/Figures/Training_SNN_ANN_1l246.png" alt="Training comparison between SNN and ANN architectures" class="blog-figure">
+                    <p class="figure-caption"><strong>Figure 1:</strong> Training performance comparison between SNN and ANN architectures with single hidden layer (246 neurons). The SNN shows different convergence characteristics due to its spiking nature.</p>
+                </div>
+                
+                <h3>Leaky Integrate-and-Fire (LIF) Neuron Model</h3>
+                <p>The LIF neuron is a first-order model where the input current directly charges the membrane potential, which leaks over time at a rate β (the leakage parameter). When the potential exceeds a threshold, the neuron spikes and the membrane potential is reset. The dynamics are modeled by:</p>
+                
+                <p><em>U[t+1] = β U[t] + I_in[t+1] - R·U_thr</em></p>
+                
+                <p>Where R is 1 when the membrane potential exceeds the threshold and 0 otherwise.</p>
+                
+                <div class="figure-container">
+                    <img src="projects_Latex/A2C-spiking/A Comparative Study of Spiking and Non-Spiking Neural Networks in Actor-Critic Reinforcement Learning/Figures/surrogate.png" alt="Surrogate gradient function" class="blog-figure">
+                    <p class="figure-caption"><strong>Figure 2:</strong> The step function, surrogate function, and its gradient used for training spiking neural networks with backpropagation.</p>
+                </div>
+                
+                <h3>Training with Surrogate Gradients</h3>
+                <p>Due to the discrete spiking nature of neurons, traditional backpropagation cannot be directly applied. Surrogate gradients provide a solution by using a continuous, differentiable function to mimic the spiking behavior during the backward pass. The surrogate function used is the fast sigmoid function with a slope of 25.</p>
+                
+                <h2>Results and Performance Analysis</h2>
+                <p>The research revealed several key insights about training spiking neural networks with reinforcement learning:</p>
+                
+                <h3>Training Characteristics</h3>
+                <p>As expected, for both the deeper model and the model with only one hidden layer, the neuromorphic solution converges slower. This can partly be explained by the way the surrogate gradient works. In conventional neural networks, virtually all weights contribute to the output at each timestep, but for spiking neural networks, neurons below the threshold do not spike and therefore do not contribute to the gradient flow.</p>
+                
+                <div class="figure-container">
+                    <img src="projects_Latex/A2C-spiking/A Comparative Study of Spiking and Non-Spiking Neural Networks in Actor-Critic Reinforcement Learning/Figures/training_3models.png" alt="Training of different SNN configurations" class="blog-figure">
+                    <p class="figure-caption"><strong>Figure 3:</strong> Training of an ANN and SNN with one hidden layer of size 246. The first SNN learns to reduce β to zero (no temporal dynamics), while the second SNN has a fixed leak β=0.65.</p>
+                </div>
+                
+                <div class="figure-container">
+                    <img src="projects_Latex/A2C-spiking/A Comparative Study of Spiking and Non-Spiking Neural Networks in Actor-Critic Reinforcement Learning/Figures/Training_SNNANN2layers.png" alt="Training of two-layer architectures" class="blog-figure">
+                    <p class="figure-caption"><strong>Figure 4:</strong> Training of ANN and SNN with two hidden layers of size 128. The SNN has leaks of β=0.95 for both layers.</p>
+                </div>
+                
+                <h3>Computational Complexity Analysis</h3>
+                <p>Using NeuroBench, a comprehensive comparison was made between the trained models. The results show where SNN models excel compared to their ANN equivalents:</p>
+                
                 <ul>
-                    <li><strong>Spiking A2C (Advantage Actor-Critic):</strong> Adapted for the spiking domain, avoiding the shuffling and batching of interactions</li>
-                    <li><strong>Spiking DQN:</strong> Modified to learn from interaction sequences instead of single state-transitions</li>
+                    <li><strong>Activation Sparsity:</strong> SNNs achieve 68-92% activation sparsity compared to 0% for ANNs</li>
+                    <li><strong>Synaptic Operations:</strong> SNNs require only accumulates (ACs) rather than multiply-accumulates (MACs) after spiking layers</li>
+                    <li><strong>Effective Operations:</strong> Significant reduction in computational effort due to sparsity</li>
                 </ul>
                 
-                <p>The A2C approach proved significantly more effective than value function methods, confirming findings from previous research on temporal information processing in reinforcement learning.</p>
+                <div class="figure-container">
+                    <img src="projects_Latex/A2C-spiking/A Comparative Study of Spiking and Non-Spiking Neural Networks in Actor-Critic Reinforcement Learning/Figures/SNN_histogram1K_noLeak.png" alt="SNN neuron activity distribution" class="blog-figure">
+                    <p class="figure-caption"><strong>Figure 5:</strong> Distribution of neuron activity in the trained SNN, showing the presence of dead and saturated neurons that enable pruning.</p>
+                </div>
                 
-                <h2>Simulation and Training Environment</h2>
-                <p>A lightweight simulator was constructed with second-order dynamics described by:</p>
-                <p><em>ḣ(t) = ḣ(t-1) + ḧ(t) · Δt</em><br>
-                <em>h(t) = h(t-1) + ḣ(t) · Δt</em></p>
+                <h3>Pruning Results</h3>
+                <p>One of the most significant findings was the effectiveness of pruning in spiking neural networks. Dead neurons (0% spiking activity) and saturated neurons (100% spiking activity) can be removed without significant performance degradation:</p>
                 
-                <p>Where h represents altitude, ḣ is vertical velocity, and ḧ is vertical acceleration after low-pass filtering. The simulator varied starting altitude and velocity across episodes to enhance controller robustness.</p>
+                <ul>
+                    <li><strong>Single Layer SNN (β=0):</strong> Reduced from 246 to 11 neurons (95.5% reduction)</li>
+                    <li><strong>Single Layer SNN (β=0.65):</strong> Reduced from 246 to 21 neurons (91.5% reduction)</li>
+                    <li><strong>Performance Impact:</strong> Minimal degradation in average performance while maintaining reasonable risk levels</li>
+                </ul>
                 
-                <h2>Results and Performance</h2>
-                <p>The trained SNN controller demonstrated impressive generalization capabilities across three environments:</p>
+                <p>This pruning capability is unique to spiking neural networks and provides significant advantages for deployment on resource-constrained devices.</p>
                 
-                <h3>Basic Simulation Performance</h3>
-                <p>In the simple simulator, the network exhibited intelligent landing behavior. When starting with non-zero velocity, it promptly issued positive thrust commands to reduce downward velocity, progressively increasing thrust as the MAV approached the ground. This demonstrated the network's ability to modulate thrust based on proximity to the landing surface and its internal velocity representation.</p>
+                <h3>Noise Robustness Analysis</h3>
+                <p>An important aspect of the research was analyzing the robustness of controllers to sensor noise, which reflects real-world deployment conditions:</p>
                 
-                <h3>PaparazziUAV Integration</h3>
-                <p>The controller was successfully integrated into the PaparazziUAV framework, with acceleration commands mapped to throttle settings for the Parrot Bebop 2 MAV. The model was converted to C code and wrapped in a PaparazziUAV-compatible module, enabling deployment on real hardware.</p>
+                <div class="figure-container">
+                    <img src="projects_Latex/A2C-spiking/A Comparative Study of Spiking and Non-Spiking Neural Networks in Actor-Critic Reinforcement Learning/Figures/Noise_Robustness_5Models.png" alt="Noise robustness comparison" class="blog-figure">
+                    <p class="figure-caption"><strong>Figure 6:</strong> Noise robustness analysis of single layer models. SNNs with temporal dynamics (leaky neurons) show improved robustness at higher noise levels.</p>
+                </div>
                 
-                <h3>Real-world Deployment</h3>
-                <p>Most significantly, the same network deployed on a physical MAV achieved successful landings without additional tuning or training. While slight instabilities occurred that weren't present in simulation (likely due to imperfect tuning of underlying stabilization controllers), the controller demonstrated robust real-world performance.</p>
+                <div class="figure-container">
+                    <img src="projects_Latex/A2C-spiking/A Comparative Study of Spiking and Non-Spiking Neural Networks in Actor-Critic Reinforcement Learning/Figures/Noise_Robustness_2layer_models.png" alt="Noise robustness of two-layer models" class="blog-figure">
+                    <p class="figure-caption"><strong>Figure 7:</strong> Noise robustness analysis of two-layer models. SNNs surpass ANN performance at noise levels above 0.04.</p>
+                </div>
                 
-                <h2>Key Findings and Challenges</h2>
+                <p>The results show that SNNs with temporal dynamics (leaky neurons) tend to be more noise robust than their non-leaky counterparts and traditional ANNs. At noise levels above 0.15, the leaky SNN models outperform their non-leaky counterparts, and at noise levels above 0.04, they surpass ANN performance.</p>
+                
+                <h2>Key Findings and Implications</h2>
                 <p>The research revealed several important insights:</p>
                 <ul>
-                    <li><strong>Pre-training Necessity:</strong> SNNs required supervised pre-training to develop velocity representations</li>
-                    <li><strong>Training Efficiency:</strong> SNN training was significantly slower than comparable artificial neural networks</li>
-                    <li><strong>Neuron Efficiency:</strong> The trained SNN exhibited numerous dead and saturated neurons, indicating training inefficiency</li>
-                    <li><strong>Action Discretization:</strong> The discrete output actions were suboptimal for precise control tasks</li>
+                    <li><strong>Training Challenges:</strong> SNN training is noisier and slower than ANN training due to surrogate gradient limitations</li>
+                    <li><strong>Computational Efficiency:</strong> SNNs achieve significant reductions in computational complexity through sparsity and efficient operations</li>
+                    <li><strong>Pruning Potential:</strong> SNNs can be pruned by 90%+ without significant performance degradation</li>
+                    <li><strong>Noise Robustness:</strong> SNNs with temporal dynamics show superior performance under noisy conditions</li>
+                    <li><strong>Encoding Overhead:</strong> The encoding layer (linear layer to first spiking layer) accounts for the largest computational cost</li>
                 </ul>
                 
                 <h2>Future Research Directions</h2>
                 <p>Several promising avenues for future work have been identified:</p>
                 <ul>
-                    <li><strong>Recurrent Replay Buffers:</strong> Investigating R2D2 findings for off-policy, policy gradient algorithms</li>
-                    <li><strong>Asymmetric Actor-Critic:</strong> Combining SNN actors with ANN critics for faster, more stable training</li>
-                    <li><strong>Stochastic Neuron Models:</strong> Exploring models that become more deterministic during training</li>
-                    <li><strong>Inherent Exploration:</strong> Encoding exploration-exploitation balance directly in SNN agents</li>
+                    <li><strong>Efficient Encoding:</strong> Developing more efficient spiking encoders to reduce computational overhead</li>
+                    <li><strong>Deeper Networks:</strong> Exploring pruning techniques for deeper SNN architectures</li>
+                    <li><strong>Hardware Optimization:</strong> Leveraging specialized neuromorphic hardware for further efficiency gains</li>
+                    <li><strong>Training Improvements:</strong> Developing better surrogate gradient methods for faster, more stable training</li>
                 </ul>
                 
                 <h2>Impact and Significance</h2>
-                <p>This work represents a significant step forward in neuromorphic control systems, demonstrating that SNNs can be effectively trained for real-world robotics applications. The successful deployment on physical hardware validates the potential of neuromorphic computing for autonomous systems, while the identified challenges provide clear directions for future research.</p>
+                <p>This work represents a significant contribution to the field of neuromorphic reinforcement learning, demonstrating that spiking neural networks can be effectively trained for control tasks while offering substantial advantages in computational efficiency and noise robustness.</p>
                 
-                <p>The project contributes to the growing body of work on neuromorphic MAV control, building upon previous research in event-driven control and energy-efficient autonomous systems. The findings have implications for the development of next-generation autonomous vehicles and robotics systems that require both computational efficiency and real-time performance.</p>
+                <p>The findings have important implications for autonomous micro robotics, where computational resources and energy efficiency are critical constraints. The ability to achieve comparable performance with significantly reduced computational complexity makes SNNs an attractive option for deployment on resource-constrained devices.</p>
+                
+                <p>The research also highlights the unique advantages of spiking neural networks, particularly their ability to be aggressively pruned without performance degradation and their superior noise robustness compared to traditional artificial neural networks.</p>
             </div>
         </div>
     </main>

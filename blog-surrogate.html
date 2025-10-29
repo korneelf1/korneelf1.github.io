@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Surrogate Gradients in Spiking Neural Networks - Korneel Vandenberghe</title>
+    <title>The Effect of Surrogate Gradients on Deep Neural Networks - Korneel Vandenberghe</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -91,6 +91,47 @@
             border-radius: 3px;
             font-family: 'Courier New', monospace;
         }
+        
+        .figure-container {
+            margin-bottom: 2rem;
+        }
+        
+        .blog-figure {
+            width: 100%;
+            height: auto;
+            margin-bottom: 0.5rem;
+        }
+        
+        .figure-caption {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        .authors {
+            font-style: italic;
+            color: #6c757d;
+            margin-bottom: 1rem;
+        }
+        
+        .conference-badge {
+            display: inline-block;
+            background-color: #e74c3c;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            margin-left: 1rem;
+        }
+        
+        .equation {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+        }
     </style>
 </head>
 <body>
@@ -113,103 +154,125 @@
             </a>
             
             <div class="blog-header">
-                <h1 class="blog-title">Bridging the Gap: Surrogate Gradients in Spiking Neural Networks</h1>
-                <p class="blog-meta">Published: October 2024 | Reading time: 10 min | Research Project</p>
+                <h1 class="blog-title">The Effect of Surrogate Gradients on Deep Neural Networks</h1>
+                <p class="blog-meta">Published: 2024 | Reading time: 12 min | Research Project</p>
+                <p class="authors"><strong>Under review at:</strong> NeurIPS 2025 <span class="conference-badge">Conference</span></p>
             </div>
             
             <div class="blog-content">
-                <p>Surrogate gradients have become a cornerstone technique for training spiking neural networks, but their impact on network performance and training dynamics remains incompletely understood. This research project systematically investigates the effects of different surrogate gradient methods on deep neural network training.</p>
+                <p>Spiking Neural Networks (SNNs) represent a promising algorithmic approach for neuromorphic computing systems, offering native temporal processing and significantly improved energy efficiency compared to conventional deep learning architectures. However, training SNNs for control tasks remains challenging due to the non-differentiable nature of spiking neurons, which complicates gradient-based optimization.</p>
                 
-                <h2>The Surrogate Gradient Problem</h2>
-                <p>Spiking neural networks face a fundamental challenge: the spike function is non-differentiable, making traditional backpropagation impossible. Surrogate gradients provide a solution by approximating the derivative of the spike function, enabling gradient-based learning.</p>
+                <p>This research investigates the critical role of surrogate gradients in training deep spiking neural networks, with a particular focus on how different slope settings and scheduling strategies affect training performance across supervised learning and reinforcement learning scenarios.</p>
                 
-                <p>This research addresses the critical question of how different surrogate gradient methods affect training stability, convergence speed, and final network performance. Understanding these effects is essential for developing more effective training strategies for spiking neural networks.</p>
+                <h2>The Challenge of Non-Differentiable Spiking Neurons</h2>
+                <p>Spiking neurons operate by accumulating membrane potential until it exceeds a threshold, at which point they emit a discrete spike and reset their potential. This spiking behavior is inherently non-differentiable, making traditional backpropagation impossible. Surrogate gradients provide a solution by approximating the derivative of the spike function with a continuous, differentiable function.</p>
                 
-                <h2>Experimental Methodology</h2>
-                <p>We conducted extensive experiments comparing multiple surrogate gradient methods across various network architectures and tasks. The study focused on understanding the trade-offs between different approaches and their suitability for different applications.</p>
+                <p>A critical hyperparameter in this process is the slope <em>k</em> of the surrogate function, which determines the sensitivity of the gradient near the spiking threshold. We adopt a fast sigmoid function and examine slope configurations ranging from shallow (<em>k = 1</em>) to steep (<em>k = 100</em>).</p>
                 
-                <h3>Surrogate Gradient Methods Tested</h3>
+                <div class="figure-container">
+                    <img src="projects_Latex/Surrogate Gradient NeurIPS 2025 (1)/figures/neurips_surrogate_gradients.png" alt="Surrogate gradient slope effects" class="blog-figure">
+                    <p class="figure-caption"><strong>Figure 1:</strong> The slope of the surrogate gradient dictates the range of inputs for which a gradient exists. Steeper slopes closely resemble the Dirac delta function but restrict non-zero gradients to a narrow input range.</p>
+                </div>
+                
+                <h2>Gradient Propagation in Deep Networks</h2>
+                <p>Our analysis reveals that surrogate gradient slope settings have profound effects on gradient propagation through deep networks. As shown in Figure 1, steeper slopes closely resemble the Dirac delta function but restrict non-zero gradients to a narrow input range. In contrast, shallower slopes lead to a greater number of non-zero gradients and thus increase the total gradient magnitude, particularly in deeper layers.</p>
+                
+                <div class="figure-container">
+                    <img src="projects_Latex/Surrogate Gradient NeurIPS 2025 (1)/figures/neurips_avg_grad_magnitude.png" alt="Gradient magnitude analysis" class="blog-figure">
+                    <p class="figure-caption"><strong>Figure 2:</strong> A more shallow slope carries the gradient deeper through the network, suffering less from vanishing gradients. The network has 4 hidden layers; layer 0 is the first hidden layer, and layer 4 is the output layer.</p>
+                </div>
+                
+                <p>While the surrogate gradient's slope affects the quantity of weight updates per backward pass, it also introduces noise into the gradient computation. Since the true gradient for deeper network layers does not exist, we analyze the relationship between steep surrogate gradients (<em>k=100</em>), which approximate the true gradient, and shallow surrogate gradients using cosine similarity:</p>
+                
+                <div class="equation">
+                    cosine similarity = (∇W_i · ∇̃W_i) / (||∇W_i|| ||∇̃W_i||)
+                </div>
+                
+                <div class="figure-container">
+                    <img src="projects_Latex/Surrogate Gradient NeurIPS 2025 (1)/figures/neurips_cosine_similarity_line.png" alt="Cosine similarity analysis" class="blog-figure">
+                    <p class="figure-caption"><strong>Figure 3:</strong> A shallower slope introduces bias and variance, computed using the cosine similarity. The cosine similarity for shallow slopes reduces to 0, meaning weight updates in deeper networks become essentially random.</p>
+                </div>
+                
+                <h2>Surrogate Gradients Across Learning Regimes</h2>
+                <p>We analyze the effect of surrogate gradient slope choices across both fully supervised learning, behavioral cloning (BC), and fully online training algorithms like TD3. To eliminate the effect of warm-up periods during training for this analysis, we stack a history of observations, process multiple forward passes per observation, and reset the SNN between subsequent actions.</p>
+                
+                <h3>Supervised Learning Results</h3>
+                <p>In supervised learning, final performance is largely unaffected by the surrogate slope setting, though training dynamics vary significantly:</p>
                 <ul>
-                    <li><strong>Straight-Through Estimator (STE):</strong> Simple but effective for binary outputs</li>
-                    <li><strong>Sigmoid Surrogate:</strong> Smooth approximation using sigmoid function</li>
-                    <li><strong>Exponential Surrogate:</strong> Exponential-based approximation</li>
-                    <li><strong>Custom Surrogates:</strong> Novel approaches developed during this research</li>
+                    <li><strong>Shallow slopes</strong> add noise, requiring more updates but potentially improving exploration</li>
+                    <li><strong>Steep slopes</strong> yield small gradient magnitudes, slowing progress but maintaining gradient accuracy</li>
+                    <li><strong>Intermediate slopes</strong> provide a balance between gradient magnitude and accuracy</li>
                 </ul>
                 
-                <h3>Evaluation Metrics</h3>
-                <p>Performance was evaluated across multiple dimensions:</p>
+                <h3>Reinforcement Learning Results</h3>
+                <p>In online reinforcement learning, we observed a pronounced preference for much shallower slopes. The reduced cosine similarity between true and surrogate gradients introduces noise that naturally enhances exploration, similar to parameter noise techniques. However, this comes with trade-offs:</p>
                 <ul>
-                    <li>Training convergence speed</li>
-                    <li>Final task performance</li>
-                    <li>Training stability</li>
-                    <li>Computational efficiency</li>
-                    <li>Generalization capability</li>
+                    <li><strong>Higher variability</strong> in final performance across runs</li>
+                    <li><strong>Increased risk</strong> of poor intermediate updates corrupting the replay buffer</li>
+                    <li><strong>Less stable training</strong> due to the heightened risk of low-quality experiences</li>
                 </ul>
                 
-                <h2>Key Findings</h2>
-                <p>Our research revealed several important insights that have significant implications for spiking neural network training:</p>
+                <h2>Adaptive Slope Scheduling</h2>
+                <p>Beyond fixed slope settings, we investigate two scheduling methods for the surrogate gradient slope:</p>
                 
-                <h3>Training Dynamics</h3>
+                <h3>1. Interval Scheduling</h3>
+                <p>Gradually changes the slope from 1 to 100 at a fixed interval during training. This approach provides a systematic transition from exploration-friendly shallow slopes to more accurate steep slopes.</p>
+                
+                <h3>2. Adaptive Scheduling</h3>
+                <p>Uses a weighted sum of the low-passed first-order derivative of the reward score history and the low-passed reward score itself:</p>
+                
+                <div class="equation">
+                    k_t = (1/10) Σ[i=0 to 9] [0.5 r_{t-i} + 0.5 r'_{t-i}]
+                </div>
+                
+                <p>Where <em>k_t</em> is the slope at time <em>t</em>, <em>r_{t-i}</em> is the reward score at time <em>t-i</em>, and <em>r'_{t-i}</em> is the first-order derivative of the reward score at time <em>t-i</em>. The proportional term is largely responsible for not decreasing the slope when maximum performance is reached, preventing the destruction of progress.</p>
+                
+                <div class="figure-container">
+                    <img src="projects_Latex/Surrogate Gradient NeurIPS 2025 (1)/figures/neurips_time_to_100_plot.png" alt="Training efficiency comparison" class="blog-figure">
+                    <p class="figure-caption"><strong>Figure 4:</strong> Scheduled slope settings improve training efficiency, greatly reducing the number of epochs to reach a reward of 100.</p>
+                </div>
+                
+                <div class="figure-container">
+                    <img src="projects_Latex/Surrogate Gradient NeurIPS 2025 (1)/figures/neurips_best_performance_plot.png" alt="Final performance comparison" class="blog-figure">
+                    <p class="figure-caption"><strong>Figure 5:</strong> Final performance of trained agents lies in the same regime as fixed slope experiments, but with improved training efficiency.</p>
+                </div>
+                
+                <h2>Key Findings and Implications</h2>
+                <p>Our research reveals several important insights about surrogate gradients in deep spiking neural networks:</p>
+                
                 <ul>
-                    <li>Different surrogate gradients lead to varying convergence speeds</li>
-                    <li>Training stability is significantly affected by surrogate choice</li>
-                    <li>Network depth influences surrogate gradient effectiveness</li>
-                    <li>Task-specific surrogate selection can improve performance</li>
+                    <li><strong>Training Efficiency:</strong> Scheduled slope settings significantly improve training efficiency, reducing the number of epochs needed to reach target performance</li>
+                    <li><strong>Performance Parity:</strong> Final performance of agents trained with scheduled slopes matches those trained with fixed optimal slopes</li>
+                    <strong>Hyperparameter Optimization:</strong> Scheduled approaches can eliminate the need for exhaustive hyperparameter sweeps across different slope settings</li>
+                    <li><strong>Learning Regime Dependence:</strong> The optimal slope setting varies significantly between supervised learning and reinforcement learning scenarios</li>
+                    <li><strong>Exploration vs. Accuracy Trade-off:</strong> Shallow slopes enhance exploration but introduce noise, while steep slopes maintain accuracy but may limit exploration</li>
                 </ul>
                 
-                <h3>Performance Trade-offs</h3>
-                <p>The study identified clear trade-offs between different surrogate gradient methods:</p>
-                <ul>
-                    <li><strong>Computational Efficiency:</strong> Simpler surrogates require less computation but may sacrifice performance</li>
-                    <li><strong>Training Stability:</strong> More complex surrogates often provide better stability but increase training time</li>
-                    <li><strong>Task Specificity:</strong> Different tasks benefit from different surrogate gradient approaches</li>
-                </ul>
+                <h2>Practical Recommendations</h2>
+                <p>Based on our findings, we recommend the following approaches for training spiking neural networks:</p>
                 
-                <h2>Technical Implementation</h2>
-                <p>The research involved developing a comprehensive testing framework that allowed for fair comparison between different surrogate gradient methods:</p>
+                <h3>For Supervised Learning</h3>
+                <p>Use steep slopes (<em>k = 50-100</em>) or scheduled slopes that transition from shallow to steep during training. The focus should be on maintaining gradient accuracy while ensuring sufficient gradient flow.</p>
                 
-                <h3>Framework Design</h3>
-                <ul>
-                    <li>Modular architecture for easy surrogate gradient swapping</li>
-                    <li>Standardized evaluation protocols</li>
-                    <li>Automated performance tracking</li>
-                    <li>Reproducible experimental setup</li>
-                </ul>
+                <h3>For Reinforcement Learning</h3>
+                <p>Use shallow slopes (<em>k = 1-10</em>) or adaptive scheduling that responds to training progress. The additional noise introduced by shallow slopes can enhance exploration, which is crucial for RL tasks.</p>
                 
-                <h3>Network Architectures</h3>
-                <p>Experiments were conducted across multiple network architectures to ensure findings were generalizable:</p>
-                <ul>
-                    <li>Feedforward networks of varying depths</li>
-                    <li>Recurrent neural networks</li>
-                    <li>Convolutional networks for image processing</li>
-                    <li>Hybrid architectures combining different approaches</li>
-                </ul>
-                
-                <h2>Practical Implications</h2>
-                <p>These findings have direct implications for practitioners working with spiking neural networks. Understanding the trade-offs between different surrogate gradients can help in selecting the most appropriate method for specific applications.</p>
-                
-                <h3>Guidelines for Surrogate Selection</h3>
-                <p>Based on our research, we developed practical guidelines for choosing surrogate gradients:</p>
-                <ul>
-                    <li><strong>For Simple Tasks:</strong> Straight-through estimator often provides adequate performance with minimal computational overhead</li>
-                    <li><strong>For Complex Tasks:</strong> More sophisticated surrogates like sigmoid or exponential methods may be necessary</li>
-                    <li><strong>For Real-time Applications:</strong> Computational efficiency should be prioritized</li>
-                    <li><strong>For Research Applications:</strong> Training stability and reproducibility are key considerations</li>
-                </ul>
+                <h3>For Unknown Scenarios</h3>
+                <p>When the optimal slope setting is unclear, use adaptive scheduling to automatically adjust the slope based on training progress. This approach provides a robust solution that adapts to the specific characteristics of the task and network architecture.</p>
                 
                 <h2>Future Research Directions</h2>
-                <p>This work opens several promising avenues for future research:</p>
+                <p>Several promising avenues for future work have been identified:</p>
                 <ul>
-                    <li><strong>Adaptive Surrogates:</strong> Developing surrogate gradients that adapt during training</li>
-                    <li><strong>Task-Specific Optimization:</strong> Creating surrogates tailored to specific application domains</li>
-                    <li><strong>Hardware Integration:</strong> Optimizing surrogate gradients for neuromorphic hardware</li>
-                    <li><strong>Theoretical Analysis:</strong> Developing better theoretical understanding of surrogate gradient behavior</li>
+                    <li><strong>Task-Specific Scheduling:</strong> Developing scheduling strategies tailored to specific task characteristics and network architectures</li>
+                    <li><strong>Multi-Objective Optimization:</strong> Balancing exploration, accuracy, and training stability in a unified framework</li>
+                    <li><strong>Hardware-Aware Training:</strong> Optimizing surrogate gradient settings for specific neuromorphic hardware platforms</li>
+                    <li><strong>Theoretical Analysis:</strong> Developing theoretical frameworks to predict optimal slope settings based on network architecture and task complexity</li>
                 </ul>
                 
-                <h2>Conclusion</h2>
-                <p>This research provides valuable insights into the role of surrogate gradients in spiking neural network training. The findings help bridge the gap between theoretical understanding and practical implementation, providing practitioners with evidence-based guidance for choosing appropriate training methods.</p>
+                <h2>Impact and Significance</h2>
+                <p>This work advances both the theoretical understanding of surrogate gradients in spiking neural networks and provides practical methodologies for training neuromorphic controllers. The insights gained from this research have important implications for the development of energy-efficient, temporally-aware neural networks for real-world applications.</p>
                 
-                <p>The work contributes to the broader goal of making spiking neural networks more accessible and effective for real-world applications, while highlighting the importance of careful method selection in achieving optimal performance.</p>
+                <p>The findings contribute to the broader goal of making spiking neural networks more accessible and effective for complex control tasks, particularly in resource-constrained environments where energy efficiency is critical.</p>
             </div>
         </div>
     </main>
