@@ -184,7 +184,7 @@
                 <p><strong>Two Layer Architecture:</strong> Input layer with 4 neurons, two hidden layers with 128 neurons each, and two output heads.</p>
                 
                 <div class="figure-container">
-                    <img src="projects_Latex/A2C-spiking/A Comparative Study of Spiking and Non-Spiking Neural Networks in Actor-Critic Reinforcement Learning/Figures/Training_SNN_ANN_1l246.png" alt="Training comparison between SNN and ANN architectures" class="blog-figure">
+                    <img src="project_figures/a2c_training_snn_ann_1l246.png" alt="Training comparison between SNN and ANN architectures" class="blog-figure">
                     <p class="figure-caption"><strong>Figure 1:</strong> Training performance comparison between SNN and ANN architectures with single hidden layer (246 neurons). The SNN shows different convergence characteristics due to its spiking nature.</p>
                 </div>
                 
@@ -196,7 +196,7 @@
                 <p>Where R is 1 when the membrane potential exceeds the threshold and 0 otherwise.</p>
                 
                 <div class="figure-container">
-                    <img src="projects_Latex/A2C-spiking/A Comparative Study of Spiking and Non-Spiking Neural Networks in Actor-Critic Reinforcement Learning/Figures/surrogate.png" alt="Surrogate gradient function" class="blog-figure">
+                    <img src="project_figures/a2c_surrogate.png" alt="Surrogate gradient function" class="blog-figure">
                     <p class="figure-caption"><strong>Figure 2:</strong> The step function, surrogate function, and its gradient used for training spiking neural networks with backpropagation.</p>
                 </div>
                 
@@ -210,12 +210,12 @@
                 <p>As expected, for both the deeper model and the model with only one hidden layer, the neuromorphic solution converges slower. This can partly be explained by the way the surrogate gradient works. In conventional neural networks, virtually all weights contribute to the output at each timestep, but for spiking neural networks, neurons below the threshold do not spike and therefore do not contribute to the gradient flow.</p>
                 
                 <div class="figure-container">
-                    <img src="projects_Latex/A2C-spiking/A Comparative Study of Spiking and Non-Spiking Neural Networks in Actor-Critic Reinforcement Learning/Figures/training_3models.png" alt="Training of different SNN configurations" class="blog-figure">
+                    <img src="project_figures/a2c_training_3models.png" alt="Training of different SNN configurations" class="blog-figure">
                     <p class="figure-caption"><strong>Figure 3:</strong> Training of an ANN and SNN with one hidden layer of size 246. The first SNN learns to reduce β to zero (no temporal dynamics), while the second SNN has a fixed leak β=0.65.</p>
                 </div>
                 
                 <div class="figure-container">
-                    <img src="projects_Latex/A2C-spiking/A Comparative Study of Spiking and Non-Spiking Neural Networks in Actor-Critic Reinforcement Learning/Figures/Training_SNNANN2layers.png" alt="Training of two-layer architectures" class="blog-figure">
+                    <img src="project_figures/a2c_training_snnann_2layers.png" alt="Training of two-layer architectures" class="blog-figure">
                     <p class="figure-caption"><strong>Figure 4:</strong> Training of ANN and SNN with two hidden layers of size 128. The SNN has leaks of β=0.95 for both layers.</p>
                 </div>
                 
@@ -229,7 +229,7 @@
                 </ul>
                 
                 <div class="figure-container">
-                    <img src="projects_Latex/A2C-spiking/A Comparative Study of Spiking and Non-Spiking Neural Networks in Actor-Critic Reinforcement Learning/Figures/SNN_histogram1K_noLeak.png" alt="SNN neuron activity distribution" class="blog-figure">
+                    <img src="project_figures/a2c_snn_histogram.png" alt="SNN neuron activity distribution" class="blog-figure">
                     <p class="figure-caption"><strong>Figure 5:</strong> Distribution of neuron activity in the trained SNN, showing the presence of dead and saturated neurons that enable pruning.</p>
                 </div>
                 
@@ -248,12 +248,12 @@
                 <p>An important aspect of the research was analyzing the robustness of controllers to sensor noise, which reflects real-world deployment conditions:</p>
                 
                 <div class="figure-container">
-                    <img src="projects_Latex/A2C-spiking/A Comparative Study of Spiking and Non-Spiking Neural Networks in Actor-Critic Reinforcement Learning/Figures/Noise_Robustness_5Models.png" alt="Noise robustness comparison" class="blog-figure">
+                    <img src="project_figures/a2c_noise_robustness_5models.png" alt="Noise robustness comparison" class="blog-figure">
                     <p class="figure-caption"><strong>Figure 6:</strong> Noise robustness analysis of single layer models. SNNs with temporal dynamics (leaky neurons) show improved robustness at higher noise levels.</p>
                 </div>
                 
                 <div class="figure-container">
-                    <img src="projects_Latex/A2C-spiking/A Comparative Study of Spiking and Non-Spiking Neural Networks in Actor-Critic Reinforcement Learning/Figures/Noise_Robustness_2layer_models.png" alt="Noise robustness of two-layer models" class="blog-figure">
+                    <img src="project_figures/a2c_noise_robustness_2layer.png" alt="Noise robustness of two-layer models" class="blog-figure">
                     <p class="figure-caption"><strong>Figure 7:</strong> Noise robustness analysis of two-layer models. SNNs surpass ANN performance at noise levels above 0.04.</p>
                 </div>
                 
