@@ -67,19 +67,12 @@
             letter-spacing: -0.02em;
         }
 
-        .blog-content h3 {
-            color: var(--color-text-primary, #1d1d1f);
-            margin: 2rem 0 0.75rem 0;
-            font-size: 1.25rem;
-            font-weight: 600;
-        }
-
         .blog-content p {
             margin-bottom: 1.25rem;
             color: var(--color-text-tertiary, #6e6e73);
         }
 
-        .blog-content ul, .blog-content ol {
+        .blog-content ul {
             margin: 1rem 0;
             padding-left: 1.5rem;
             color: var(--color-text-tertiary, #6e6e73);
@@ -87,11 +80,6 @@
 
         .blog-content li {
             margin-bottom: 0.5rem;
-        }
-
-        .blog-content strong {
-            color: var(--color-text-primary, #1d1d1f);
-            font-weight: 600;
         }
 
         .figure-container {
@@ -125,29 +113,6 @@
             margin-left: 0.5rem;
         }
 
-        .fun-box {
-            background: linear-gradient(135deg, rgba(245, 166, 35, 0.1) 0%, rgba(255, 107, 107, 0.1) 100%);
-            border: 1px solid rgba(245, 166, 35, 0.3);
-            border-radius: 12px;
-            padding: 1.25rem;
-            margin-bottom: 2rem;
-            font-size: 0.9rem;
-        }
-
-        .fun-box-title {
-            font-weight: 600;
-            color: #f5a623;
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .fun-box p {
-            margin: 0;
-            color: var(--color-text-secondary, #86868b);
-        }
-
         .blog-banner {
             width: 100%;
             margin-bottom: 2rem;
@@ -159,40 +124,6 @@
             width: 100%;
             height: auto;
             display: block;
-        }
-
-        .image-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin: 2rem 0;
-        }
-
-        .image-grid .figure-container {
-            margin: 0;
-        }
-
-        @media (max-width: 600px) {
-            .image-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .specs-list {
-            background: var(--color-bg-secondary, #f5f5f7);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .specs-list h4 {
-            margin: 0 0 1rem 0;
-            color: var(--color-text-primary, #1d1d1f);
-        }
-
-        .specs-list ul {
-            margin: 0;
-            padding-left: 1.25rem;
         }
     </style>
 </head>
@@ -217,81 +148,52 @@
 
             <div class="blog-header">
                 <h1 class="blog-title">The Chainsaw Bike</h1>
-                <p class="blog-meta">A 11-Year-Old's Engineering Adventure | 2012 <span class="archive-badge">Archive</span></p>
-            </div>
-
-            <div class="fun-box">
-                <div class="fun-box-title">
-                    <i class="fas fa-tools"></i>
-                    From the Archive
-                </div>
-                <p>This is a fun project from my childhood that doesn't fit my current research path, but represents the curiosity and hands-on engineering spirit that eventually led me to robotics and autonomous systems.</p>
+                <p class="blog-meta">2012 <span class="archive-badge">Archive</span></p>
             </div>
 
             <div class="blog-banner">
-                <img src="project_figures/bike_final_design.png" alt="The finished chainsaw bike - a blue bicycle with an orange chainsaw engine mounted on it">
+                <img src="project_figures/bike_final_design.png" alt="The chainsaw bike">
             </div>
 
             <div class="blog-content">
-                <p>When I was 11 years old, I had a dream: to build a motorized vehicle. The problem? I was 11, had no budget, and definitely didn't have access to a motorcycle engine. The solution? A broken chainsaw from my grandfather's shed and a lot of determination.</p>
+                <p>When I was around 11, I wanted to build a motorized bike. The idea was to use a broken chainsaw engine from our shed and mount it on a bicycle.</p>
 
-                <h2>The Vision</h2>
+                <h2>Initial Sketches</h2>
 
-                <p>Like any kid who had just watched Tron, my initial vision was... ambitious. I sketched out a futuristic bike with enclosed wheels, glowing rims, and light trails. The word "chainsaw" was scribbled on the sketch as the power source.</p>
+                <p>I started with some sketches of what I had in mind. The first one was inspired by motorcross bikes I'd seen.</p>
 
                 <div class="figure-container">
-                    <img src="project_figures/tron-bike-sketch.png" alt="Tron-inspired bike sketch with enclosed wheels and light trails" class="blog-figure">
-                    <p class="figure-caption">The dream: a Tron-style light cycle. Features included enclosed wheels, glowing rims, and light trails. Powered by... a chainsaw.</p>
+                    <img src="project_figures/tron-bike-sketch.png" alt="First sketch" class="blog-figure">
+                    <p class="figure-caption">Early concept sketch with enclosed wheels and other features I thought would be cool.</p>
                 </div>
 
-                <p>Reality set in pretty quickly. After some research (and a reality check from my dad), I revised the design to something more achievable: a cafe racer style bike built from scrap parts.</p>
+                <p>After realizing that was a bit ambitious, I made a more realistic sketch based on what I could actually build with the parts I had.</p>
 
                 <div class="figure-container">
-                    <img src="project_figures/cafe-racer-sketch.png" alt="Revised cafe racer sketch with annotations" class="blog-figure">
-                    <p class="figure-caption">The revised plan: "scrap parts that an 11 y/d can afford" + "my chainsaw" = a more realistic cafe racer design.</p>
+                    <img src="project_figures/cafe-racer-sketch.png" alt="Revised sketch" class="blog-figure">
+                    <p class="figure-caption">A more realistic design using scrap parts and the chainsaw engine.</p>
                 </div>
 
                 <h2>The Build</h2>
 
-                <p>The final build was even simpler than the cafe racer sketch, but it actually worked. I mounted the chainsaw engine onto a blue mountain bike, connected the drive system to the rear wheel, and added a throttle cable to the handlebars.</p>
-
-                <div class="specs-list">
-                    <h4>Technical Specifications</h4>
-                    <ul>
-                        <li><strong>Base:</strong> Blue mountain bike (hand-me-down)</li>
-                        <li><strong>Engine:</strong> Small 2-stroke chainsaw motor (~25cc)</li>
-                        <li><strong>Drive:</strong> Friction drive against rear tire</li>
-                        <li><strong>Top Speed:</strong> Faster than I should have been going</li>
-                        <li><strong>Safety Features:</strong> None whatsoever</li>
-                        <li><strong>Budget:</strong> Approximately zero euros</li>
-                    </ul>
-                </div>
-
-                <h2>The Result</h2>
-
-                <p>It worked! The bike was loud, smelled like two-stroke exhaust, and vibrated like crazy, but it actually propelled me down the street. My parents were equal parts proud and terrified.</p>
-
-                <div class="figure-container">
-                    <img src="project_figures/me_riding.png" alt="Riding the chainsaw bike" class="blog-figure">
-                    <p class="figure-caption">Testing the chainsaw bike in the neighborhood. Helmet? Optional. Fun? Mandatory.</p>
-                </div>
-
-                <h2>Lessons Learned</h2>
-
-                <p>Looking back, this project taught me several valuable lessons that still apply to my work today:</p>
+                <p>The final version was simpler than either sketch. I mounted the chainsaw engine on a mountain bike and connected it to the rear wheel using a friction drive system.</p>
 
                 <ul>
-                    <li><strong>Start with what you have:</strong> You don't need perfect equipment to build something cool</li>
-                    <li><strong>Iterate on your design:</strong> The Tron bike became a cafe racer became a mountain bike with a chainsaw strapped to it</li>
-                    <li><strong>Ship it:</strong> A working prototype beats a perfect design that never gets built</li>
-                    <li><strong>Safety is important:</strong> (I learned this one later)</li>
+                    <li>Base: Mountain bike</li>
+                    <li>Engine: Small 2-stroke chainsaw motor</li>
+                    <li>Drive: Friction against rear tire</li>
                 </ul>
 
-                <p>This spirit of building things with whatever's available, iterating quickly, and just making it work has carried through to my current research in robotics and autonomous systems. The tools are more sophisticated now, but the mindset is the same: dream big, start small, and keep building.</p>
+                <h2>Result</h2>
 
-                <h2>What Happened to the Bike?</h2>
+                <p>It worked, sort of. The bike moved under its own power, which was the goal.</p>
 
-                <p>The chainsaw eventually went back to being a chainsaw (my grandfather needed it), and the bike went back to being a regular bike. But the experience of building something that actually moved under its own power stuck with me and probably had something to do with why I ended up in aerospace engineering and robotics.</p>
+                <div class="figure-container">
+                    <img src="project_figures/me_riding.png" alt="Testing the bike" class="blog-figure">
+                    <p class="figure-caption">Testing it out.</p>
+                </div>
+
+                <p>The chainsaw eventually went back to being a chainsaw, and the bike went back to being a regular bike.</p>
             </div>
         </div>
     </main>
