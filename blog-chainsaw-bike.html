@@ -125,6 +125,24 @@
             height: auto;
             display: block;
         }
+
+        .specs-box {
+            background: var(--color-bg-secondary, #f5f5f7);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .specs-box h4 {
+            margin: 0 0 1rem 0;
+            color: var(--color-text-primary, #1d1d1f);
+            font-size: 1rem;
+        }
+
+        .specs-box ul {
+            margin: 0;
+            padding-left: 1.25rem;
+        }
     </style>
 </head>
 <body>
@@ -156,44 +174,58 @@
             </div>
 
             <div class="blog-content">
-                <p>When I was around 11, I wanted to build a motorized bike. The idea was to use a broken chainsaw engine from our shed and mount it on a bicycle.</p>
+                <p>As a kid, I was convinced I would grow up to be an inventor. Flying cars, time machines, intelligent robots, the usual ambitious roadmap. Reality, of course, intervened early. Most of my first "inventions" failed spectacularly. But looking back, there is one early project that I still consider a success, not because it was impressive, but because it was the first time I truly tried to engineer something and saw it (sort of) work.</p>
 
-                <h2>Initial Sketches</h2>
+                <p>This was back in 2012, in the final year of primary school. My dad was about to throw away an old chainsaw, and to my 11-year-old brain, that engine represented pure potential. Fascinated by loud engines and going fast, I thought the logical thing to do was to build myself a motorcycle out of it.</p>
 
-                <p>I started with some sketches of what I had in mind. The first one was inspired by motorcross bikes I'd seen.</p>
+                <h2>The Sketches</h2>
 
-                <div class="figure-container">
-                    <img src="project_figures/tron-bike-sketch.png" alt="First sketch" class="blog-figure">
-                    <p class="figure-caption">Early concept sketch with enclosed wheels and other features I thought would be cool.</p>
-                </div>
-
-                <p>After realizing that was a bit ambitious, I made a more realistic sketch based on what I could actually build with the parts I had.</p>
+                <p>Armed with naïve confidence and a complete lack of understanding, I began sketching concepts. There were vintage café-racer–style bikes, futuristic Tron-inspired designs, and drivetrains ranging from chain-driven to belt-driven to direct drive.</p>
 
                 <div class="figure-container">
-                    <img src="project_figures/cafe-racer-sketch.png" alt="Revised sketch" class="blog-figure">
-                    <p class="figure-caption">A more realistic design using scrap parts and the chainsaw engine.</p>
+                    <img src="project_figures/tron-bike-sketch.png" alt="Tron-inspired sketch" class="blog-figure">
+                    <p class="figure-caption">One of the more ambitious concepts: enclosed wheels, light trails, the works.</p>
                 </div>
+
+                <div class="figure-container">
+                    <img src="project_figures/cafe-racer-sketch.png" alt="Cafe racer sketch" class="blog-figure">
+                    <p class="figure-caption">A café-racer style design, annotated with "scrap parts that an 11 y/d can afford."</p>
+                </div>
+
+                <p>After reality slowly set in, I converged on a much simpler plan: find an old bicycle, attach the chainsaw, and weld everything together.</p>
 
                 <h2>The Build</h2>
 
-                <p>The final version was simpler than either sketch. I mounted the chainsaw engine on a mountain bike and connected it to the rear wheel using a friction drive system.</p>
+                <p>Convincing my parents to sacrifice my old bike as a testbed for this "motorcycle" took some effort. I finally got the ideal bike to start the project: an old mountain bike, which I believed would be perfect to go offroading. That still left one major problem: neither I, nor anyone I knew, had any real experience with engines, welding, or mechanical design of any kind.</p>
 
-                <ul>
-                    <li>Base: Mountain bike</li>
-                    <li>Engine: Small 2-stroke chainsaw motor</li>
-                    <li>Drive: Friction against rear tire</li>
-                </ul>
+                <p>What followed were weeks of bike rides through industrial terrains, searching for sprockets, spare parts, advice, and anyone who seemed knowledgeable enough to help.</p>
 
-                <h2>Result</h2>
+                <p>Finally, I converged to the simplest possible implementation once again: just let the clutch of the chainsaw drive my back wheel directly, and connect the throttle of the chainsaw to one of my brakes. Drawing out what this would look like, I found a family friend who was willing to help me weld it together.</p>
 
-                <p>It worked, sort of. The bike moved under its own power, which was the goal.</p>
-
-                <div class="figure-container">
-                    <img src="project_figures/me_riding.png" alt="Testing the bike" class="blog-figure">
-                    <p class="figure-caption">Testing it out.</p>
+                <div class="specs-box">
+                    <h4>Final Specs</h4>
+                    <ul>
+                        <li><strong>Base:</strong> Old mountain bike</li>
+                        <li><strong>Engine:</strong> Chainsaw 2-stroke motor</li>
+                        <li><strong>Drive:</strong> Direct friction drive to rear wheel</li>
+                        <li><strong>Throttle:</strong> Connected to brake lever</li>
+                        <li><strong>Top speed:</strong> ~40 km/h (faster than it should've been)</li>
+                        <li><strong>Budget:</strong> Approximately 0 euros</li>
+                    </ul>
                 </div>
 
-                <p>The chainsaw eventually went back to being a chainsaw, and the bike went back to being a regular bike.</p>
+                <h2>The Result</h2>
+
+                <p>A few weeks later I was terrorizing my neighborhood with a chainsaw-powered bike.</p>
+
+                <div class="figure-container">
+                    <img src="project_figures/me_riding.png" alt="Riding the chainsaw bike" class="blog-figure">
+                    <p class="figure-caption">Testing the final product.</p>
+                </div>
+
+                <p>While the project only succeeded thanks to the help of people who became just as enthusiastic as I was, but who actually had the knowledge to make it work, the experience was incredibly rewarding. That sense of building something real, with my own hands, was enough to hook me immediately.</p>
+
+                <p>That same year, Santa Claus brought me a welding machine, and I spent all of my savings on three old (and very broken) pocket bikes for thirty euros.</p>
             </div>
         </div>
     </main>
