@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sequence Reinforcement Learning for Spiking Neural Networks - Korneel Vandenberghe</title>
+    <title>Sequential RL & Real-World Deployment - Korneel Van den Berghe</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -12,147 +12,280 @@
             margin: 0 auto;
             padding: 2rem;
         }
-        
+
         .blog-header {
             text-align: center;
             margin-bottom: 3rem;
             padding-bottom: 2rem;
-            border-bottom: 2px solid #e9ecef;
+            border-bottom: 1px solid var(--color-border, #e9ecef);
         }
-        
+
         .blog-title {
             font-size: 2.5rem;
-            color: #2c3e50;
+            color: var(--color-text-primary, #1d1d1f);
             margin-bottom: 1rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
         }
-        
+
         .blog-meta {
-            color: #6c757d;
-            font-size: 1.1rem;
+            color: var(--color-text-secondary, #86868b);
+            font-size: 0.95rem;
             margin-bottom: 1rem;
         }
-        
+
         .back-link {
             display: inline-flex;
             align-items: center;
-            color: #3498db;
+            color: var(--color-accent, #0071e3);
             text-decoration: none;
             font-weight: 500;
             margin-bottom: 2rem;
-            transition: color 0.3s ease;
+            font-size: 0.95rem;
+            transition: opacity 0.2s ease;
         }
-        
+
         .back-link:hover {
-            color: #2980b9;
+            opacity: 0.7;
         }
-        
+
         .back-link i {
             margin-right: 0.5rem;
         }
-        
+
         .blog-content {
-            line-height: 1.8;
-            font-size: 1.1rem;
+            line-height: 1.7;
+            font-size: 1.05rem;
+            color: var(--color-text-primary, #1d1d1f);
         }
-        
+
         .blog-content h2 {
-            color: #2c3e50;
-            margin: 2rem 0 1rem 0;
-            font-size: 1.8rem;
+            color: var(--color-text-primary, #1d1d1f);
+            margin: 2.5rem 0 1rem 0;
+            font-size: 1.75rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
         }
-        
+
         .blog-content h3 {
-            color: #2c3e50;
-            margin: 1.5rem 0 0.8rem 0;
-            font-size: 1.4rem;
+            color: var(--color-text-primary, #1d1d1f);
+            margin: 2rem 0 0.75rem 0;
+            font-size: 1.25rem;
+            font-weight: 600;
         }
-        
+
         .blog-content p {
-            margin-bottom: 1.2rem;
+            margin-bottom: 1.25rem;
+            color: var(--color-text-tertiary, #6e6e73);
         }
-        
-        .blog-content ul {
+
+        .blog-content ul, .blog-content ol {
             margin: 1rem 0;
             padding-left: 1.5rem;
+            color: var(--color-text-tertiary, #6e6e73);
         }
-        
+
         .blog-content li {
             margin-bottom: 0.5rem;
         }
-        
+
         .blog-content strong {
-            color: #2c3e50;
+            color: var(--color-text-primary, #1d1d1f);
             font-weight: 600;
         }
-        
-        .blog-content em {
-            background-color: #f8f9fa;
-            padding: 0.2rem 0.4rem;
-            border-radius: 3px;
-            font-family: 'Courier New', monospace;
-        }
-        
+
         .figure-container {
-            margin-bottom: 2rem;
+            margin: 2rem 0;
+            background: var(--color-bg-secondary, #f5f5f7);
+            border-radius: 12px;
+            overflow: hidden;
         }
-        
+
         .blog-figure {
             width: 100%;
             height: auto;
-            margin-bottom: 0.5rem;
+            display: block;
         }
-        
+
         .figure-caption {
+            font-size: 0.85rem;
+            color: var(--color-text-secondary, #86868b);
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .context-box {
+            background: linear-gradient(135deg, rgba(0, 113, 227, 0.08) 0%, rgba(88, 86, 214, 0.08) 100%);
+            border: 1px solid rgba(0, 113, 227, 0.2);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 2rem;
             font-size: 0.9rem;
-            color: #6c757d;
         }
-        
-        .authors {
-            font-style: italic;
-            color: #6c757d;
-            margin-bottom: 1rem;
+
+        .context-box-title {
+            font-weight: 600;
+            color: var(--color-accent, #0071e3);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
-        
+
+        .context-box p {
+            margin: 0;
+            color: var(--color-text-secondary, #86868b);
+        }
+
+        .context-box a {
+            color: var(--color-accent, #0071e3);
+        }
+
         .conference-badge {
             display: inline-block;
-            background-color: #e74c3c;
+            background: #27ae60;
             color: white;
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
-            font-size: 0.9rem;
-            margin-left: 1rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-left: 0.5rem;
         }
-        
+
         .equation {
-            background-color: #f8f9fa;
+            background: var(--color-bg-secondary, #f5f5f7);
             padding: 1rem;
             border-radius: 8px;
-            margin: 1rem 0;
+            margin: 1.5rem 0;
             text-align: center;
-            font-family: 'Courier New', monospace;
-            font-size: 1.1rem;
+            font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
+            font-size: 0.95rem;
+            color: var(--color-text-primary, #1d1d1f);
         }
-        
+
+        .key-findings {
+            background: var(--color-bg-secondary, #f5f5f7);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .key-findings h4 {
+            margin: 0 0 1rem 0;
+            color: var(--color-text-primary, #1d1d1f);
+            font-size: 1rem;
+        }
+
+        .key-findings ul {
+            margin: 0;
+            padding-left: 1.25rem;
+        }
+
         .blog-banner {
             width: 100%;
             margin-bottom: 2rem;
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        
+
         .blog-banner img {
             width: 100%;
             height: auto;
             display: block;
         }
-        
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--color-border, #e9ecef);
+        }
+
+        .comparison-table th {
+            background: var(--color-bg-secondary, #f5f5f7);
+            font-weight: 600;
+            color: var(--color-text-primary, #1d1d1f);
+        }
+
+        .comparison-table td {
+            color: var(--color-text-tertiary, #6e6e73);
+        }
+
+        .highlight-row {
+            background: rgba(39, 174, 96, 0.1);
+        }
+
         .algorithm-box {
-            background-color: #f8f9fa;
-            border-left: 4px solid #3498db;
-            padding: 1rem;
-            margin: 1rem 0;
-            border-radius: 4px;
+            background: var(--color-bg-secondary, #f5f5f7);
+            border-left: 4px solid var(--color-accent, #0071e3);
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .algorithm-box h4 {
+            margin: 0 0 0.75rem 0;
+            color: var(--color-text-primary, #1d1d1f);
+            font-size: 0.95rem;
+        }
+
+        .algorithm-box ul {
+            margin: 0;
+            padding-left: 1.25rem;
+        }
+
+        .video-container {
+            background: var(--color-bg-secondary, #f5f5f7);
+            border: 1px solid var(--color-border, #e9ecef);
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .video-link {
+            display: inline-flex;
+            align-items: center;
+            color: #e74c3c;
+            text-decoration: none;
+            font-weight: 600;
+            gap: 0.5rem;
+        }
+
+        .video-link i {
+            font-size: 1.25rem;
+        }
+
+        .video-link:hover {
+            opacity: 0.7;
+        }
+
+        .series-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--color-border, #e9ecef);
+        }
+
+        .series-nav a {
+            color: var(--color-accent, #0071e3);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .series-nav a:hover {
+            opacity: 0.7;
         }
     </style>
 </head>
@@ -161,7 +294,7 @@
         <div class="nav-content">
             <div class="logo">Korneel Van den Berghe</div>
             <ul class="nav-links">
-                <li><a href="index.html#about">About Me</a></li>
+                <li><a href="index.html#about">About</a></li>
                 <li><a href="index.html#projects">Projects</a></li>
                 <li><a href="index.html#cv">CV</a></li>
             </ul>
@@ -174,174 +307,282 @@
                 <i class="fas fa-arrow-left"></i>
                 Back to Projects
             </a>
-            
+
             <div class="blog-header">
-                <h1 class="blog-title">Adaptive Surrogate Gradients for SNNs - Part 2: Sequential Reinforcement Learning</h1>
-                <p class="blog-meta">Published: 2024 | Reading time: 15 min | Blog Series</p>
-                <p class="authors"><strong>Paper accepted at:</strong> NeurIPS 2025 <span class="conference-badge">Conference</span></p>
-                <p style="font-size: 0.95rem; color: #6c757d; margin-top: 1rem;"><a href="blog-surrogate.html" style="color: #3498db;">← Part 1: Surrogate Gradients</a> | Part 2 of 3: Sequential RL & Sim-to-Real Transfer | <a href="blog-reality-gap.html" style="color: #3498db;">Part 3: Reality Gap →</a></p>
+                <h1 class="blog-title">Sequential RL and Real-World Deployment for SNNs</h1>
+                <p class="blog-meta">Part 2: From Algorithm to Hardware | 15 min read</p>
+                <p class="blog-meta">Accepted at NeurIPS 2025 <span class="conference-badge">Oral</span></p>
             </div>
-            
-            <div class="blog-banner">
-                <img src="project_figures/surrogate_banner_collage.png" alt="Surrogate Gradients Research: Flight Trajectory, Training Performance, and Control Architecture">
-            </div>
-            
-            <div class="blog-content">
-                <p>Leveraging the temporal processing capabilities of spiking neural networks (SNNs) in reinforcement learning requires training on sequences rather than individual transitions. However, this presents a critical challenge: subpar initial policies often lead to early episode termination, preventing the collection of sufficiently long sequences to bridge the warm-up period required by stateful networks.</p>
-                
-                <p>This research introduces a novel reinforcement learning algorithm tailored for continuous control with spiking neural networks, explicitly leveraging their inherent temporal dynamics without relying on frame stacking. We demonstrate the efficacy of our approach by training a low-level spiking neural controller for the Crazyflie quadrotor, successfully bridging the reality gap without observation history augmentation.</p>
-                
-                <h2>The Warm-Up Period Challenge</h2>
-                <p>A key consideration when training stateful neural networks with reinforcement learning is gathering sufficiently long sequences to enable efficient training, while also allowing the hidden states to stabilize for several timesteps after initialization before calculating the gradient. This stabilization period, which we call the warm-up period, is crucial for proper gradient computation in spiking neural networks.</p>
-                
-                <p>When controlling a drone, subpar controller performance leads to too short interactions, making it challenging to achieve baseline performance. The agent cannot act long enough to gather data that would allow it to improve, creating a fundamental chicken-and-egg problem in training.</p>
-                
-                <div class="figure-container">
-                    <img src="project_figures/surrogate_task_draw.png" alt="Drone control task overview" class="blog-figure">
-                    <p class="figure-caption"><strong>Figure 1:</strong> The spiking controller receives position, velocity, orientation, and angular velocity inputs and outputs motor commands for the Crazyflie quadrotor.</p>
+
+            <div class="context-box">
+                <div class="context-box-title">
+                    <i class="fas fa-layer-group"></i>
+                    Research Arc
                 </div>
-                
-                <h2>Jump-Start Reinforcement Learning Framework</h2>
-                <p>To address the warm-up period challenge in sequential SNN training, we adapt the Jump-Start Reinforcement Learning (JSRL) framework. This approach leverages a pre-trained guide policy to create a curriculum of starting conditions for a secondary policy.</p>
-                
-                <p>We implement a privileged, non-spiking actor trained through TD3, whose primary function is to bridge the critical warm-up period required by the SNN. Both this guiding policy and the non-spiking critic receive privileged information in the form of action and observation histories.</p>
-                
-                <h2>Sequential Reinforcement Learning Algorithm</h2>
-                <p>Our approach combines the benefits of both offline and online learning through a hybrid training strategy:</p>
-                
+                <p>This is Part 2 of 2. Start with <a href="blog-surrogate.html">Part 1: Surrogate Gradient Effects</a>, which builds on the <a href="blog-a2c.html">foundational SNN control work</a>.</p>
+            </div>
+
+            <div class="blog-banner">
+                <img src="project_figures/surrogate_crazyflie_flight.png" alt="Crazyflie drone performing circular flight with SNN controller">
+            </div>
+
+            <div class="blog-content">
+                <p>Leveraging the temporal processing capabilities of SNNs in reinforcement learning requires training on sequences rather than individual transitions. However, subpar initial policies often lead to early episode termination, preventing collection of sufficiently long sequences to bridge the warm-up period required by stateful networks.</p>
+
+                <p>This research introduces a novel RL algorithm tailored for continuous control with SNNs, demonstrates successful training on a quadrotor control task, and validates real-world deployment on the Crazyflie platform.</p>
+
+                <h2>The Warm-Up Period Challenge</h2>
+
+                <p>Stateful neural networks require time to stabilize their hidden states after initialization. For SNNs, membrane potentials need several timesteps to reach meaningful values before gradients can be computed reliably. We call this stabilization period the <strong>warm-up period</strong>.</p>
+
+                <p>When controlling a drone, poor initial performance leads to short interactions—the agent crashes before gathering enough data to improve. This creates a fundamental chicken-and-egg problem.</p>
+
+                <div class="figure-container">
+                    <img src="project_figures/surrogate_task_draw.png" alt="Drone control task" class="blog-figure">
+                    <p class="figure-caption">The spiking controller receives position, velocity, orientation, and angular velocity, outputting motor commands for the Crazyflie quadrotor at 100Hz.</p>
+                </div>
+
+                <h2>TD3BC + Jump-Start RL</h2>
+
+                <p>We adapt Jump-Start Reinforcement Learning (JSRL) to address the warm-up challenge. A pre-trained guide policy creates a curriculum of starting conditions for the SNN policy.</p>
+
                 <div class="algorithm-box">
-                    <h4>Key Components:</h4>
+                    <h4>Key Components</h4>
                     <ul>
-                        <li><strong>Guiding Policy:</strong> TD3-trained non-spiking actor that provides stable initial behavior</li>
-                        <li><strong>Spiking Policy:</strong> LIF-based neural network that learns temporal dynamics</li>
-                        <li><strong>Hybrid Replay Buffer:</strong> Contains transitions from both guiding and spiking policies</li>
-                        <li><strong>Behavioral Cloning Term:</strong> Gradually decaying BC regularization for stable training</li>
+                        <li><strong>Guiding Policy:</strong> TD3-trained non-spiking actor that bridges the warm-up period</li>
+                        <li><strong>Spiking Policy:</strong> LIF-based network that learns temporal dynamics</li>
+                        <li><strong>Hybrid Replay Buffer:</strong> Contains transitions from both policies</li>
+                        <li><strong>Behavioral Cloning Term:</strong> Gradually decaying BC regularization</li>
                     </ul>
                 </div>
-                
-                <h3>Training Objective Function</h3>
-                <p>The function to be maximized combines reinforcement learning objectives with behavioral cloning:</p>
-                
+
+                <h3>Training Objective</h3>
+                <p>The loss combines RL objectives with behavioral cloning:</p>
+
                 <div class="equation">
-                    L_π = E[τ∼D] [Σ(i=0 to 100) Q_φ₁(s_τ,i, π_θ(s_τ,i|(s_τ,i-1,...,s_τ,i))) · 1_{i≥50}] + λ E[τ∼D] [Σ(i=0 to 100) ||π_θ(s_τ,i|(s_τ,i-1...s_τ,i)) - a_τ,i||² · 1_{i≥50}]
+                    L_π = E[Q(s, π(s))] + λ · E[||π(s) - a||²]
                 </div>
-                
-                <p>Where:</p>
+
+                <p>Where λ controls BC strength and decays over time. Gradients are computed only after the 50-step warm-up period.</p>
+
+                <h3>Why This Works</h3>
                 <ul>
-                    <li><em>Q_φ₁</em> represents the first critic network (as used in TD3)</li>
-                    <li><em>τ</em> denotes a sequence sampled from the replay buffer (length 100)</li>
-                    <li><em>s_τ,i</em> and <em>a_τ,i</em> correspond to the i-th observation and action</li>
-                    <li><em>λ</em> controls the strength of BC regularization and decays over time</li>
-                    <li><em>1_{i≥50}</em> equals zero during the warm-up period (50 steps) and switches to one afterward</li>
+                    <li><strong>Jump-start:</strong> Guiding policy ensures sequences are long enough to bridge warm-up</li>
+                    <li><strong>BC term:</strong> Provides stable initial learning signal from demonstrations</li>
+                    <li><strong>Asymmetric architecture:</strong> SNN actor with ANN critic combines temporal processing with training stability</li>
                 </ul>
-                
-                <h2>Spiking Actor-Critic Architecture</h2>
-                <p>The spiking policy employs two hidden layers of Leaky Integrate-and-Fire (LIF) neurons. Each neuron receives an input current <em>I_in</em>, which incrementally charges its membrane potential <em>U</em>. Over time, the potential decays at a rate determined by the leak factor <em>β</em>.</p>
-                
-                <p>When the membrane potential exceeds a defined threshold <em>U_thr</em>, the neuron emits a spike <em>s</em> and its potential is subsequently reset:</p>
-                
-                <div class="equation">
-                    U[t+1] = β U[t] + I_in[t+1] - s · U_thr
-                </div>
-                
-                <p>Where the spiking mechanism is described by:</p>
-                
-                <div class="equation">
-                    s = {1, if U[t] > U_thr; 0, otherwise}
-                </div>
-                
-                <p>While the actor is spiking, the critic is an artificial neural network that receives the aforementioned states and an action history of 32 timesteps. This asymmetric setup has been demonstrated to successfully leverage the improved training stability of ANNs while maintaining the temporal processing capabilities of SNNs.</p>
-                
-                <h2>Micro Aerial Vehicle Control Task</h2>
-                <p>We implement and evaluate our approach on a quadrotor position control task using the Crazyflie 2.1 platform. The control architecture employs a spiking neural network that processes a state vector comprising:</p>
-                
-                <ul>
-                    <li><strong>Position:</strong> (x, y, z) coordinates</li>
-                    <li><strong>Linear velocity:</strong> (v_x, v_y, v_z)</li>
-                    <li><strong>Orientation angles:</strong> (θ, φ, ψ)</li>
-                    <li><strong>Angular velocities:</strong> (p, q, r)</li>
-                </ul>
-                
-                <p>Based on these inputs, the SNN outputs motor commands for each motor (m₁, m₂, m₃, m₄) at a control frequency of 100Hz.</p>
-                
+
                 <div class="figure-container">
-                    <img src="project_figures/surrogate_crazyflie_coord.png" alt="Crazyflie coordinate system" class="blog-figure">
-                    <p class="figure-caption"><strong>Figure 2:</strong> The Crazyflie quadrotor platform and coordinate system used for position control.</p>
+                    <img src="project_figures/surrogate_comparison_reward.png" alt="Training comparison" class="blog-figure">
+                    <p class="figure-caption">Offline methods (BC, TD3BC) fail as reward function adapts. TD3BC+JSRL achieves 400-point reward while baselines stay below -200.</p>
                 </div>
-                
-                <h3>Encoding and Decoding</h3>
-                <p>SNNs work in a spike-based domain. To encode continuous values to spikes and vice versa, population-based encoding and decoding are used. A linear layer encodes input values into currents, and another decodes output spikes into motor commands.</p>
-                
-                <h2>Training on Sequences</h2>
-                <p>To fully leverage the temporal processing capabilities of SNNs in reinforcement learning, we extend training from single transitions to full sequences and introduce a reward curriculum that gradually increases penalties on position, velocity, and action magnitude to encourage stable, robust behavior.</p>
-                
-                <div class="figure-container">
-                    <img src="project_figures/surrogate_comparison_reward.png" alt="Training comparison across methods" class="blog-figure">
-                    <p class="figure-caption"><strong>Figure 3:</strong> Offline methods (BC and TD3BC) struggle as the reward function adapts, failing to generalize beyond the initial dataset.</p>
-                </div>
-                
+
                 <div class="figure-container">
                     <img src="project_figures/surrogate_comparison_lens.png" alt="Sequence length comparison" class="blog-figure">
-                    <p class="figure-caption"><strong>Figure 4:</strong> While all methods eventually learn to fly, TD3-trained policies frequently terminate early due to unstable exploration, whereas TD3BC+JSRL achieves longer and more stable flight trajectories.</p>
+                    <p class="figure-caption">TD3-trained policies frequently terminate early. TD3BC+JSRL achieves longer, more stable flight trajectories.</p>
                 </div>
-                
-                <h3>Comparison with Baseline Methods</h3>
-                <p>We compare our TD3BC+JSRL approach with several baseline methods:</p>
-                
-                <ul>
-                    <li><strong>Behavioral Cloning (BC):</strong> Suffers from the unseen curriculum, unable to adapt to changing reward functions</li>
-                    <li><strong>TD3BC:</strong> Initially shows ability to leverage reward information but performance drops as the reward function diverges from the dataset</li>
-                    <li><strong>TD3:</strong> Struggles to gather meaningful sequences early in training, often resulting in premature episode terminations</li>
-                    <li><strong>TD3BC+JSRL:</strong> Demonstrates robust learning even under challenging curriculum, with substantial performance improvements</li>
-                </ul>
-                
-                <h2>Bridging the Reality Gap</h2>
-                <p>We quantitatively evaluated the computational efficiency of our sequential SNN approach using NeuroBench. Results show that temporally-trained SNNs match ANN performance while exhibiting distinct computational traits.</p>
-                
+
+                <h2>Computational Efficiency Analysis</h2>
+
+                <p>We evaluated our trained SNN against a comparable ANN using <a href="blog-neurobench.html">NeuroBench</a>. The ANN requires explicit action history (32 timesteps) to control the drone; our SNN uses inherent temporal dynamics instead.</p>
+
+                <div class="table-container" style="overflow-x: auto;">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Model</th>
+                                <th>Reward</th>
+                                <th>Footprint</th>
+                                <th>Sparsity</th>
+                                <th>Eff. MACs</th>
+                                <th>Eff. ACs</th>
+                                <th>Needs History?</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>ANN (64-64)</strong></td>
+                                <td>447</td>
+                                <td>55.3 KB</td>
+                                <td>0%</td>
+                                <td>13.7k</td>
+                                <td>0</td>
+                                <td>Yes</td>
+                            </tr>
+                            <tr class="highlight-row">
+                                <td><strong>SNN (256-128)</strong></td>
+                                <td>446</td>
+                                <td>158.3 KB</td>
+                                <td><strong>79%</strong></td>
+                                <td><strong>4.6k</strong></td>
+                                <td>12.2k</td>
+                                <td><strong>No</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="key-findings">
+                    <h4>Key Insight: Computational Trade-offs</h4>
+                    <ul>
+                        <li><strong>79% activation sparsity</strong> enables efficient neuromorphic deployment</li>
+                        <li>Energy-efficient <strong>accumulates (ACs)</strong> instead of multiply-accumulates (MACs)</li>
+                        <li><strong>No observation history required</strong> — temporal dynamics encoded in membrane potentials</li>
+                        <li>Estimated energy: <strong>9.7×10⁻⁵ mJ</strong> per inference step</li>
+                    </ul>
+                </div>
+
+                <h2>Real-World Deployment on Crazyflie</h2>
+
+                <p>The trained SNN was deployed on a physical Crazyflie quadrotor without fine-tuning or domain randomization—a zero-shot sim-to-real transfer.</p>
+
                 <div class="figure-container">
-                    <img src="project_figures/surrogate_crazyflie_flight.png" alt="Real-world deployment on Crazyflie" class="blog-figure">
-                    <p class="figure-caption"><strong>Figure 5:</strong> When deployed on the Crazyflie, the spiking actor displays oscillatory behavior but can successfully fly maneuvers such as circles.</p>
+                    <img src="project_figures/surrogate_crazyflie_coord.png" alt="Crazyflie platform" class="blog-figure">
+                    <p class="figure-caption">The Crazyflie 2.1 platform and coordinate system used for position control validation.</p>
                 </div>
-                
-                <h3>Computational Efficiency Analysis</h3>
-                <p>Despite a higher memory footprint, SNNs benefit from activation sparsity and primarily use energy-efficient accumulates (ACs) instead of energy-hungry multiply-accumulates (MACs), making them well-suited for neuromorphic deployment.</p>
-                
-                <h3>Real-World Deployment Results</h3>
-                <p>When deployed on the Crazyflie, the SNN controller exhibits oscillatory behavior, likely due to limited output resolution and lack of explicit action history. However, the SNN is still able to execute complex maneuvers like circles, eight figures, and squares.</p>
-                
-                <p>We deployed the trained SNNs on Crazyflie variants with standard and modified motor-propeller setups. Compared to ANN controllers, SNNs achieved lower position error under ideal conditions but had reduced reliability. Notably, while ANNs without action history failed to control the drone, our SNN leveraged temporal dynamics to maintain control, albeit with occasional crashes.</p>
-                
-                <h2>Key Contributions and Impact</h2>
-                <p>This work makes several significant contributions to the field of neuromorphic reinforcement learning:</p>
-                
+
+                <h3>Flight Performance</h3>
+                <p>The SNN controller successfully executes complex maneuvers:</p>
                 <ul>
-                    <li><strong>Novel RL Algorithm:</strong> Introduces TD3BC+JSRL specifically designed for spiking neural networks</li>
-                    <li><strong>Warm-Up Period Solution:</strong> Addresses the critical challenge of bridging the warm-up period in sequential training</li>
-                    <li><strong>Real-World Validation:</strong> Successfully demonstrates sim-to-real transfer without observation history augmentation</li>
-                    <li><strong>Computational Efficiency:</strong> Shows that SNNs can match ANN performance while offering energy efficiency advantages</li>
+                    <li><strong>Circular trajectories:</strong> Smooth flight patterns</li>
+                    <li><strong>Figure-eight patterns:</strong> Complex trajectory tracking</li>
+                    <li><strong>Square trajectories:</strong> Sharp turns and position holding</li>
                 </ul>
-                
-                <h2>Future Research Directions</h2>
-                <p>Several promising avenues for future work have been identified:</p>
-                <ul>
-                    <li><strong>Improved Stability:</strong> Incorporating angular velocity penalties, throttle deviation outputs, or increased control frequency</li>
-                    <li><strong>Enhanced Encoding:</strong> Developing more sophisticated encoding and decoding methods for continuous control</li>
-                    <li><strong>Multi-Agent Systems:</strong> Extending the approach to multi-agent scenarios and swarm robotics</li>
-                    <li><strong>Hardware Optimization:</strong> Optimizing the algorithm for specific neuromorphic hardware platforms</li>
-                </ul>
-                
+
+                <p>The controller exhibits slightly oscillatory behavior compared to ANNs with full action history. However, when comparing to an ANN without action history, the ANN completely fails to control the drone—highlighting the critical advantage of SNN temporal processing.</p>
+
+                <div class="video-container">
+                    <p style="margin-bottom: 1rem; color: var(--color-text-tertiary, #6e6e73);">Watch the SNN controller in action:</p>
+                    <a href="https://www.youtube.com/playlist?list=PLAS2CClQ48jX2R-tqza9kRPx0NW1EfKj0" target="_blank" class="video-link">
+                        <i class="fab fa-youtube"></i>
+                        View Demonstration Videos
+                    </a>
+                </div>
+
+                <h3>Quantitative Results</h3>
+
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>ANN + History</th>
+                            <th>ANN (no history)</th>
+                            <th>SNN (Ours)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Position Error (m)</td>
+                            <td>0.10</td>
+                            <td>0.25</td>
+                            <td><strong>0.04</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Trajectory Error (m)</td>
+                            <td><strong>0.21</strong></td>
+                            <td>N/A (crashed)</td>
+                            <td>0.24</td>
+                        </tr>
+                        <tr>
+                            <td>Requires History?</td>
+                            <td>Yes (32 steps)</td>
+                            <td>No</td>
+                            <td><strong>No</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Ablation Study</h2>
+
+                <p>We systematically removed components to understand their contribution:</p>
+
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>BC Term</th>
+                            <th>Jump-Start</th>
+                            <th>Final Reward</th>
+                            <th>Steps to 100</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="highlight-row">
+                            <td>Yes</td>
+                            <td>Yes</td>
+                            <td><strong>412 ± 6.7</strong></td>
+                            <td><strong>2,200</strong></td>
+                        </tr>
+                        <tr>
+                            <td>No</td>
+                            <td>Yes</td>
+                            <td>334 ± 25.6</td>
+                            <td>33,030</td>
+                        </tr>
+                        <tr>
+                            <td>Yes</td>
+                            <td>No</td>
+                            <td>32 ± 1.2</td>
+                            <td>Failed</td>
+                        </tr>
+                        <tr>
+                            <td>No</td>
+                            <td>No</td>
+                            <td>36 ± 4.1</td>
+                            <td>Failed</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="key-findings">
+                    <h4>Ablation Findings</h4>
+                    <ul>
+                        <li><strong>Jump-start is critical:</strong> Without it, SNNs cannot bridge the warm-up period</li>
+                        <li><strong>BC term provides 15× speedup:</strong> 2,200 vs 33,030 steps to reach reward=100</li>
+                        <li><strong>Both components are synergistic:</strong> Neither alone achieves optimal performance</li>
+                    </ul>
+                </div>
+
+                <h2>Key Contributions</h2>
+
+                <div class="key-findings">
+                    <h4>Summary</h4>
+                    <ul>
+                        <li><strong>Novel Algorithm:</strong> TD3BC+JSRL specifically designed for sequential SNN training</li>
+                        <li><strong>Warm-Up Solution:</strong> Jump-start mechanism bridges the critical stabilization period</li>
+                        <li><strong>Zero-Shot Transfer:</strong> Sim-to-real without observation history augmentation</li>
+                        <li><strong>Lowest Position Error:</strong> 0.04m vs 0.10m for ANNs with full history</li>
+                        <li><strong>79% Sparsity:</strong> Energy-efficient neuromorphic deployment ready</li>
+                        <li><strong>600-Point Gap:</strong> TD3BC+JSRL achieves 400 reward vs -200 for baselines</li>
+                    </ul>
+                </div>
+
+                <h2>Lessons Learned</h2>
+
+                <ol>
+                    <li><strong>Warm-up period is critical</strong> — SNNs need time to stabilize membrane potentials</li>
+                    <li><strong>Behavioral cloning accelerates learning</strong> — 15× faster convergence</li>
+                    <li><strong>Temporal dynamics replace explicit history</strong> — reduces memory requirements</li>
+                    <li><strong>Adaptive surrogate gradients matter</strong> — see <a href="blog-surrogate.html">Part 1</a></li>
+                </ol>
+
                 <h2>Conclusion</h2>
-                <p>This research successfully addresses the critical challenges of training spiking neural networks for real-world control tasks. By introducing a novel reinforcement learning algorithm that explicitly leverages the temporal dynamics of SNNs and providing a solution to the warm-up period problem, we demonstrate that spiking neural networks can be effectively trained for complex control tasks and successfully deployed in real-world robotic systems.</p>
-                
-                <p>The work contributes to the broader goal of making neuromorphic computing more accessible and effective for real-world applications, particularly in resource-constrained environments where energy efficiency is critical. The successful sim-to-real transfer without observation history augmentation represents a significant step forward in the field of neuromorphic robotics.</p>
+
+                <p>This work demonstrates that SNNs can be effectively trained for real-world control tasks through careful algorithm design. By addressing the warm-up period challenge with TD3BC+JSRL, we achieved successful zero-shot sim-to-real transfer on the Crazyflie quadrotor, with lower position error than ANNs while eliminating the need for observation history.</p>
+
+                <p>The 79% activation sparsity and reliance on efficient accumulate operations make these controllers ready for deployment on neuromorphic hardware platforms like Intel Loihi, where energy consumption can be reduced by orders of magnitude.</p>
+
+                <div class="series-nav">
+                    <a href="blog-surrogate.html"><i class="fas fa-arrow-left"></i> Part 1: Surrogate Gradients</a>
+                    <span></span>
+                </div>
             </div>
         </div>
     </main>
 
     <footer>
         <div class="container">
-            <p>&copy; 2024 Korneel Vandenberghe. All rights reserved.</p>
+            <p>&copy; 2025 Korneel Van den Berghe. All rights reserved.</p>
         </div>
     </footer>
 </body>
-</html> 
+</html>

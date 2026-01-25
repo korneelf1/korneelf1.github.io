@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A2C Spiking Neural Networks - Korneel Vandenberghe</title>
+    <title>Spiking Neural Networks for Control - Korneel Van den Berghe</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -12,109 +12,171 @@
             margin: 0 auto;
             padding: 2rem;
         }
-        
+
         .blog-header {
             text-align: center;
             margin-bottom: 3rem;
             padding-bottom: 2rem;
-            border-bottom: 2px solid #e9ecef;
+            border-bottom: 1px solid var(--color-border, #e9ecef);
         }
-        
+
         .blog-title {
             font-size: 2.5rem;
-            color: #2c3e50;
+            color: var(--color-text-primary, #1d1d1f);
             margin-bottom: 1rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
         }
-        
+
         .blog-meta {
-            color: #6c757d;
-            font-size: 1.1rem;
+            color: var(--color-text-secondary, #86868b);
+            font-size: 0.95rem;
             margin-bottom: 1rem;
         }
-        
+
         .back-link {
             display: inline-flex;
             align-items: center;
-            color: #3498db;
+            color: var(--color-accent, #0071e3);
             text-decoration: none;
             font-weight: 500;
             margin-bottom: 2rem;
-            transition: color 0.3s ease;
+            font-size: 0.95rem;
+            transition: opacity 0.2s ease;
         }
-        
+
         .back-link:hover {
-            color: #2980b9;
+            opacity: 0.7;
         }
-        
+
         .back-link i {
             margin-right: 0.5rem;
         }
-        
+
         .blog-content {
-            line-height: 1.8;
-            font-size: 1.1rem;
+            line-height: 1.7;
+            font-size: 1.05rem;
+            color: var(--color-text-primary, #1d1d1f);
         }
-        
+
         .blog-content h2 {
-            color: #2c3e50;
-            margin: 2rem 0 1rem 0;
-            font-size: 1.8rem;
+            color: var(--color-text-primary, #1d1d1f);
+            margin: 2.5rem 0 1rem 0;
+            font-size: 1.75rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
         }
-        
+
         .blog-content h3 {
-            color: #2c3e50;
-            margin: 1.5rem 0 0.8rem 0;
-            font-size: 1.4rem;
+            color: var(--color-text-primary, #1d1d1f);
+            margin: 2rem 0 0.75rem 0;
+            font-size: 1.25rem;
+            font-weight: 600;
         }
-        
+
         .blog-content p {
-            margin-bottom: 1.2rem;
+            margin-bottom: 1.25rem;
+            color: var(--color-text-tertiary, #6e6e73);
         }
-        
-        .blog-content ul {
+
+        .blog-content ul, .blog-content ol {
             margin: 1rem 0;
             padding-left: 1.5rem;
+            color: var(--color-text-tertiary, #6e6e73);
         }
-        
+
         .blog-content li {
             margin-bottom: 0.5rem;
         }
-        
+
         .blog-content strong {
-            color: #2c3e50;
+            color: var(--color-text-primary, #1d1d1f);
             font-weight: 600;
         }
-        
-        .blog-content em {
-            background-color: #f8f9fa;
-            padding: 0.2rem 0.4rem;
-            border-radius: 3px;
-            font-family: 'Courier New', monospace;
-        }
-        
+
         .figure-container {
-            margin-bottom: 2rem;
+            margin: 2rem 0;
+            background: var(--color-bg-secondary, #f5f5f7);
+            border-radius: 12px;
+            overflow: hidden;
         }
-        
+
         .blog-figure {
             width: 100%;
             height: auto;
-            margin-bottom: 0.5rem;
+            display: block;
         }
-        
+
         .figure-caption {
-            font-size: 0.9rem;
-            color: #6c757d;
+            font-size: 0.85rem;
+            color: var(--color-text-secondary, #86868b);
+            padding: 1rem;
+            text-align: center;
         }
-        
+
+        .context-box {
+            background: linear-gradient(135deg, rgba(0, 113, 227, 0.08) 0%, rgba(88, 86, 214, 0.08) 100%);
+            border: 1px solid rgba(0, 113, 227, 0.2);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+
+        .context-box-title {
+            font-weight: 600;
+            color: var(--color-accent, #0071e3);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .context-box p {
+            margin: 0;
+            color: var(--color-text-secondary, #86868b);
+        }
+
+        .context-box a {
+            color: var(--color-accent, #0071e3);
+        }
+
+        .conference-badge {
+            display: inline-block;
+            background: var(--color-accent, #0071e3);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-left: 0.5rem;
+        }
+
+        .key-findings {
+            background: var(--color-bg-secondary, #f5f5f7);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .key-findings h4 {
+            margin: 0 0 1rem 0;
+            color: var(--color-text-primary, #1d1d1f);
+            font-size: 1rem;
+        }
+
+        .key-findings ul {
+            margin: 0;
+            padding-left: 1.25rem;
+        }
+
         .blog-banner {
             width: 100%;
             margin-bottom: 2rem;
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        
+
         .blog-banner img {
             width: 100%;
             height: auto;
@@ -127,7 +189,7 @@
         <div class="nav-content">
             <div class="logo">Korneel Van den Berghe</div>
             <ul class="nav-links">
-                <li><a href="index.html#about">About Me</a></li>
+                <li><a href="index.html#about">About</a></li>
                 <li><a href="index.html#projects">Projects</a></li>
                 <li><a href="index.html#cv">CV</a></li>
             </ul>
@@ -140,158 +202,137 @@
                 <i class="fas fa-arrow-left"></i>
                 Back to Projects
             </a>
-            
+
             <div class="blog-header">
-                <h1 class="blog-title">A Comparative Study of Spiking and Non-Spiking Neural Networks in Actor-Critic Reinforcement Learning</h1>
-                <p class="blog-meta">Published: June 2024 | Reading time: 15 min | Research Project</p>
-                <p class="blog-authors"><strong>Author:</strong> K. Van den Berghe, Technische Universiteit van Delft</p>
+                <h1 class="blog-title">Spiking Neural Networks for Reinforcement Learning Control</h1>
+                <p class="blog-meta">Foundational Research | June 2024 | 12 min read</p>
+                <p class="blog-meta">Presented at ICNCE 2024, Aachen <span class="conference-badge">Conference</span></p>
             </div>
-            
+
+            <div class="context-box">
+                <div class="context-box-title">
+                    <i class="fas fa-layer-group"></i>
+                    Research Arc
+                </div>
+                <p>This is the <strong>foundational work</strong> in my SNN control research. It establishes the core findings that led to the <a href="blog-surrogate.html">NeurIPS 2025 paper on adaptive surrogate gradients</a>.</p>
+            </div>
+
             <div class="blog-banner">
                 <img src="project_figures/a2c_collage.png" alt="A2C Research Overview: Noise Robustness, Surrogate Gradients, and Training Performance">
             </div>
-            
+
             <div class="blog-content">
-                <p>Within the world of autonomous micro robotics, constraints in computational resources and energy usage is a pressing issue, motivating the exploration of novel innovative algorithms to bring intelligence to these systems. This work explores the challenges and opportunities that arise when deploying spiking neural networks as workers in actor-critic deep reinforcement learning, specifically using the A2C algorithm on the CartPole task.</p>
-                
-                <h2>Project Overview and Motivation</h2>
-                <p>Reinforcement learning (RL) has experienced significant advancements in recent years, enabling robots to achieve human-like performance on complex tasks. Actor-critic reinforcement learning algorithms have shown to be pivotal in training efficiently in challenging environments, offering potential for higher sample efficiency through parallel training.</p>
-                
-                <p>Concurrently, neuromorphic algorithms, such as spiking neural networks (SNN), have garnered attention in the field of deep learning. These bio-inspired algorithms have demonstrated utility in handling temporal data and offer high energy efficiency when run on specialized hardware. Combining the possibility to learn from experience through reinforcement learning with the energy-efficient characteristics of spiking neural networks holds great opportunity in the field of small mobile robotics, where computational resources are constrained.</p>
-                
-                <p>The primary objective was to compare the performance and computational complexity of spiking neural networks against traditional artificial neural networks in actor-critic reinforcement learning, specifically addressing:</p>
+                <p>Within autonomous micro robotics, computational resources and energy constraints motivate the exploration of novel algorithms. This work explores the challenges and opportunities of deploying spiking neural networks (SNNs) in actor-critic reinforcement learning, progressing from simulated benchmarks to real-world drone control.</p>
+
+                <h2>Part 1: Comparative Study on CartPole</h2>
+
+                <p>The first phase compared SNN and ANN performance using the A2C (Advantage Actor-Critic) algorithm on the CartPole task, establishing fundamental insights about training dynamics and computational efficiency.</p>
+
+                <h3>Why A2C for SNNs?</h3>
+                <p>Unlike DQN, which requires experience replay and batch processing, A2C uses multiple workers operating in parallel, eliminating the need for experience replay. This opens doors to learning on resource-constrained systems where storing past experiences and batch training would be detrimental.</p>
+
+                <h3>Network Architecture</h3>
+                <p>To compare ANN to SNN fairly, both models use identical architectures—the only difference is replacing activation functions with Leaky Integrate-and-Fire (LIF) neurons. We tested two configurations:</p>
                 <ul>
-                    <li><strong>Training Efficiency:</strong> Comparing convergence patterns between SNN and ANN architectures</li>
-                    <li><strong>Computational Complexity:</strong> Analyzing energy efficiency and operational requirements</li>
-                    <li><strong>Noise Robustness:</strong> Evaluating performance under realistic sensor noise conditions</li>
-                    <li><strong>Pruning Opportunities:</strong> Exploring model compression techniques unique to SNNs</li>
+                    <li><strong>Single Layer:</strong> 4 inputs → 246 hidden neurons → actor/critic outputs</li>
+                    <li><strong>Two Layer:</strong> 4 inputs → 128 → 128 → actor/critic outputs</li>
                 </ul>
-                
-                <h2>Technical Implementation</h2>
-                <p>The project employed a comprehensive comparison framework using the A2C (Advantage Actor-Critic) algorithm on the CartPole task:</p>
-                
-                <h3>A2C Reinforcement Learning</h3>
-                <p>The A2C algorithm was chosen for its advantages over DQN-based approaches. Unlike DQN, which requires experience replay and batch processing, A2C uses multiple workers operating in parallel, eliminating the need for experience replay. This opens doors to learning on resource-constrained systems, where the overhead required for storing past experiences and training in batches can be detrimental to system performance.</p>
-                
-                <h3>CartPole Task</h3>
-                <p>The CartPole task consists of balancing a pole on a cart as long as possible, receiving +1 reward for every timestep where the pole is balanced. The actor can apply either a force to the left or to the right on the cart, while observing the position and velocity of the cart and angle and angular velocity of the pole. For all models, the environment runs at a frequency of 20Hz.</p>
-                
-                <h3>Network Architecture and Neuron Models</h3>
-                <p>To compare ANN to SNN, two models with the same architecture were used. The only difference between the models is the spiking neurons in the SNN, replacing the regular activation functions. The architecture is kept small to avoid long training times, which is an issue for SNN.</p>
-                
-                <p><strong>Single Layer Architecture:</strong> Input layer with 4 continuous neurons, one hidden layer with 246 neurons, and two output heads representing the actor and critic outputs.</p>
-                
-                <p><strong>Two Layer Architecture:</strong> Input layer with 4 neurons, two hidden layers with 128 neurons each, and two output heads.</p>
-                
+
                 <div class="figure-container">
-                    <img src="project_figures/a2c_training_snn_ann_1l246.png" alt="Training comparison between SNN and ANN architectures" class="blog-figure">
-                    <p class="figure-caption"><strong>Figure 1:</strong> Training performance comparison between SNN and ANN architectures with single hidden layer (246 neurons). The SNN shows different convergence characteristics due to its spiking nature.</p>
+                    <img src="project_figures/a2c_training_3models.png" alt="Training comparison" class="blog-figure">
+                    <p class="figure-caption">Training comparison: ANN vs SNN with learnable leak (converges to β=0) vs SNN with fixed leak (β=0.65). SNNs converge slower but achieve comparable final performance.</p>
                 </div>
-                
-                <h3>Leaky Integrate-and-Fire (LIF) Neuron Model</h3>
-                <p>The LIF neuron is a first-order model where the input current directly charges the membrane potential, which leaks over time at a rate β (the leakage parameter). When the potential exceeds a threshold, the neuron spikes and the membrane potential is reset. The dynamics are modeled by:</p>
-                
-                <p><em>U[t+1] = β U[t] + I_in[t+1] - R·U_thr</em></p>
-                
-                <p>Where R is 1 when the membrane potential exceeds the threshold and 0 otherwise.</p>
-                
+
+                <h3>Training with Surrogate Gradients</h3>
+                <p>Due to the discrete spiking nature, traditional backpropagation cannot be directly applied. Surrogate gradients approximate the derivative of the spike function with a continuous, differentiable function during the backward pass.</p>
+
                 <div class="figure-container">
                     <img src="project_figures/a2c_surrogate.png" alt="Surrogate gradient function" class="blog-figure">
-                    <p class="figure-caption"><strong>Figure 2:</strong> The step function, surrogate function, and its gradient used for training spiking neural networks with backpropagation.</p>
+                    <p class="figure-caption">The step function (forward pass) and surrogate function (backward pass) used for training SNNs with backpropagation.</p>
                 </div>
-                
-                <h3>Training with Surrogate Gradients</h3>
-                <p>Due to the discrete spiking nature of neurons, traditional backpropagation cannot be directly applied. Surrogate gradients provide a solution by using a continuous, differentiable function to mimic the spiking behavior during the backward pass. The surrogate function used is the fast sigmoid function with a slope of 25.</p>
-                
-                <h2>Results and Performance Analysis</h2>
-                <p>The research revealed several key insights about training spiking neural networks with reinforcement learning:</p>
-                
-                <h3>Training Characteristics</h3>
-                <p>As expected, for both the deeper model and the model with only one hidden layer, the neuromorphic solution converges slower. This can partly be explained by the way the surrogate gradient works. In conventional neural networks, virtually all weights contribute to the output at each timestep, but for spiking neural networks, neurons below the threshold do not spike and therefore do not contribute to the gradient flow.</p>
-                
-                <div class="figure-container">
-                    <img src="project_figures/a2c_training_3models.png" alt="Training of different SNN configurations" class="blog-figure">
-                    <p class="figure-caption"><strong>Figure 3:</strong> Training of an ANN and SNN with one hidden layer of size 246. The first SNN learns to reduce β to zero (no temporal dynamics), while the second SNN has a fixed leak β=0.65.</p>
-                </div>
-                
-                <div class="figure-container">
-                    <img src="project_figures/a2c_training_snnann_2layers.png" alt="Training of two-layer architectures" class="blog-figure">
-                    <p class="figure-caption"><strong>Figure 4:</strong> Training of ANN and SNN with two hidden layers of size 128. The SNN has leaks of β=0.95 for both layers.</p>
-                </div>
-                
-                <h3>Computational Complexity Analysis</h3>
-                <p>Using NeuroBench, a comprehensive comparison was made between the trained models. The results show where SNN models excel compared to their ANN equivalents:</p>
-                
-                <ul>
-                    <li><strong>Activation Sparsity:</strong> SNNs achieve 68-92% activation sparsity compared to 0% for ANNs</li>
-                    <li><strong>Synaptic Operations:</strong> SNNs require only accumulates (ACs) rather than multiply-accumulates (MACs) after spiking layers</li>
-                    <li><strong>Effective Operations:</strong> Significant reduction in computational effort due to sparsity</li>
-                </ul>
-                
+
+                <h3>Key Finding: Aggressive Pruning</h3>
+                <p>One of the most significant discoveries was the effectiveness of pruning in SNNs. Dead neurons (0% spiking) and saturated neurons (100% spiking) can be removed without significant performance degradation:</p>
+
                 <div class="figure-container">
                     <img src="project_figures/a2c_snn_histogram.png" alt="SNN neuron activity distribution" class="blog-figure">
-                    <p class="figure-caption"><strong>Figure 5:</strong> Distribution of neuron activity in the trained SNN, showing the presence of dead and saturated neurons that enable pruning.</p>
+                    <p class="figure-caption">Distribution of neuron activity in trained SNN, showing dead and saturated neurons that enable aggressive pruning.</p>
                 </div>
-                
-                <h3>Pruning Results</h3>
-                <p>One of the most significant findings was the effectiveness of pruning in spiking neural networks. Dead neurons (0% spiking activity) and saturated neurons (100% spiking activity) can be removed without significant performance degradation:</p>
-                
-                <ul>
-                    <li><strong>Single Layer SNN (β=0):</strong> Reduced from 246 to 11 neurons (95.5% reduction)</li>
-                    <li><strong>Single Layer SNN (β=0.65):</strong> Reduced from 246 to 21 neurons (91.5% reduction)</li>
-                    <li><strong>Performance Impact:</strong> Minimal degradation in average performance while maintaining reasonable risk levels</li>
-                </ul>
-                
-                <p>This pruning capability is unique to spiking neural networks and provides significant advantages for deployment on resource-constrained devices.</p>
-                
-                <h3>Noise Robustness Analysis</h3>
-                <p>An important aspect of the research was analyzing the robustness of controllers to sensor noise, which reflects real-world deployment conditions:</p>
-                
+
+                <div class="key-findings">
+                    <h4>Pruning Results</h4>
+                    <ul>
+                        <li><strong>SNN (β=0):</strong> 246 → 11 neurons (95.5% reduction)</li>
+                        <li><strong>SNN (β=0.65):</strong> 246 → 21 neurons (91.5% reduction)</li>
+                        <li>Minimal performance degradation after pruning</li>
+                    </ul>
+                </div>
+
+                <h3>Noise Robustness</h3>
+                <p>An important finding for real-world deployment: SNNs with temporal dynamics (leaky neurons) show improved robustness at higher noise levels compared to both ANNs and non-leaky SNNs.</p>
+
                 <div class="figure-container">
                     <img src="project_figures/a2c_noise_robustness_5models.png" alt="Noise robustness comparison" class="blog-figure">
-                    <p class="figure-caption"><strong>Figure 6:</strong> Noise robustness analysis of single layer models. SNNs with temporal dynamics (leaky neurons) show improved robustness at higher noise levels.</p>
+                    <p class="figure-caption">Noise robustness analysis. SNNs with temporal dynamics (leaky neurons) outperform ANNs at noise levels above 0.04.</p>
                 </div>
-                
+
+                <h2>Part 2: Real-World Drone Landing</h2>
+
+                <p>Building on the CartPole findings, we extended the research to autonomous drone landing—a more challenging task requiring velocity estimation from altitude sequences and real-world deployment.</p>
+
+                <h3>The Challenge</h3>
+                <p>The drone controller receives only sonar altitude readings and must learn to:</p>
+                <ul>
+                    <li>Estimate velocity from altitude sequences (no explicit velocity input)</li>
+                    <li>Modulate thrust based on height and velocity</li>
+                    <li>Land safely within velocity constraints</li>
+                </ul>
+
+                <h3>Critical Insight: Pre-training Required</h3>
+                <p>Without supervised pre-training, SNNs struggled to develop velocity representations. Pre-training on a velocity estimation task reduced training time by an order of magnitude and enabled successful learning.</p>
+
                 <div class="figure-container">
-                    <img src="project_figures/a2c_noise_robustness_2layer.png" alt="Noise robustness of two-layer models" class="blog-figure">
-                    <p class="figure-caption"><strong>Figure 7:</strong> Noise robustness analysis of two-layer models. SNNs surpass ANN performance at noise levels above 0.04.</p>
+                    <img src="project_figures/cno_drone_landing.png" alt="SNN controller performance" class="blog-figure">
+                    <p class="figure-caption">SNN controller performance in simulation. The network modulates thrust based on altitude and internally-estimated velocity.</p>
                 </div>
-                
-                <p>The results show that SNNs with temporal dynamics (leaky neurons) tend to be more noise robust than their non-leaky counterparts and traditional ANNs. At noise levels above 0.15, the leaky SNN models outperform their non-leaky counterparts, and at noise levels above 0.04, they surpass ANN performance.</p>
-                
-                <h2>Key Findings and Implications</h2>
-                <p>The research revealed several important insights:</p>
+
+                <h3>Real-World Deployment</h3>
+                <p>The trained SNN was deployed on a physical Parrot Bebop 2 MAV without additional tuning. The same network that worked in simulation achieved successful landings on real hardware—a significant validation of the approach.</p>
+
+                <div class="figure-container">
+                    <img src="project_figures/Drone_Landing_Burst.png" alt="Real MAV landing" class="blog-figure">
+                    <p class="figure-caption">The SNN controller deployed on a physical Parrot Bebop 2, demonstrating successful sim-to-real transfer.</p>
+                </div>
+
+                <h2>Summary: What We Learned</h2>
+
+                <div class="key-findings">
+                    <h4>Key Takeaways</h4>
+                    <ul>
+                        <li><strong>Training:</strong> SNNs train slower than ANNs but achieve comparable performance</li>
+                        <li><strong>Pruning:</strong> SNNs can be pruned by 90%+ due to dead/saturated neurons</li>
+                        <li><strong>Noise Robustness:</strong> Leaky SNNs outperform ANNs under noisy conditions</li>
+                        <li><strong>Pre-training:</strong> Supervised pre-training is critical for complex tasks</li>
+                        <li><strong>Sim-to-Real:</strong> SNNs can transfer from simulation to real hardware</li>
+                    </ul>
+                </div>
+
+                <h2>What Came Next</h2>
+                <p>This foundational work revealed that surrogate gradient settings significantly impact training. This insight led to our <a href="blog-surrogate.html">NeurIPS 2025 research on adaptive surrogate gradients</a>, which develops principled methods for gradient scheduling and addresses the warm-up period challenge for sequential SNN training.</p>
+
+                <h2>Resources</h2>
                 <ul>
-                    <li><strong>Training Challenges:</strong> SNN training is noisier and slower than ANN training due to surrogate gradient limitations</li>
-                    <li><strong>Computational Efficiency:</strong> SNNs achieve significant reductions in computational complexity through sparsity and efficient operations</li>
-                    <li><strong>Pruning Potential:</strong> SNNs can be pruned by 90%+ without significant performance degradation</li>
-                    <li><strong>Noise Robustness:</strong> SNNs with temporal dynamics show superior performance under noisy conditions</li>
-                    <li><strong>Encoding Overhead:</strong> The encoding layer (linear layer to first spiking layer) accounts for the largest computational cost</li>
+                    <li><strong>Code:</strong> <a href="https://github.com/korneelf1/SpikingA2C" target="_blank">github.com/korneelf1/SpikingA2C</a></li>
+                    <li><strong>Benchmarking:</strong> Results evaluated using <a href="blog-neurobench.html">NeuroBench framework</a></li>
                 </ul>
-                
-                <h2>Future Research Directions</h2>
-                <p>Several promising avenues for future work have been identified:</p>
-                <ul>
-                    <li><strong>Efficient Encoding:</strong> Developing more efficient spiking encoders to reduce computational overhead</li>
-                    <li><strong>Deeper Networks:</strong> Exploring pruning techniques for deeper SNN architectures</li>
-                    <li><strong>Hardware Optimization:</strong> Leveraging specialized neuromorphic hardware for further efficiency gains</li>
-                    <li><strong>Training Improvements:</strong> Developing better surrogate gradient methods for faster, more stable training</li>
-                </ul>
-                
-                <h2>Impact and Significance</h2>
-                <p>This work represents a significant contribution to the field of neuromorphic reinforcement learning, demonstrating that spiking neural networks can be effectively trained for control tasks while offering substantial advantages in computational efficiency and noise robustness.</p>
-                
-                <p>The findings have important implications for autonomous micro robotics, where computational resources and energy efficiency are critical constraints. The ability to achieve comparable performance with significantly reduced computational complexity makes SNNs an attractive option for deployment on resource-constrained devices.</p>
-                
-                <p>The research also highlights the unique advantages of spiking neural networks, particularly their ability to be aggressively pruned without performance degradation and their superior noise robustness compared to traditional artificial neural networks.</p>
             </div>
         </div>
     </main>
 
     <footer>
         <div class="container">
-            <p>&copy; 2024 Korneel Vandenberghe. All rights reserved.</p>
+            <p>&copy; 2025 Korneel Van den Berghe. All rights reserved.</p>
         </div>
     </footer>
 </body>
-</html> 
+</html>

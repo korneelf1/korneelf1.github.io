@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Effect of Surrogate Gradients on Deep Neural Networks - Korneel Vandenberghe</title>
+    <title>Adaptive Surrogate Gradients for SNNs - Korneel Van den Berghe</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -12,139 +12,207 @@
             margin: 0 auto;
             padding: 2rem;
         }
-        
+
         .blog-header {
             text-align: center;
             margin-bottom: 3rem;
             padding-bottom: 2rem;
-            border-bottom: 2px solid #e9ecef;
+            border-bottom: 1px solid var(--color-border, #e9ecef);
         }
-        
+
         .blog-title {
             font-size: 2.5rem;
-            color: #2c3e50;
+            color: var(--color-text-primary, #1d1d1f);
             margin-bottom: 1rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
         }
-        
+
         .blog-meta {
-            color: #6c757d;
-            font-size: 1.1rem;
+            color: var(--color-text-secondary, #86868b);
+            font-size: 0.95rem;
             margin-bottom: 1rem;
         }
-        
+
         .back-link {
             display: inline-flex;
             align-items: center;
-            color: #3498db;
+            color: var(--color-accent, #0071e3);
             text-decoration: none;
             font-weight: 500;
             margin-bottom: 2rem;
-            transition: color 0.3s ease;
+            font-size: 0.95rem;
+            transition: opacity 0.2s ease;
         }
-        
+
         .back-link:hover {
-            color: #2980b9;
+            opacity: 0.7;
         }
-        
+
         .back-link i {
             margin-right: 0.5rem;
         }
-        
+
         .blog-content {
-            line-height: 1.8;
-            font-size: 1.1rem;
+            line-height: 1.7;
+            font-size: 1.05rem;
+            color: var(--color-text-primary, #1d1d1f);
         }
-        
+
         .blog-content h2 {
-            color: #2c3e50;
-            margin: 2rem 0 1rem 0;
-            font-size: 1.8rem;
+            color: var(--color-text-primary, #1d1d1f);
+            margin: 2.5rem 0 1rem 0;
+            font-size: 1.75rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
         }
-        
+
         .blog-content h3 {
-            color: #2c3e50;
-            margin: 1.5rem 0 0.8rem 0;
-            font-size: 1.4rem;
+            color: var(--color-text-primary, #1d1d1f);
+            margin: 2rem 0 0.75rem 0;
+            font-size: 1.25rem;
+            font-weight: 600;
         }
-        
+
         .blog-content p {
-            margin-bottom: 1.2rem;
+            margin-bottom: 1.25rem;
+            color: var(--color-text-tertiary, #6e6e73);
         }
-        
-        .blog-content ul {
+
+        .blog-content ul, .blog-content ol {
             margin: 1rem 0;
             padding-left: 1.5rem;
+            color: var(--color-text-tertiary, #6e6e73);
         }
-        
+
         .blog-content li {
             margin-bottom: 0.5rem;
         }
-        
+
         .blog-content strong {
-            color: #2c3e50;
+            color: var(--color-text-primary, #1d1d1f);
             font-weight: 600;
         }
-        
-        .blog-content em {
-            background-color: #f8f9fa;
-            padding: 0.2rem 0.4rem;
-            border-radius: 3px;
-            font-family: 'Courier New', monospace;
-        }
-        
+
         .figure-container {
-            margin-bottom: 2rem;
+            margin: 2rem 0;
+            background: var(--color-bg-secondary, #f5f5f7);
+            border-radius: 12px;
+            overflow: hidden;
         }
-        
+
         .blog-figure {
             width: 100%;
             height: auto;
-            margin-bottom: 0.5rem;
+            display: block;
         }
-        
+
         .figure-caption {
+            font-size: 0.85rem;
+            color: var(--color-text-secondary, #86868b);
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .context-box {
+            background: linear-gradient(135deg, rgba(0, 113, 227, 0.08) 0%, rgba(88, 86, 214, 0.08) 100%);
+            border: 1px solid rgba(0, 113, 227, 0.2);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 2rem;
             font-size: 0.9rem;
-            color: #6c757d;
         }
-        
-        .authors {
-            font-style: italic;
-            color: #6c757d;
-            margin-bottom: 1rem;
+
+        .context-box-title {
+            font-weight: 600;
+            color: var(--color-accent, #0071e3);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
-        
+
+        .context-box p {
+            margin: 0;
+            color: var(--color-text-secondary, #86868b);
+        }
+
+        .context-box a {
+            color: var(--color-accent, #0071e3);
+        }
+
         .conference-badge {
             display: inline-block;
-            background-color: #e74c3c;
+            background: #e74c3c;
             color: white;
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
-            font-size: 0.9rem;
-            margin-left: 1rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-left: 0.5rem;
         }
-        
+
         .equation {
-            background-color: #f8f9fa;
+            background: var(--color-bg-secondary, #f5f5f7);
             padding: 1rem;
             border-radius: 8px;
-            margin: 1rem 0;
+            margin: 1.5rem 0;
             text-align: center;
-            font-family: 'Courier New', monospace;
-            font-size: 1.1rem;
+            font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
+            font-size: 0.95rem;
+            color: var(--color-text-primary, #1d1d1f);
         }
-        
+
+        .key-findings {
+            background: var(--color-bg-secondary, #f5f5f7);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .key-findings h4 {
+            margin: 0 0 1rem 0;
+            color: var(--color-text-primary, #1d1d1f);
+            font-size: 1rem;
+        }
+
+        .key-findings ul {
+            margin: 0;
+            padding-left: 1.25rem;
+        }
+
         .blog-banner {
             width: 100%;
             margin-bottom: 2rem;
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        
+
         .blog-banner img {
             width: 100%;
             height: auto;
             display: block;
+        }
+
+        .series-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--color-border, #e9ecef);
+        }
+
+        .series-nav a {
+            color: var(--color-accent, #0071e3);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .series-nav a:hover {
+            opacity: 0.7;
         }
     </style>
 </head>
@@ -153,7 +221,7 @@
         <div class="nav-content">
             <div class="logo">Korneel Van den Berghe</div>
             <ul class="nav-links">
-                <li><a href="index.html#about">About Me</a></li>
+                <li><a href="index.html#about">About</a></li>
                 <li><a href="index.html#projects">Projects</a></li>
                 <li><a href="index.html#cv">CV</a></li>
             </ul>
@@ -166,140 +234,138 @@
                 <i class="fas fa-arrow-left"></i>
                 Back to Projects
             </a>
-            
+
             <div class="blog-header">
-                <h1 class="blog-title">Adaptive Surrogate Gradients for SNNs - Part 1: Surrogate Gradient Effects</h1>
-                <p class="blog-meta">Published: 2024 | Reading time: 12 min | Blog Series</p>
-                <p class="authors"><strong>Paper accepted at:</strong> NeurIPS 2025 <span class="conference-badge">Conference</span></p>
-                <p style="font-size: 0.95rem; color: #6c757d; margin-top: 1rem;">Part 1 of 3: Understanding Surrogate Gradients | <a href="blog-sequence.html" style="color: #3498db;">Part 2: Sequential RL →</a> | <a href="blog-reality-gap.html" style="color: #3498db;">Part 3: Reality Gap →</a></p>
+                <h1 class="blog-title">Adaptive Surrogate Gradients for Spiking Neural Networks</h1>
+                <p class="blog-meta">Part 1: Understanding Gradient Effects | 10 min read</p>
+                <p class="blog-meta">Accepted at NeurIPS 2025 <span class="conference-badge">Oral</span></p>
             </div>
-            
+
+            <div class="context-box">
+                <div class="context-box-title">
+                    <i class="fas fa-layer-group"></i>
+                    Research Arc
+                </div>
+                <p>This is Part 1 of 2. Builds on <a href="blog-a2c.html">foundational SNN control work</a>. Continue to <a href="blog-sequence.html">Part 2: Sequential RL & Real-World Deployment</a>.</p>
+            </div>
+
             <div class="blog-banner">
-                <img src="project_figures/surrogate_banner_collage.png" alt="Surrogate Gradients Research: Flight Trajectory, Training Performance, and Control Architecture">
+                <img src="project_figures/surrogate_banner_collage.png" alt="Surrogate Gradients Research Overview">
             </div>
-            
+
             <div class="blog-content">
-                <p>Spiking Neural Networks (SNNs) represent a promising algorithmic approach for neuromorphic computing systems, offering native temporal processing and significantly improved energy efficiency compared to conventional deep learning architectures. However, training SNNs for control tasks remains challenging due to the non-differentiable nature of spiking neurons, which complicates gradient-based optimization.</p>
-                
-                <p>This research investigates the critical role of surrogate gradients in training deep spiking neural networks, with a particular focus on how different slope settings and scheduling strategies affect training performance across supervised learning and reinforcement learning scenarios.</p>
-                
-                <h2>The Challenge of Non-Differentiable Spiking Neurons</h2>
-                <p>Spiking neurons operate by accumulating membrane potential until it exceeds a threshold, at which point they emit a discrete spike and reset their potential. This spiking behavior is inherently non-differentiable, making traditional backpropagation impossible. Surrogate gradients provide a solution by approximating the derivative of the spike function with a continuous, differentiable function.</p>
-                
-                <p>A critical hyperparameter in this process is the slope <em>k</em> of the surrogate function, which determines the sensitivity of the gradient near the spiking threshold. We adopt a fast sigmoid function and examine slope configurations ranging from shallow (<em>k = 1</em>) to steep (<em>k = 100</em>).</p>
-                
+                <p>Spiking Neural Networks (SNNs) offer native temporal processing and improved energy efficiency compared to conventional deep learning. However, training SNNs remains challenging due to the non-differentiable nature of spiking neurons. This research investigates how surrogate gradient slope settings affect training performance across supervised learning and reinforcement learning scenarios.</p>
+
+                <h2>The Non-Differentiability Problem</h2>
+                <p>Spiking neurons accumulate membrane potential until exceeding a threshold, then emit a discrete spike and reset. This spiking behavior is inherently non-differentiable, making traditional backpropagation impossible. Surrogate gradients solve this by approximating the spike function's derivative with a continuous, differentiable function.</p>
+
+                <p>A critical hyperparameter is the slope <strong>k</strong> of the surrogate function, which determines gradient sensitivity near the spiking threshold. We examine configurations ranging from shallow (k=1) to steep (k=100).</p>
+
                 <div class="figure-container">
                     <img src="project_figures/surrogate_gradients_effects.png" alt="Surrogate gradient slope effects" class="blog-figure">
-                    <p class="figure-caption"><strong>Figure 1:</strong> The slope of the surrogate gradient dictates the range of inputs for which a gradient exists. Steeper slopes closely resemble the Dirac delta function but restrict non-zero gradients to a narrow input range.</p>
+                    <p class="figure-caption">Steeper slopes closely resemble the Dirac delta but restrict non-zero gradients to a narrow input range. Shallower slopes increase gradient magnitude but introduce noise.</p>
                 </div>
-                
+
                 <h2>Gradient Propagation in Deep Networks</h2>
-                <p>Our analysis reveals that surrogate gradient slope settings have profound effects on gradient propagation through deep networks. As shown in Figure 1, steeper slopes closely resemble the Dirac delta function but restrict non-zero gradients to a narrow input range. In contrast, shallower slopes lead to a greater number of non-zero gradients and thus increase the total gradient magnitude, particularly in deeper layers.</p>
-                
+                <p>Surrogate gradient slope settings profoundly affect gradient propagation. Steeper slopes maintain gradient accuracy but restrict non-zero gradients. Shallower slopes allow more weight updates but introduce noise.</p>
+
                 <div class="figure-container">
                     <img src="project_figures/surrogate_grad_magnitude.png" alt="Gradient magnitude analysis" class="blog-figure">
-                    <p class="figure-caption"><strong>Figure 2:</strong> A more shallow slope carries the gradient deeper through the network, suffering less from vanishing gradients. The network has 4 hidden layers; layer 0 is the first hidden layer, and layer 4 is the output layer.</p>
+                    <p class="figure-caption">Shallower slopes carry gradients deeper through the network, suffering less from vanishing gradients. Layer 0 is the first hidden layer; layer 4 is the output.</p>
                 </div>
-                
-                <p>While the surrogate gradient's slope affects the quantity of weight updates per backward pass, it also introduces noise into the gradient computation. Since the true gradient for deeper network layers does not exist, we analyze the relationship between steep surrogate gradients (<em>k=100</em>), which approximate the true gradient, and shallow surrogate gradients using cosine similarity:</p>
-                
+
+                <h3>Gradient Direction Analysis</h3>
+                <p>We analyze the relationship between steep surrogate gradients (k=100), which approximate the true gradient, and shallow surrogate gradients using cosine similarity:</p>
+
                 <div class="equation">
-                    cosine similarity = (∇W_i · ∇̃W_i) / (||∇W_i|| ||∇̃W_i||)
+                    cosine similarity = (∇W · ∇̃W) / (||∇W|| ||∇̃W||)
                 </div>
-                
+
                 <div class="figure-container">
                     <img src="project_figures/surrogate_cosine_similarity.png" alt="Cosine similarity analysis" class="blog-figure">
-                    <p class="figure-caption"><strong>Figure 3:</strong> A shallower slope introduces bias and variance, computed using the cosine similarity. The cosine similarity for shallow slopes reduces to 0, meaning weight updates in deeper networks become essentially random.</p>
+                    <p class="figure-caption">Shallower slopes introduce bias and variance. At shallow slopes, cosine similarity approaches zero—weight updates in deep networks become essentially random.</p>
                 </div>
-                
-                <h2>Surrogate Gradients Across Learning Regimes</h2>
-                <p>We analyze the effect of surrogate gradient slope choices across both fully supervised learning, behavioral cloning (BC), and fully online training algorithms like TD3. To eliminate the effect of warm-up periods during training for this analysis, we stack a history of observations, process multiple forward passes per observation, and reset the SNN between subsequent actions.</p>
-                
-                <h3>Supervised Learning Results</h3>
-                <p>In supervised learning, final performance is largely unaffected by the surrogate slope setting, though training dynamics vary significantly:</p>
+
+                <h2>Supervised vs. Reinforcement Learning</h2>
+                <p>The optimal slope setting varies significantly between learning paradigms:</p>
+
+                <h3>Supervised Learning</h3>
+                <p>Final performance is largely unaffected by slope setting, though training dynamics vary:</p>
                 <ul>
-                    <li><strong>Shallow slopes</strong> add noise, requiring more updates but potentially improving exploration</li>
-                    <li><strong>Steep slopes</strong> yield small gradient magnitudes, slowing progress but maintaining gradient accuracy</li>
-                    <li><strong>Intermediate slopes</strong> provide a balance between gradient magnitude and accuracy</li>
+                    <li><strong>Shallow slopes:</strong> Add noise, require more updates, potentially improve exploration</li>
+                    <li><strong>Steep slopes:</strong> Small gradient magnitudes slow progress but maintain accuracy</li>
+                    <li><strong>Intermediate slopes:</strong> Balance between magnitude and accuracy</li>
                 </ul>
-                
-                <h3>Reinforcement Learning Results</h3>
-                <p>In online reinforcement learning, we observed a pronounced preference for much shallower slopes. The reduced cosine similarity between true and surrogate gradients introduces noise that naturally enhances exploration, similar to parameter noise techniques. However, this comes with trade-offs:</p>
+
+                <h3>Reinforcement Learning</h3>
+                <p>Online RL shows pronounced preference for shallower slopes. The reduced cosine similarity introduces noise that naturally enhances exploration, similar to parameter noise techniques. However:</p>
                 <ul>
-                    <li><strong>Higher variability</strong> in final performance across runs</li>
-                    <li><strong>Increased risk</strong> of poor intermediate updates corrupting the replay buffer</li>
-                    <li><strong>Less stable training</strong> due to the heightened risk of low-quality experiences</li>
+                    <li>Higher variability in final performance across runs</li>
+                    <li>Increased risk of poor updates corrupting the replay buffer</li>
+                    <li>Less stable training due to low-quality experiences</li>
                 </ul>
-                
+
                 <h2>Adaptive Slope Scheduling</h2>
-                <p>Beyond fixed slope settings, we investigate two scheduling methods for the surrogate gradient slope:</p>
-                
+                <p>Beyond fixed slopes, we investigate two scheduling methods:</p>
+
                 <h3>1. Interval Scheduling</h3>
-                <p>Gradually changes the slope from 1 to 100 at a fixed interval during training. This approach provides a systematic transition from exploration-friendly shallow slopes to more accurate steep slopes.</p>
-                
+                <p>Gradually changes slope from 1 to 100 at fixed intervals during training—systematic transition from exploration-friendly shallow slopes to accurate steep slopes.</p>
+
                 <h3>2. Adaptive Scheduling</h3>
-                <p>Uses a weighted sum of the low-passed first-order derivative of the reward score history and the low-passed reward score itself:</p>
-                
+                <p>Uses a weighted sum of reward score history and its derivative:</p>
+
                 <div class="equation">
-                    k_t = (1/10) Σ[i=0 to 9] [0.5 r_{t-i} + 0.5 r'_{t-i}]
+                    k_t = (1/10) Σ [0.5 r_{t-i} + 0.5 r'_{t-i}]
                 </div>
-                
-                <p>Where <em>k_t</em> is the slope at time <em>t</em>, <em>r_{t-i}</em> is the reward score at time <em>t-i</em>, and <em>r'_{t-i}</em> is the first-order derivative of the reward score at time <em>t-i</em>. The proportional term is largely responsible for not decreasing the slope when maximum performance is reached, preventing the destruction of progress.</p>
-                
+
+                <p>The proportional term prevents slope decrease when maximum performance is reached, avoiding destruction of progress.</p>
+
                 <div class="figure-container">
                     <img src="project_figures/surrogate_time_to_100.png" alt="Training efficiency comparison" class="blog-figure">
-                    <p class="figure-caption"><strong>Figure 4:</strong> Scheduled slope settings improve training efficiency, greatly reducing the number of epochs to reach a reward of 100.</p>
+                    <p class="figure-caption">Scheduled slope settings significantly reduce epochs needed to reach reward=100.</p>
                 </div>
-                
+
                 <div class="figure-container">
                     <img src="project_figures/surrogate_best_performance.png" alt="Final performance comparison" class="blog-figure">
-                    <p class="figure-caption"><strong>Figure 5:</strong> Final performance of trained agents lies in the same regime as fixed slope experiments, but with improved training efficiency.</p>
+                    <p class="figure-caption">Final performance matches fixed-slope experiments, but with improved training efficiency.</p>
                 </div>
-                
-                <h2>Key Findings and Implications</h2>
-                <p>Our research reveals several important insights about surrogate gradients in deep spiking neural networks:</p>
-                
-                <ul>
-                    <li><strong>Training Efficiency:</strong> Scheduled slope settings significantly improve training efficiency, reducing the number of epochs needed to reach target performance</li>
-                    <li><strong>Performance Parity:</strong> Final performance of agents trained with scheduled slopes matches those trained with fixed optimal slopes</li>
-                    <strong>Hyperparameter Optimization:</strong> Scheduled approaches can eliminate the need for exhaustive hyperparameter sweeps across different slope settings</li>
-                    <li><strong>Learning Regime Dependence:</strong> The optimal slope setting varies significantly between supervised learning and reinforcement learning scenarios</li>
-                    <li><strong>Exploration vs. Accuracy Trade-off:</strong> Shallow slopes enhance exploration but introduce noise, while steep slopes maintain accuracy but may limit exploration</li>
-                </ul>
-                
+
+                <h2>Key Findings</h2>
+
+                <div class="key-findings">
+                    <h4>Summary</h4>
+                    <ul>
+                        <li><strong>Training Efficiency:</strong> Scheduled slopes reduce epochs needed to reach target performance</li>
+                        <li><strong>Performance Parity:</strong> Scheduled slopes match optimal fixed slopes</li>
+                        <li><strong>No Hyperparameter Sweeps:</strong> Scheduling eliminates need for exhaustive slope tuning</li>
+                        <li><strong>Learning Regime Dependence:</strong> Optimal slopes differ between SL and RL</li>
+                        <li><strong>Exploration vs. Accuracy:</strong> Shallow slopes enhance exploration but introduce noise</li>
+                    </ul>
+                </div>
+
                 <h2>Practical Recommendations</h2>
-                <p>Based on our findings, we recommend the following approaches for training spiking neural networks:</p>
-                
+
                 <h3>For Supervised Learning</h3>
-                <p>Use steep slopes (<em>k = 50-100</em>) or scheduled slopes that transition from shallow to steep during training. The focus should be on maintaining gradient accuracy while ensuring sufficient gradient flow.</p>
-                
+                <p>Use steep slopes (k=50-100) or scheduled slopes transitioning from shallow to steep. Focus on gradient accuracy while ensuring sufficient gradient flow.</p>
+
                 <h3>For Reinforcement Learning</h3>
-                <p>Use shallow slopes (<em>k = 1-10</em>) or adaptive scheduling that responds to training progress. The additional noise introduced by shallow slopes can enhance exploration, which is crucial for RL tasks.</p>
-                
+                <p>Use shallow slopes (k=1-10) or adaptive scheduling responding to training progress. The added noise enhances exploration, crucial for RL tasks.</p>
+
                 <h3>For Unknown Scenarios</h3>
-                <p>When the optimal slope setting is unclear, use adaptive scheduling to automatically adjust the slope based on training progress. This approach provides a robust solution that adapts to the specific characteristics of the task and network architecture.</p>
-                
-                <h2>Future Research Directions</h2>
-                <p>Several promising avenues for future work have been identified:</p>
-                <ul>
-                    <li><strong>Task-Specific Scheduling:</strong> Developing scheduling strategies tailored to specific task characteristics and network architectures</li>
-                    <li><strong>Multi-Objective Optimization:</strong> Balancing exploration, accuracy, and training stability in a unified framework</li>
-                    <li><strong>Hardware-Aware Training:</strong> Optimizing surrogate gradient settings for specific neuromorphic hardware platforms</li>
-                    <li><strong>Theoretical Analysis:</strong> Developing theoretical frameworks to predict optimal slope settings based on network architecture and task complexity</li>
-                </ul>
-                
-                <h2>Impact and Significance</h2>
-                <p>This work advances both the theoretical understanding of surrogate gradients in spiking neural networks and provides practical methodologies for training neuromorphic controllers. The insights gained from this research have important implications for the development of energy-efficient, temporally-aware neural networks for real-world applications.</p>
-                
-                <p>The findings contribute to the broader goal of making spiking neural networks more accessible and effective for complex control tasks, particularly in resource-constrained environments where energy efficiency is critical.</p>
+                <p>Use adaptive scheduling to automatically adjust based on training progress—robust solution adapting to task and architecture characteristics.</p>
+
+                <div class="series-nav">
+                    <a href="blog-a2c.html"><i class="fas fa-arrow-left"></i> Previous: SNN Foundations</a>
+                    <a href="blog-sequence.html">Next: Sequential RL & Deployment <i class="fas fa-arrow-right"></i></a>
+                </div>
             </div>
         </div>
     </main>
 
     <footer>
         <div class="container">
-            <p>&copy; 2024 Korneel Vandenberghe. All rights reserved.</p>
+            <p>&copy; 2025 Korneel Van den Berghe. All rights reserved.</p>
         </div>
     </footer>
 </body>
-</html> 
+</html>

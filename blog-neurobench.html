@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroBench: Neuromorphic Benchmarking - Korneel Vandenberghe</title>
+    <title>NeuroBench: Closed-Loop Benchmarking Tutorial - Korneel Van den Berghe</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -12,84 +12,240 @@
             margin: 0 auto;
             padding: 2rem;
         }
-        
+
         .blog-header {
             text-align: center;
             margin-bottom: 3rem;
             padding-bottom: 2rem;
-            border-bottom: 2px solid #e9ecef;
+            border-bottom: 1px solid var(--color-border, #e9ecef);
         }
-        
+
         .blog-title {
             font-size: 2.5rem;
-            color: #2c3e50;
+            color: var(--color-text-primary, #1d1d1f);
             margin-bottom: 1rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
         }
-        
+
         .blog-meta {
-            color: #6c757d;
-            font-size: 1.1rem;
+            color: var(--color-text-secondary, #86868b);
+            font-size: 0.95rem;
             margin-bottom: 1rem;
         }
-        
+
         .back-link {
             display: inline-flex;
             align-items: center;
-            color: #3498db;
+            color: var(--color-accent, #0071e3);
             text-decoration: none;
             font-weight: 500;
             margin-bottom: 2rem;
-            transition: color 0.3s ease;
+            font-size: 0.95rem;
+            transition: opacity 0.2s ease;
         }
-        
+
         .back-link:hover {
-            color: #2980b9;
+            opacity: 0.7;
         }
-        
+
         .back-link i {
             margin-right: 0.5rem;
         }
-        
+
         .blog-content {
-            line-height: 1.8;
-            font-size: 1.1rem;
+            line-height: 1.7;
+            font-size: 1.05rem;
+            color: var(--color-text-primary, #1d1d1f);
         }
-        
+
         .blog-content h2 {
-            color: #2c3e50;
-            margin: 2rem 0 1rem 0;
-            font-size: 1.8rem;
+            color: var(--color-text-primary, #1d1d1f);
+            margin: 2.5rem 0 1rem 0;
+            font-size: 1.75rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
         }
-        
+
         .blog-content h3 {
-            color: #2c3e50;
-            margin: 1.5rem 0 0.8rem 0;
-            font-size: 1.4rem;
+            color: var(--color-text-primary, #1d1d1f);
+            margin: 2rem 0 0.75rem 0;
+            font-size: 1.25rem;
+            font-weight: 600;
         }
-        
+
         .blog-content p {
-            margin-bottom: 1.2rem;
+            margin-bottom: 1.25rem;
+            color: var(--color-text-tertiary, #6e6e73);
         }
-        
-        .blog-content ul {
+
+        .blog-content ul, .blog-content ol {
             margin: 1rem 0;
             padding-left: 1.5rem;
+            color: var(--color-text-tertiary, #6e6e73);
         }
-        
+
         .blog-content li {
             margin-bottom: 0.5rem;
         }
-        
+
         .blog-content strong {
-            color: #2c3e50;
+            color: var(--color-text-primary, #1d1d1f);
             font-weight: 600;
         }
-        
-        .blog-content em {
-            background-color: #f8f9fa;
-            padding: 0.2rem 0.4rem;
-            border-radius: 3px;
-            font-family: 'Courier New', monospace;
+
+        .blog-content a {
+            color: var(--color-accent, #0071e3);
+        }
+
+        .figure-container {
+            margin: 2rem 0;
+            background: var(--color-bg-secondary, #f5f5f7);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .blog-figure {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .figure-caption {
+            font-size: 0.85rem;
+            color: var(--color-text-secondary, #86868b);
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .publication-badge {
+            display: inline-block;
+            background: var(--color-accent, #0071e3);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-left: 0.5rem;
+        }
+
+        .key-findings {
+            background: var(--color-bg-secondary, #f5f5f7);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .key-findings h4 {
+            margin: 0 0 1rem 0;
+            color: var(--color-text-primary, #1d1d1f);
+            font-size: 1rem;
+        }
+
+        .key-findings ul {
+            margin: 0;
+            padding-left: 1.25rem;
+        }
+
+        .blog-banner {
+            width: 100%;
+            margin-bottom: 2rem;
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            background: var(--color-bg-secondary, #f5f5f7);
+            padding: 2rem;
+        }
+
+        .blog-banner img {
+            max-width: 400px;
+            height: auto;
+            display: block;
+        }
+
+        .code-block {
+            background: #1d1d1f;
+            color: #f5f5f7;
+            padding: 1.25rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+
+        .code-block .comment {
+            color: #6e6e73;
+        }
+
+        .code-block .keyword {
+            color: #ff7b72;
+        }
+
+        .code-block .string {
+            color: #a5d6ff;
+        }
+
+        .code-block .function {
+            color: #d2a8ff;
+        }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .metric-card {
+            background: var(--color-bg-secondary, #f5f5f7);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .metric-card h5 {
+            font-size: 0.8rem;
+            color: var(--color-text-secondary, #86868b);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .metric-card .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-text-primary, #1d1d1f);
+        }
+
+        .metric-card .unit {
+            font-size: 0.85rem;
+            color: var(--color-text-secondary, #86868b);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--color-border, #e9ecef);
+        }
+
+        .comparison-table th {
+            background: var(--color-bg-secondary, #f5f5f7);
+            font-weight: 600;
+            color: var(--color-text-primary, #1d1d1f);
+        }
+
+        .comparison-table td {
+            color: var(--color-text-tertiary, #6e6e73);
         }
     </style>
 </head>
@@ -98,7 +254,7 @@
         <div class="nav-content">
             <div class="logo">Korneel Van den Berghe</div>
             <ul class="nav-links">
-                <li><a href="index.html#about">About Me</a></li>
+                <li><a href="index.html#about">About</a></li>
                 <li><a href="index.html#projects">Projects</a></li>
                 <li><a href="index.html#cv">CV</a></li>
             </ul>
@@ -111,120 +267,216 @@
                 <i class="fas fa-arrow-left"></i>
                 Back to Projects
             </a>
-            
+
             <div class="blog-header">
-                <h1 class="blog-title">NeuroBench: Establishing Standards in Neuromorphic Computing</h1>
-                <p class="blog-meta">Published: November 2024 | Reading time: 12 min | Research Project</p>
+                <h1 class="blog-title">NeuroBench: Closed-Loop Benchmarking for Neuromorphic Control</h1>
+                <p class="blog-meta">Tutorial & Framework Contribution | 10 min read</p>
+                <p class="blog-meta">
+                    Nature Communications <span class="publication-badge">Published</span>
+                    ASPLOS 2025 <span class="publication-badge">Accepted</span>
+                </p>
             </div>
-            
+
+            <div class="blog-banner">
+                <img src="project_figures/neurobench_logo_light.jpeg" alt="NeuroBench Framework">
+            </div>
+
             <div class="blog-content">
-                <p>Neuromorphic computing has emerged as a promising approach to energy-efficient artificial intelligence, but the field has lacked standardized benchmarking methodologies. This project introduces NeuroBench, a comprehensive framework for evaluating neuromorphic algorithms across multiple dimensions.</p>
-                
-                <h2>The Need for Standardized Benchmarking</h2>
-                <p>As neuromorphic computing gains traction, researchers and practitioners need reliable ways to compare different approaches. Traditional benchmarks often fail to capture the unique characteristics of neuromorphic systems, such as temporal dynamics, energy efficiency, and biological plausibility.</p>
-                
-                <p>The absence of standardized evaluation methods has hindered progress in the field, making it difficult to:</p>
+                <p>NeuroBench is a collaborative benchmarking framework for neuromorphic computing, published in Nature Communications. My contribution focuses on <strong>closed-loop benchmarking</strong>—evaluating neuromorphic algorithms in real-time control scenarios where the network interacts with an environment over time.</p>
+
+                <p>This work addresses a critical gap: most neuromorphic benchmarks evaluate single-shot inference (image classification, keyword spotting), but real-world applications like robotics require temporal processing and continuous interaction.</p>
+
+                <h2>Why Closed-Loop Benchmarking?</h2>
+
+                <p>Traditional benchmarks measure accuracy on static datasets. But for control tasks, what matters is:</p>
+
                 <ul>
-                    <li>Compare different neuromorphic algorithms fairly</li>
-                    <li>Reproduce and validate research results</li>
-                    <li>Identify the most promising approaches for specific applications</li>
-                    <li>Guide hardware and software development priorities</li>
+                    <li><strong>Temporal processing:</strong> Can the network maintain state across timesteps?</li>
+                    <li><strong>Real-time performance:</strong> Can inference happen within control loop constraints?</li>
+                    <li><strong>Energy efficiency:</strong> What's the cost per decision in a continuous loop?</li>
+                    <li><strong>Sparsity utilization:</strong> Does the network leverage spike sparsity effectively?</li>
                 </ul>
-                
-                <h2>NeuroBench Framework Overview</h2>
-                <p>NeuroBench provides a unified platform for benchmarking that includes:</p>
+
+                <p>The closed-loop benchmark captures these dimensions by evaluating networks in simulated control environments where actions affect future observations.</p>
+
+                <h2>Key Metrics</h2>
+
+                <p>The NeuroBench closed-loop benchmark evaluates networks across multiple dimensions:</p>
+
+                <div class="metric-grid">
+                    <div class="metric-card">
+                        <h5>Task Performance</h5>
+                        <div class="value">Reward</div>
+                        <div class="unit">cumulative score</div>
+                    </div>
+                    <div class="metric-card">
+                        <h5>Activation Sparsity</h5>
+                        <div class="value">0-100%</div>
+                        <div class="unit">inactive neurons</div>
+                    </div>
+                    <div class="metric-card">
+                        <h5>Synaptic Operations</h5>
+                        <div class="value">MACs/ACs</div>
+                        <div class="unit">per inference</div>
+                    </div>
+                    <div class="metric-card">
+                        <h5>Memory Footprint</h5>
+                        <div class="value">KB</div>
+                        <div class="unit">model size</div>
+                    </div>
+                </div>
+
+                <h3>Why These Metrics Matter</h3>
+
                 <ul>
-                    <li><strong>Task Diversity:</strong> Multiple benchmark tasks covering different aspects of neuromorphic computing</li>
-                    <li><strong>Fair Evaluation:</strong> Standardized evaluation metrics and protocols</li>
-                    <li><strong>Reproducibility:</strong> Open-source implementations and detailed documentation</li>
-                    <li><strong>Community Engagement:</strong> Collaborative development and continuous improvement</li>
+                    <li><strong>Activation Sparsity:</strong> SNNs achieve high sparsity (often 70-90%), enabling energy-efficient neuromorphic hardware execution</li>
+                    <li><strong>MACs vs ACs:</strong> Multiply-accumulates (MACs) are expensive; accumulates (ACs) are cheap. SNNs convert MACs to ACs after encoding layers</li>
+                    <li><strong>Effective Operations:</strong> Sparsity × Dense Ops = Effective Ops. This captures real computational cost</li>
                 </ul>
-                
-                <h2>Implementation Details</h2>
-                <p>The framework is built with modularity and extensibility in mind. Each benchmark task is implemented as a separate module, allowing researchers to easily add new tasks or modify existing ones.</p>
-                
-                <h3>Key Features</h3>
+
+                <h2>Example: Drone Control Benchmark</h2>
+
+                <p>I used the closed-loop benchmark to evaluate my SNN drone controllers (see <a href="blog-sequence.html">Sequential RL post</a>). Here's how an ANN and SNN compare:</p>
+
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>ANN (64-64)</th>
+                            <th>SNN (256-128)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Task Reward</td>
+                            <td>447</td>
+                            <td>446</td>
+                        </tr>
+                        <tr>
+                            <td>Activation Sparsity</td>
+                            <td>0%</td>
+                            <td><strong>79%</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Dense SynOps</td>
+                            <td>13.7k</td>
+                            <td>37.9k</td>
+                        </tr>
+                        <tr>
+                            <td>Effective MACs</td>
+                            <td>13.7k</td>
+                            <td><strong>4.6k</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Effective ACs</td>
+                            <td>0</td>
+                            <td>12.2k</td>
+                        </tr>
+                        <tr>
+                            <td>Memory Footprint</td>
+                            <td>55.3 KB</td>
+                            <td>158.3 KB</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="key-findings">
+                    <h4>Key Insight</h4>
+                    <p style="margin: 0; color: var(--color-text-tertiary);">Despite more parameters, the SNN uses <strong>66% fewer effective MACs</strong> due to 79% sparsity. The remaining operations are energy-efficient ACs. On neuromorphic hardware, this translates to significant power savings.</p>
+                </div>
+
+                <h2>Using NeuroBench</h2>
+
+                <p>The framework is designed to be easy to use. Here's a minimal example for evaluating a model:</p>
+
+                <div class="code-block">
+<span class="keyword">from</span> neurobench.benchmarks <span class="keyword">import</span> Benchmark
+<span class="keyword">from</span> neurobench.metrics <span class="keyword">import</span> (
+    activation_sparsity,
+    synaptic_operations,
+    effective_macs,
+    model_footprint
+)
+
+<span class="comment"># Define metrics to compute</span>
+metrics = [
+    activation_sparsity,
+    synaptic_operations,
+    effective_macs,
+    model_footprint
+]
+
+<span class="comment"># Create benchmark with your model and environment</span>
+benchmark = Benchmark(
+    model=your_snn_model,
+    environment=<span class="string">"CartPole-v1"</span>,
+    metrics=metrics
+)
+
+<span class="comment"># Run evaluation</span>
+results = benchmark.evaluate(num_episodes=<span class="string">100</span>)
+<span class="function">print</span>(results.summary())
+                </div>
+
+                <h2>Benchmark Tasks</h2>
+
+                <p>The closed-loop benchmark includes several control environments:</p>
+
                 <ul>
-                    <li>Automated evaluation pipelines</li>
-                    <li>Comprehensive reporting tools</li>
-                    <li>Integration with popular neuromorphic simulators</li>
-                    <li>Performance visualization and analysis</li>
-                    <li>Cross-platform compatibility</li>
-                    <li>Extensive documentation and tutorials</li>
+                    <li><strong>CartPole:</strong> Classic balance task, good for quick iteration</li>
+                    <li><strong>LunarLander:</strong> Continuous control with sparse rewards</li>
+                    <li><strong>Quadrotor Control:</strong> Complex dynamics, real-world transfer potential</li>
+                    <li><strong>Custom Environments:</strong> Gymnasium-compatible environments supported</li>
                 </ul>
-                
-                <h3>Benchmark Categories</h3>
-                <p>NeuroBench covers several key areas of neuromorphic computing:</p>
+
+                <h2>My Contributions</h2>
+
+                <p>As a co-author on NeuroBench, I contributed:</p>
+
                 <ul>
-                    <li><strong>Classification Tasks:</strong> Image and audio classification using event-based data</li>
-                    <li><strong>Control Systems:</strong> Robotic control and autonomous navigation</li>
-                    <li><strong>Signal Processing:</strong> Real-time signal analysis and filtering</li>
-                    <li><strong>Memory and Learning:</strong> Temporal pattern recognition and sequence learning</li>
+                    <li><strong>Closed-loop benchmark design:</strong> Metrics and evaluation protocols for control tasks</li>
+                    <li><strong>Tutorial implementation:</strong> Complete walkthrough for evaluating SNN controllers</li>
+                    <li><strong>Drone control case study:</strong> Demonstration of benchmark on real research</li>
+                    <li><strong>Community engagement:</strong> Presented at Neuromorphics Netherlands 2024 and ASPLOS 2025</li>
                 </ul>
-                
-                <h2>Technical Architecture</h2>
-                <p>The framework is designed to be both powerful and accessible:</p>
-                
-                <h3>Modular Design</h3>
-                <p>Each component of NeuroBench is designed as a separate module, making it easy to extend and customize. This includes:</p>
+
+                <h2>Publications</h2>
+
+                <div class="key-findings">
+                    <h4>Associated Papers</h4>
+                    <ul>
+                        <li><strong>NeuroBench: Advancing Neuromorphic Computing through Collaborative Benchmarking</strong> — Nature Communications, NICE 2024</li>
+                        <li><strong>NeuroBench: Closed Loop Benchmarking</strong> — Neuromorphics Netherlands 2024, ASPLOS 2025</li>
+                    </ul>
+                </div>
+
+                <h2>Resources</h2>
+
                 <ul>
-                    <li>Task definitions and data loaders</li>
-                    <li>Evaluation metrics and scoring systems</li>
-                    <li>Hardware interface adapters</li>
-                    <li>Result aggregation and reporting</li>
+                    <li><strong>Framework:</strong> <a href="https://github.com/NeuroBench/neurobench" target="_blank">github.com/NeuroBench/neurobench</a></li>
+                    <li><strong>Documentation:</strong> <a href="https://neurobench.ai" target="_blank">neurobench.ai</a></li>
+                    <li><strong>Tutorial Notebook:</strong> Available in the NeuroBench repository</li>
                 </ul>
-                
-                <h3>Cross-Platform Support</h3>
-                <p>NeuroBench supports multiple neuromorphic platforms and simulators, including:</p>
+
+                <h2>Using NeuroBench in Your Research</h2>
+
+                <p>If you're developing neuromorphic control algorithms, NeuroBench provides standardized evaluation that enables fair comparison with other approaches. The closed-loop benchmark is particularly relevant for:</p>
+
                 <ul>
-                    <li>Intel Loihi</li>
-                    <li>IBM TrueNorth</li>
-                    <li>BrainChip Akida</li>
-                    <li>Various software simulators</li>
+                    <li>Robotics researchers evaluating SNN controllers</li>
+                    <li>Hardware developers quantifying neuromorphic advantages</li>
+                    <li>Algorithm researchers comparing training methods</li>
                 </ul>
-                
-                <h2>Impact and Adoption</h2>
-                <p>Since its release, NeuroBench has been adopted by multiple research groups and has facilitated more rigorous comparisons between different neuromorphic approaches. The framework continues to evolve based on community feedback and emerging research directions.</p>
-                
-                <h3>Community Contributions</h3>
-                <p>The open-source nature of NeuroBench has encouraged contributions from researchers worldwide, leading to:</p>
-                <ul>
-                    <li>New benchmark tasks and datasets</li>
-                    <li>Improved evaluation metrics</li>
-                    <li>Better documentation and tutorials</li>
-                    <li>Integration with additional platforms</li>
-                </ul>
-                
-                <h3>Research Impact</h3>
-                <p>NeuroBench has been cited in numerous research papers and has helped establish more rigorous evaluation standards in the neuromorphic computing community. It has facilitated:</p>
-                <ul>
-                    <li>Fairer comparisons between different approaches</li>
-                    <li>More reproducible research results</li>
-                    <li>Better identification of promising research directions</li>
-                    <li>Improved collaboration between research groups</li>
-                </ul>
-                
-                <h2>Future Directions</h2>
-                <p>The NeuroBench project continues to evolve with several planned improvements:</p>
-                <ul>
-                    <li><strong>Expanded Task Coverage:</strong> Adding more diverse benchmark tasks</li>
-                    <li><strong>Real-time Evaluation:</strong> Supporting real-time performance assessment</li>
-                    <li><strong>Hardware Integration:</strong> Improved support for emerging neuromorphic hardware</li>
-                    <li><strong>Community Tools:</strong> Enhanced collaboration and sharing features</li>
-                </ul>
-                
-                <h2>Conclusion</h2>
-                <p>NeuroBench represents a significant step forward in establishing standards for neuromorphic computing research. By providing a comprehensive, fair, and reproducible benchmarking framework, it has helped accelerate progress in the field and fostered better collaboration between researchers.</p>
-                
-                <p>The framework's success demonstrates the importance of standardized evaluation methods in emerging computing paradigms and serves as a model for similar initiatives in other areas of AI research.</p>
+
+                <p>The framework handles metric computation, so you can focus on algorithm development while ensuring reproducible, comparable results.</p>
             </div>
         </div>
     </main>
 
     <footer>
         <div class="container">
-            <p>&copy; 2024 Korneel Vandenberghe. All rights reserved.</p>
+            <p>&copy; 2025 Korneel Van den Berghe. All rights reserved.</p>
         </div>
     </footer>
 </body>
-</html> 
+</html>

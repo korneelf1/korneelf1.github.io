@@ -69,35 +69,33 @@
                     </div>
 
                     <div class="projects-grid">
-                        <!-- Project 1: A2C Spiking -->
+                        <!-- Project 1: NeurIPS 2025 - Surrogate Gradients (Featured) -->
                         <article class="project-card fade-in">
                             <div class="project-image-wrapper">
-                                <img src="project_figures/a2c_training_3models.png" alt="Training comparison of ANN vs SNN">
+                                <img src="project_figures/surrogate_crazyflie_flight.png" alt="Crazyflie drone flight with SNN controller">
                             </div>
                             <div class="project-content">
-                                <span class="project-tag">Neuromorphic AI</span>
-                                <h3 class="project-title">A2C with Spiking Neural Networks</h3>
-                                <p class="project-description">Implementation of Actor-Critic reinforcement learning using spiking neural networks, exploring neuromorphic computation for energy-efficient RL agents.</p>
+                                <span class="project-tag">NeurIPS 2025 Oral</span>
+                                <h3 class="project-title">Adaptive Surrogate Gradients for SNNs</h3>
+                                <p class="project-description">Training spiking neural networks for real-world drone control. Covers gradient scheduling, the warm-up period challenge, and zero-shot sim-to-real transfer.</p>
                                 <div class="project-links">
-                                    <a href="blog-a2c.html" class="project-link">Read More</a>
-                                    <a href="https://github.com/korneelf1/SpikingA2C" target="_blank" class="project-link project-link-secondary">
-                                        <i class="fab fa-github"></i> GitHub
-                                    </a>
+                                    <a href="blog-surrogate.html" class="project-link">Part 1: Gradients</a>
+                                    <a href="blog-sequence.html" class="project-link">Part 2: RL & Deployment</a>
                                 </div>
                             </div>
                         </article>
 
-                        <!-- Project 2: Drone Landing -->
+                        <!-- Project 2: SNN Foundations -->
                         <article class="project-card fade-in">
                             <div class="project-image-wrapper">
-                                <img src="project_figures/Drone_Landing_Burst.png" alt="Drone landing with SNN control">
+                                <img src="project_figures/Drone_Landing_Burst.png" alt="SNN drone landing control">
                             </div>
                             <div class="project-content">
-                                <span class="project-tag">Robotics</span>
-                                <h3 class="project-title">SNN Drone Landing Control</h3>
-                                <p class="project-description">Real-world application of spiking neural networks for autonomous drone landing, building on A2C research. Presented at ICNCE 2024.</p>
+                                <span class="project-tag">ICNCE 2024</span>
+                                <h3 class="project-title">SNNs for Reinforcement Learning Control</h3>
+                                <p class="project-description">Foundational work comparing spiking vs non-spiking networks in A2C, from CartPole benchmarks to real-world drone landing on the Bebop 2.</p>
                                 <div class="project-links">
-                                    <a href="blog-cno-poster.html" class="project-link">Read More</a>
+                                    <a href="blog-a2c.html" class="project-link">Read More</a>
                                     <a href="https://github.com/korneelf1/SpikingA2C" target="_blank" class="project-link project-link-secondary">
                                         <i class="fab fa-github"></i> GitHub
                                     </a>
@@ -111,9 +109,9 @@
                                 <img src="project_figures/neurobench_logo_light.jpeg" alt="NeuroBench framework">
                             </div>
                             <div class="project-content">
-                                <span class="project-tag">Benchmarking</span>
-                                <h3 class="project-title">NeuroBench Framework</h3>
-                                <p class="project-description">A closed-loop tutorial demonstrating neuromorphic benchmarking using the NeuroBench framework for fair evaluation of neuromorphic algorithms.</p>
+                                <span class="project-tag">Nature Comms</span>
+                                <h3 class="project-title">NeuroBench: Closed-Loop Benchmarking</h3>
+                                <p class="project-description">My contribution to the NeuroBench framework: metrics and evaluation protocols for neuromorphic control tasks. Published in Nature Communications.</p>
                                 <div class="project-links">
                                     <a href="blog-neurobench.html" class="project-link">Read More</a>
                                     <a href="https://github.com/NeuroBench/neurobench" target="_blank" class="project-link project-link-secondary">
@@ -129,31 +127,14 @@
                                 <img src="project_figures/a2perf_envs.png" alt="A2Perf benchmark environments">
                             </div>
                             <div class="project-content">
-                                <span class="project-tag">Benchmarking</span>
+                                <span class="project-tag">AAMAS 2026</span>
                                 <h3 class="project-title">A2Perf: Autonomous Agents Benchmark</h3>
-                                <p class="project-description">Comprehensive benchmarking suite for autonomous agents with real-world domains: chip floorplanning, web navigation, and quadruped locomotion. Accepted at TMLR.</p>
+                                <p class="project-description">Benchmarking suite for autonomous agents with real-world domains: chip floorplanning, web navigation, and quadruped locomotion.</p>
                                 <div class="project-links">
                                     <a href="blog-a2perf.html" class="project-link">Read More</a>
                                     <a href="https://github.com/Farama-Foundation/A2Perf" target="_blank" class="project-link project-link-secondary">
                                         <i class="fab fa-github"></i> GitHub
                                     </a>
-                                </div>
-                            </div>
-                        </article>
-
-                        <!-- Project 5: Surrogate Gradients -->
-                        <article class="project-card fade-in">
-                            <div class="project-image-wrapper">
-                                <img src="project_figures/surrogate_crazyflie_flight.png" alt="Crazyflie drone flight">
-                            </div>
-                            <div class="project-content">
-                                <span class="project-tag">NeurIPS 2025</span>
-                                <h3 class="project-title">Adaptive Surrogate Gradients for SNNs</h3>
-                                <p class="project-description">A 3-part series on training spiking neural networks with adaptive surrogate gradients. Covers gradient effects, sequential RL, and real-world deployment.</p>
-                                <div class="project-links">
-                                    <a href="blog-surrogate.html" class="project-link">Part 1: Gradients</a>
-                                    <a href="blog-sequence.html" class="project-link">Part 2: Sequential RL</a>
-                                    <a href="blog-reality-gap.html" class="project-link">Part 3: Reality Gap</a>
                                 </div>
                             </div>
                         </article>
