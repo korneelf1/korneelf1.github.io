@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Korneel Vandenberghe - Personal Website</title>
+    <title>Korneel Van den Berghe</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -12,7 +12,7 @@
         <div class="nav-content">
             <div class="logo">Korneel Van den Berghe</div>
             <ul class="nav-links">
-                <li><a href="#about" class="active">About Me</a></li>
+                <li><a href="#about" class="active">About</a></li>
                 <li><a href="#projects">Projects</a></li>
                 <li><a href="#cv">CV</a></li>
             </ul>
@@ -20,245 +20,299 @@
     </nav>
 
     <main>
+        <!-- About Section - Hero Style -->
         <section id="about" class="section active">
-            <div class="container">
-                <h1>About Me</h1>
-                <div class="about-content">
-                    <div class="profile-image">
-                        <img src="images/headshot.JPG" alt="Korneel Vandenberghe" class="profile-img">
+            <div class="hero">
+                <div class="hero-profile fade-in">
+                    <img src="images/headshot.JPG" alt="Korneel Van den Berghe" class="hero-image">
+                </div>
+                <div class="hero-content">
+                    <div class="announcement fade-in stagger-1">
+                        <span class="announcement-badge">New</span>
+                        <span>Presenting at NeurIPS 2025</span>
                     </div>
-                    <div class="about-text">
-                        <h2>Welcome to my personal website!</h2>
-                        <p>I'm a Machine Learning Robotics Engineer with 4+ years of experience in reinforcement learning, autonomous systems, and neuromorphic computing. I'm passionate about building intelligent agents that interact with the physical world, with a track record of deploying models to embedded systems and real-time hardware.</p>
-                        <p>Currently, I'm an AI Engineer and researcher at Harbor AI in New York City, where I develop models for dynamic insurance price optimization and build scalable MLOps infrastructure. I recently completed my Master's in Aerospace Engineering at TU Delft and conducted visiting research at Harvard University's Edge Computing Lab. </p>
-                        <p>I will be presenting my work on adaptive surrogate gradients for sequential reinforcement learning in spiking neural networks at NeurIPS 2025, if you will be attending, please feel free to reach out!</p>
-                        <div class="social-links">
-                            <a href="https://github.com/korneelf1" target="_blank"><i class="fab fa-github"></i></a>
-                            <a href="https://www.linkedin.com/in/korneel-van-den-berghe/" target="_blank"><i class="fab fa-linkedin"></i></a>
-                            <a href="mailto:korneel.vandenberghe@hotmail.be" target="_blank"><i class="fas fa-envelope"></i></a>
-                        </div>
+                    <h1 class="hero-name fade-in stagger-2">Korneel Van den Berghe</h1>
+                    <p class="hero-title fade-in stagger-3">ML Robotics Engineer & Researcher</p>
+                    <p class="hero-description fade-in stagger-4">
+                        Building intelligent agents that interact with the physical world.
+                        4+ years of experience in <span class="hero-highlight">reinforcement learning</span>,
+                        <span class="hero-highlight">autonomous systems</span>, and
+                        <span class="hero-highlight">neuromorphic computing</span>.
+                    </p>
+                    <p class="hero-description fade-in stagger-5">
+                        Currently AI Engineer at Harbor AI in NYC, developing models for dynamic insurance optimization.
+                        Previously visiting researcher at Harvard's Edge Computing Lab.
+                    </p>
+                    <div class="social-links fade-in stagger-5">
+                        <a href="https://github.com/korneelf1" target="_blank" class="social-link" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/korneel-van-den-berghe/" target="_blank" class="social-link" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="mailto:korneel.vandenberghe@hotmail.be" class="social-link" aria-label="Email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- Projects Section -->
         <section id="projects" class="section">
-            <div class="container">
-                <h1>Projects</h1>
-                <div class="projects-note">
-                    <i class="fas fa-tools"></i>
-                    <span>This section is actively being updated with new projects and detailed blog posts.</span>
-                </div>
-                <div class="projects-list">
-                    <div class="project-item">
-                        <div class="project-banner">
-                            <div class="project-image">
-                                <!-- Training performance comparison figure -->
-                                <img src="project_figures/a2c_training_3models.png" alt="Training of ANN vs SNN with different configurations" style="width: 100%; height: 100%; object-fit: cover;">
-                            </div>
-                            <div class="project-info">
-                                <h3>A2C using Spiking Actors and Critics</h3>
-                                <p>Implementation of Actor-Critic reinforcement learning algorithms using spiking neural networks, exploring the advantages of neuromorphic computation for energy-efficient RL agents.</p>
-                                <div class="project-links">
-                                    <a href="blog-a2c.html" target="_blank">View Project</a>
-                                    <a href="https://github.com/korneelf1/SpikingA2C" target="_blank">GitHub</a>
-                                </div>
-                            </div>
-                        </div>
+            <div class="projects-section">
+                <div class="container-wide">
+                    <div class="section-header">
+                        <p class="section-eyebrow">Research & Development</p>
+                        <h2 class="section-title">Projects</h2>
+                        <p class="section-subtitle">Exploring the intersection of neuromorphic computing, reinforcement learning, and autonomous systems.</p>
                     </div>
-                    
-                    <div class="project-item">
-                        <div class="project-banner">
-                            <div class="project-image">
-                                <!-- Placeholder for project figure -->
-                                <img src="project_figures/Drone_Landing_Burst.png" alt="Project Figure" style="width: 100%; height: 100%; object-fit: cover;">
+
+                    <div class="projects-grid">
+                        <!-- Project 1: A2C Spiking -->
+                        <article class="project-card fade-in">
+                            <div class="project-image-wrapper">
+                                <img src="project_figures/a2c_training_3models.png" alt="Training comparison of ANN vs SNN">
                             </div>
-                            <div class="project-info">
-                                <h3>Control using Spiking Neural Networks for Drone Landing</h3>
-                                <p>Real-world application of spiking neural networks for autonomous drone landing control, building on A2C research and presented at ICNCE 2024.</p>
+                            <div class="project-content">
+                                <span class="project-tag">Neuromorphic AI</span>
+                                <h3 class="project-title">A2C with Spiking Neural Networks</h3>
+                                <p class="project-description">Implementation of Actor-Critic reinforcement learning using spiking neural networks, exploring neuromorphic computation for energy-efficient RL agents.</p>
                                 <div class="project-links">
-                                    <a href="blog-cno-poster.html" target="_blank">View Project</a>
-                                    <a href="https://github.com/korneelf1/SpikingA2C" target="_blank">GitHub</a>
+                                    <a href="blog-a2c.html" class="project-link">Read More</a>
+                                    <a href="https://github.com/korneelf1/SpikingA2C" target="_blank" class="project-link project-link-secondary">
+                                        <i class="fab fa-github"></i> GitHub
+                                    </a>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    
-                    <div class="project-item">
-                        <div class="project-banner">
-                            <div class="project-image">
-                                <!-- Placeholder for project figure -->
-                                <img src="project_figures/neurobench_logo_light.jpeg" alt="Project Figure" style="width: 100%; height: 100%; object-fit: cover;">
+                        </article>
+
+                        <!-- Project 2: Drone Landing -->
+                        <article class="project-card fade-in">
+                            <div class="project-image-wrapper">
+                                <img src="project_figures/Drone_Landing_Burst.png" alt="Drone landing with SNN control">
                             </div>
-                            <div class="project-info">
-                                <h3>Neuromorphic Benchmarking using NeuroBench</h3>
-                                <p>A closed-loop tutorial demonstrating neuromorphic benchmarking techniques using the NeuroBench framework for fair and representative evaluation of neuromorphic algorithms.</p>
+                            <div class="project-content">
+                                <span class="project-tag">Robotics</span>
+                                <h3 class="project-title">SNN Drone Landing Control</h3>
+                                <p class="project-description">Real-world application of spiking neural networks for autonomous drone landing, building on A2C research. Presented at ICNCE 2024.</p>
                                 <div class="project-links">
-                                    <a href="blog-neurobench.html" target="_blank">View Project</a>
-                                    <a href="https://github.com/NeuroBench/neurobench" target="_blank">GitHub</a>
+                                    <a href="blog-cno-poster.html" class="project-link">Read More</a>
+                                    <a href="https://github.com/korneelf1/SpikingA2C" target="_blank" class="project-link project-link-secondary">
+                                        <i class="fab fa-github"></i> GitHub
+                                    </a>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    
-                    <div class="project-item">
-                        <div class="project-banner">
-                            <div class="project-image">
-                                <!-- A2Perf benchmark environments -->
-                                <img src="project_figures/a2perf_envs.png" alt="A2Perf benchmark environments including chip floorplanning, web navigation, and quadruped locomotion" style="width: 100%; height: 100%; object-fit: cover;">
+                        </article>
+
+                        <!-- Project 3: NeuroBench -->
+                        <article class="project-card fade-in">
+                            <div class="project-image-wrapper">
+                                <img src="project_figures/neurobench_logo_light.jpeg" alt="NeuroBench framework">
                             </div>
-                            <div class="project-info">
-                                <h3>A2Perf: Real-World Autonomous Agents Benchmark</h3>
-                                <p>Comprehensive benchmarking suite for autonomous agents with real-world domains including chip floorplanning, web navigation, and quadruped locomotion. Accepted at TMLR.</p>
+                            <div class="project-content">
+                                <span class="project-tag">Benchmarking</span>
+                                <h3 class="project-title">NeuroBench Framework</h3>
+                                <p class="project-description">A closed-loop tutorial demonstrating neuromorphic benchmarking using the NeuroBench framework for fair evaluation of neuromorphic algorithms.</p>
                                 <div class="project-links">
-                                    <a href="blog-a2perf.html" target="_blank">View Project</a>
-                                    <a href="https://github.com/Farama-Foundation/A2Perf" target="_blank">GitHub</a>
+                                    <a href="blog-neurobench.html" class="project-link">Read More</a>
+                                    <a href="https://github.com/NeuroBench/neurobench" target="_blank" class="project-link project-link-secondary">
+                                        <i class="fab fa-github"></i> GitHub
+                                    </a>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    
-                    <div class="project-item">
-                        <div class="project-banner">
-                            <div class="project-image">
-                                <!-- Crazyflie drone flight trajectory -->
-                                <img src="project_figures/surrogate_crazyflie_flight.png" alt="Crazyflie drone performing circular flight" style="width: 100%; height: 100%; object-fit: cover;">
+                        </article>
+
+                        <!-- Project 4: A2Perf -->
+                        <article class="project-card fade-in">
+                            <div class="project-image-wrapper">
+                                <img src="project_figures/a2perf_envs.png" alt="A2Perf benchmark environments">
                             </div>
-                            <div class="project-info">
-                                <h3>Adaptive Surrogate Gradients for SNNs - Blog Series</h3>
-                                <p>A 3-part blog series on training spiking neural networks with adaptive surrogate gradients. Covers gradient effects, sequential RL algorithms, and real-world deployment on the Crazyflie drone. Accepted at NeurIPS 2025.</p>
+                            <div class="project-content">
+                                <span class="project-tag">Benchmarking</span>
+                                <h3 class="project-title">A2Perf: Autonomous Agents Benchmark</h3>
+                                <p class="project-description">Comprehensive benchmarking suite for autonomous agents with real-world domains: chip floorplanning, web navigation, and quadruped locomotion. Accepted at TMLR.</p>
                                 <div class="project-links">
-                                    <a href="blog-surrogate.html" target="_blank">Part 1: Surrogate Gradients</a>
-                                    <a href="blog-sequence.html" target="_blank">Part 2: Sequential RL</a>
-                                    <a href="blog-reality-gap.html" target="_blank">Part 3: Reality Gap</a>
+                                    <a href="blog-a2perf.html" class="project-link">Read More</a>
+                                    <a href="https://github.com/Farama-Foundation/A2Perf" target="_blank" class="project-link project-link-secondary">
+                                        <i class="fab fa-github"></i> GitHub
+                                    </a>
                                 </div>
                             </div>
-                        </div>
+                        </article>
+
+                        <!-- Project 5: Surrogate Gradients -->
+                        <article class="project-card fade-in">
+                            <div class="project-image-wrapper">
+                                <img src="project_figures/surrogate_crazyflie_flight.png" alt="Crazyflie drone flight">
+                            </div>
+                            <div class="project-content">
+                                <span class="project-tag">NeurIPS 2025</span>
+                                <h3 class="project-title">Adaptive Surrogate Gradients for SNNs</h3>
+                                <p class="project-description">A 3-part series on training spiking neural networks with adaptive surrogate gradients. Covers gradient effects, sequential RL, and real-world deployment.</p>
+                                <div class="project-links">
+                                    <a href="blog-surrogate.html" class="project-link">Part 1: Gradients</a>
+                                    <a href="blog-sequence.html" class="project-link">Part 2: Sequential RL</a>
+                                    <a href="blog-reality-gap.html" class="project-link">Part 3: Reality Gap</a>
+                                </div>
+                            </div>
+                        </article>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- CV Section -->
         <section id="cv" class="section">
-            <div class="container">
-                <h1>Curriculum Vitae</h1>
-                <div class="cv-content">
-                    <div class="cv-section">
-                        <h2>Experience</h2>
-                        <div class="cv-item">
-                            <h3>Lead Machine Learning Researcher and Engineer</h3>
-                            <p class="company">Harbor AI</p>
-                            <p class="date">Aug. 2024 – Present</p>
-                            <p class="location">New York City, USA</p>
-                            <ul>
-                                <li>Leading the development of reinforcement learning models for dynamic insurance price optimization</li>
-                                <li>Conducting interpretability research for inherently explainable risk analysis systems</li>
-                                <li>Building and scaling the MLOps infrastructure to support company growth beyond $100M valuation</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="cv-item">
-                            <h3>Visiting Researcher, Machine Learning</h3>
-                            <p class="company">Edge Computing Lab, Harvard University</p>
-                            <p class="date">Aug. 2023 – Jul. 2024</p>
-                            <p class="location">Boston, USA</p>
-                            <ul>
-                                <li>Co-authored and maintain NeuroBench, a benchmarking framework for neuromorphic and non-neuromorphic algorithms; contributed metrics, publication writing, and community engagement</li>
-                                <li>Contributed to A2Perf, a reinforcement learning benchmarking suite; ensured cross-platform compatibility and reproducibility</li>
-                                <li>Explored RL-based pruning methods for resource-efficient drone controllers using TinyML and event-driven neuromorphic computation</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="cv-item">
-                            <h3>Machine Learning Researcher</h3>
-                            <p class="company">Honours Programme MSc, TU Delft</p>
-                            <p class="date">Aug. 2020 – Dec. 2024</p>
-                            <p class="location">Delft, NL</p>
-                            <ul>
-                                <li>Developed and deployed neuromorphic MAV controllers using event data and optic flow, trained via reinforcement learning with on-device fine-tuning</li>
-                                <li>Designed implementations of deep Q-learning (DQN) algorithms for low-power RL on edge devices</li>
-                                <li>Created structural topology optimization tools for compliant wing morphologies in aerospace applications</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="cv-item">
-                            <h3>Structural and Control Systems Engineer</h3>
-                            <p class="company">AeroDelft (Hydrogen Aircraft Project)</p>
-                            <p class="date">Sep. 2022 – Dec. 2023</p>
-                            <p class="location">Delft, NL</p>
-                            <ul>
-                                <li>Led design and implementation of control systems in C++ for the world's first student-built hydrogen-powered aircraft</li>
-                                <li>Prototyped and translated CAD designs into fully tested flight-ready hardware</li>
-                            </ul>
-                        </div>
+            <div class="cv-section">
+                <div class="container-wide">
+                    <div class="section-header">
+                        <p class="section-eyebrow">Background</p>
+                        <h2 class="section-title">Curriculum Vitae</h2>
+                        <p class="section-subtitle">Experience in ML research, robotics engineering, and aerospace systems.</p>
                     </div>
-                    
-                    <div class="cv-section">
-                        <h2>Education</h2>
-                        <div class="cv-item">
-                            <h3>M.Sc. (+ Honours Programme) Aerospace Engineering</h3>
-                            <p class="institution">University of Technology Delft</p>
-                            <p class="date">Sept. 2022 - December 2024</p>
-                            <p class="location">Delft, NL</p>
-                            <p class="specialty">Specialization: Control and Simulations</p>
+
+                    <div class="cv-grid">
+                        <!-- Left Column -->
+                        <div class="cv-column">
+                            <!-- Experience -->
+                            <div class="cv-block fade-in">
+                                <h3 class="cv-block-title">Experience</h3>
+
+                                <div class="cv-item">
+                                    <div class="cv-item-header">
+                                        <h4 class="cv-item-title">Lead ML Researcher & Engineer</h4>
+                                        <span class="cv-item-date">Aug 2024 – Present</span>
+                                    </div>
+                                    <p class="cv-item-company">Harbor AI</p>
+                                    <p class="cv-item-location">New York City, USA</p>
+                                    <ul class="cv-item-list">
+                                        <li>Leading RL models for dynamic insurance price optimization</li>
+                                        <li>Interpretability research for explainable risk analysis</li>
+                                        <li>Building MLOps infrastructure for $100M+ valuation scale</li>
+                                    </ul>
+                                </div>
+
+                                <div class="cv-item">
+                                    <div class="cv-item-header">
+                                        <h4 class="cv-item-title">Visiting Researcher, ML</h4>
+                                        <span class="cv-item-date">Aug 2023 – Jul 2024</span>
+                                    </div>
+                                    <p class="cv-item-company">Edge Computing Lab, Harvard University</p>
+                                    <p class="cv-item-location">Boston, USA</p>
+                                    <ul class="cv-item-list">
+                                        <li>Co-authored and maintain NeuroBench benchmarking framework</li>
+                                        <li>Contributed to A2Perf RL benchmarking suite</li>
+                                        <li>RL-based pruning for TinyML drone controllers</li>
+                                    </ul>
+                                </div>
+
+                                <div class="cv-item">
+                                    <div class="cv-item-header">
+                                        <h4 class="cv-item-title">ML Researcher</h4>
+                                        <span class="cv-item-date">Aug 2020 – Dec 2024</span>
+                                    </div>
+                                    <p class="cv-item-company">Honours Programme MSc, TU Delft</p>
+                                    <p class="cv-item-location">Delft, NL</p>
+                                    <ul class="cv-item-list">
+                                        <li>Neuromorphic MAV controllers using event data and optic flow</li>
+                                        <li>Deep Q-learning for low-power RL on edge devices</li>
+                                        <li>Topology optimization for compliant wing morphologies</li>
+                                    </ul>
+                                </div>
+
+                                <div class="cv-item">
+                                    <div class="cv-item-header">
+                                        <h4 class="cv-item-title">Structural & Control Systems Engineer</h4>
+                                        <span class="cv-item-date">Sep 2022 – Dec 2023</span>
+                                    </div>
+                                    <p class="cv-item-company">AeroDelft (Hydrogen Aircraft)</p>
+                                    <p class="cv-item-location">Delft, NL</p>
+                                    <ul class="cv-item-list">
+                                        <li>Control systems in C++ for first student hydrogen aircraft</li>
+                                        <li>CAD to flight-ready hardware prototyping</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Education -->
+                            <div class="cv-block fade-in">
+                                <h3 class="cv-block-title">Education</h3>
+
+                                <div class="cv-item">
+                                    <div class="cv-item-header">
+                                        <h4 class="cv-item-title">M.Sc. Aerospace Engineering (Honours)</h4>
+                                        <span class="cv-item-date">2022 – 2024</span>
+                                    </div>
+                                    <p class="cv-item-company">TU Delft</p>
+                                    <p class="cv-item-location">Specialization: Control and Simulations</p>
+                                </div>
+
+                                <div class="cv-item">
+                                    <div class="cv-item-header">
+                                        <h4 class="cv-item-title">B.Sc. Aerospace Engineering (Honours)</h4>
+                                        <span class="cv-item-date">2019 – 2022</span>
+                                    </div>
+                                    <p class="cv-item-company">TU Delft</p>
+                                </div>
+                            </div>
                         </div>
-                        
-                        <div class="cv-item">
-                            <h3>B.Sc. (+ Honours Programme) Aerospace Engineering</h3>
-                            <p class="institution">University of Technology Delft</p>
-                            <p class="date">Sept. 2019 - Aug. 2022</p>
-                            <p class="location">Delft, NL</p>
-                        </div>
-                    </div>
-                    
-                    <div class="cv-section">
-                        <h2>Publications</h2>
-                        <div class="publication-item">
-                            <h4>NeuroBench: Advancing Neuromorphic Computing through Collaborative, Fair and Representative Benchmarking</h4>
-                            <p class="authors">Jason Yik, Korneel Van den Berghe, Charlotte Frenkel, Vijay Janapa Reddi, and the NeuroBench community</p>
-                            <p class="venue">Nature Communications, NICE Conference 2024</p>
-                        </div>
-                        
-                        <div class="publication-item">
-                            <h4>NeuroBench: Closed Loop Benchmarking</h4>
-                            <p class="authors">Korneel Van den Berghe, Jason Yik, Charlotte Frenkel, Vijay Janapa Reddi, and the NeuroBench community</p>
-                            <p class="venue">Neuromorphics Netherlands 2024, ASPLOS 2025</p>
-                        </div>
-                        
-                        <div class="publication-item">
-                            <h4>A2Perf: A Benchmarking Suite for Evaluating Autonomous Agents in Real-World Domains</h4>
-                            <p class="authors">Ikechukwu Uchendu, Jason Jabbour, Korneel Van den Berghe, 7 contributors, Aleksandra Faust, Vijay Janapa Reddi</p>
-                            <p class="venue">Under review, AAMAS 2026</p>
-                        </div>
-                        
-                        <div class="publication-item">
-                            <h4>Control with Spiking Neural Networks Trained with Reinforcement Learning Using Surrogate Gradients</h4>
-                            <p class="authors">Korneel Van den Berghe, Stein Stroobants, G.C.H.E. de Croon</p>
-                            <p class="venue">ICNCE 2024</p>
-                        </div>
-                        
-                        <div class="publication-item">
-                            <h4>Adaptive Surrogate Gradients for Sequential Reinforcement Learning in Spiking Neural Networks</h4>
-                            <p class="authors">Korneel Van den Berghe, Stein Stroobants, Vijay Janapa Reddi, G.C.H.E. de Croon</p>
-                            <p class="venue">Oral Presentation at NeurIPS 2025</p>
-                        </div>
-                    </div>
-                    
-                    <div class="cv-section">
-                        <h2>Key Skills</h2>
-                        <div class="skills-grid">
-                            <span class="skill-tag">Reinforcement Learning</span>
-                            <span class="skill-tag">Neuromorphic Computing</span>
-                            <span class="skill-tag">Machine Learning</span>
-                            <span class="skill-tag">Autonomous Systems</span>
-                            <span class="skill-tag">TinyML</span>
-                            <span class="skill-tag">Edge Computing</span>
-                            <span class="skill-tag">C++</span>
-                            <span class="skill-tag">Python</span>
-                            <span class="skill-tag">MLOps</span>
-                            <span class="skill-tag">Control Systems</span>
-                            <span class="skill-tag">Robotics</span>
-                            <span class="skill-tag">Aerospace Engineering</span>
+
+                        <!-- Right Column -->
+                        <div class="cv-column">
+                            <!-- Publications -->
+                            <div class="cv-block fade-in">
+                                <h3 class="cv-block-title">Publications</h3>
+
+                                <div class="publication-item">
+                                    <h4 class="publication-title">Adaptive Surrogate Gradients for Sequential RL in Spiking Neural Networks</h4>
+                                    <p class="publication-authors">K. Van den Berghe, S. Stroobants, V. J. Reddi, G.C.H.E. de Croon</p>
+                                    <p class="publication-venue">Oral Presentation at NeurIPS 2025</p>
+                                </div>
+
+                                <div class="publication-item">
+                                    <h4 class="publication-title">NeuroBench: Advancing Neuromorphic Computing through Collaborative Benchmarking</h4>
+                                    <p class="publication-authors">J. Yik, K. Van den Berghe, C. Frenkel, V. J. Reddi, et al.</p>
+                                    <p class="publication-venue">Nature Communications, NICE 2024</p>
+                                </div>
+
+                                <div class="publication-item">
+                                    <h4 class="publication-title">NeuroBench: Closed Loop Benchmarking</h4>
+                                    <p class="publication-authors">K. Van den Berghe, J. Yik, C. Frenkel, V. J. Reddi, et al.</p>
+                                    <p class="publication-venue">Neuromorphics Netherlands 2024, ASPLOS 2025</p>
+                                </div>
+
+                                <div class="publication-item">
+                                    <h4 class="publication-title">A2Perf: Benchmarking Autonomous Agents in Real-World Domains</h4>
+                                    <p class="publication-authors">I. Uchendu, J. Jabbour, K. Van den Berghe, et al.</p>
+                                    <p class="publication-venue">Under review, AAMAS 2026</p>
+                                </div>
+
+                                <div class="publication-item">
+                                    <h4 class="publication-title">Control with SNNs Trained with RL Using Surrogate Gradients</h4>
+                                    <p class="publication-authors">K. Van den Berghe, S. Stroobants, G.C.H.E. de Croon</p>
+                                    <p class="publication-venue">ICNCE 2024</p>
+                                </div>
+                            </div>
+
+                            <!-- Skills -->
+                            <div class="cv-block fade-in">
+                                <h3 class="cv-block-title">Skills</h3>
+                                <div class="skills-grid">
+                                    <span class="skill-tag">Reinforcement Learning</span>
+                                    <span class="skill-tag">Neuromorphic Computing</span>
+                                    <span class="skill-tag">Machine Learning</span>
+                                    <span class="skill-tag">Autonomous Systems</span>
+                                    <span class="skill-tag">TinyML</span>
+                                    <span class="skill-tag">Edge Computing</span>
+                                    <span class="skill-tag">Python</span>
+                                    <span class="skill-tag">C++</span>
+                                    <span class="skill-tag">PyTorch</span>
+                                    <span class="skill-tag">MLOps</span>
+                                    <span class="skill-tag">Control Systems</span>
+                                    <span class="skill-tag">Robotics</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -268,7 +322,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2024 Korneel Vandenberghe. All rights reserved.</p>
+            <p>&copy; 2025 Korneel Van den Berghe. All rights reserved.</p>
         </div>
     </footer>
 
