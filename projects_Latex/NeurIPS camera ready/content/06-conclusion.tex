@@ -1,0 +1,11 @@
+This work addresses key challenges in training Spiking Neural Networks (SNNs) for Reinforcement Learning (RL) by combining theoretical insights into surrogate gradient slope settings with a novel RL approach for sequential training. We demonstrate that the surrogate gradient slope plays a critical role in optimization dynamics, affecting both gradient alignment and the gradient magnitude. We find that shallower slopes increase the gradient magnitude at the cost of alignment with the true gradient. In supervised learning approaches, these two effects balance out. However, in RL approaches, we find a strong preference towards shallower slopes. We propose adaptive slope scheduling strategies that improve training stability and performance. We demonstrate that adaptive slope scheduling improves training efficiency by $\times4.5$ compared to a fixed slope of $100$.
+
+To address the limitations of standard RL algorithms in temporally extended tasks, we introduce a jump-start framework that leverages privileged policies to bootstrap training. This enables effective sequence-based learning in unstable control tasks, such as drone flight, where subpar controllers fail to generate experience long enough to bridge the warm-up period, which is necessary to efficiently train stateful networks. We find our method to enable SNNs to achieve a final average reward of $400$ points, while other methods fail to surpass a final performance of $-200$ points. We demonstrate the performance of our SNN receiving only the latest state information to be competitive to an ANN which receives explicit action history. A comparable ANN without this action history fails to control the Crazyflie successfully. 
+
+Our method depends on the availability of a guiding policy. Although this policy can be any function, even one leveraging privileged observations and does not need to be deployable at inference, it must still produce stable behavior early in training, which might not always be trivial to obtain.
+
+% Finally, the design of the behavior cloning (BC) component introduces sensitivity: an excessively high BC weight or a large number of jump-start steps can cause the spiking policy to overfit to the guide. This is particularly problematic when the guiding policy is suboptimal, as it can limit final performance.
+
+
+
+

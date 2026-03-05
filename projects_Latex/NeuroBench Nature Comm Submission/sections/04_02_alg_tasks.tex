@@ -1,0 +1,121 @@
+\subsection*{Algorithm Track Benchmark Tasks}
+\subsubsection*{Keyword FSCIL}
+Few-shot Class-Incremental Learning, FSCIL, is an established benchmark task setting in the computer vision domain~\cite{tao2020fscil}. It can be defined as follows: a base session with fixed classes, each with abundant training data, is used to train an initial model. Then, successive incremental training sessions introduce new classes in a few-shot learning scenario. In each session, only the current session classes are available to the model for training. After each incremental training session, the model is evaluated on all previously seen classes, including the base classes. Therefore, the model has to learn new classes while retaining knowledge about the previously learned ones. 
+
+Formally, for $M$-step FSCIL, where $M$ is the total number of incremental sessions, each training session uses a support dataset $D^{(t)}$, $t\in [0,M]$ to train new classes on. ${L^{(t)}}$ is the set of classes of the $t$-th session where $\forall i,j$  where $i \neq j$, $L^{(i)}\cap L^{(j)}=\varnothing$, meaning each training session uses a unique set of classes. $D^{(0)}$ and $L^{(0)}$ are the base class training data and set of base classes, respectively, $D^{(1)}$ and $L^{(1)}$ represent the first incremental session set, and so on. At session $t$, only $D^{(t)}$ is available for training, and for $t>0$, $D^{(t)}$ contains a fixed number of classes ($N$) with few samples per class ($K$). This form of FSCIL is therefore named $N$-way $K$-shot FSCIL. At the end of each session $t$, model accuracy is reported on the test samples of all previously seen classes $\{L^{(0)} \cup L^{(1)} \cup ... \cup L^{(t)}\}$.
+
+% \TODO{We have formalism of dataset, but not yet formal problem setup description: https://arxiv.org/pdf/2304.08130.pdf}
+
+For the Keyword FSCIL task, classes in the base set ($L^{(0)}$) have 700 samples each, with a fixed train/validation/test sample split of 500/100/100. All classes within incremental sessions have 200 samples per word, with a fixed train/test split of 100/100. Of the 100 training samples, 5 are randomly selected for few-shot learning (each session is 10-way, 5-shot). The inclusion of 200 samples allows for increasing learning up to 100 samples. 
+
+
+NeuroBench proposes an audio keyword classification version of the FSCIL task, which to the best of our knowledge is the first of its kind. This novel task is established by selecting a subset of the words and languages from the Multilingual Spoken Word Corpus (MSWC)~\cite{mazumder21mswc} dataset. The FSCIL task consists of a multilingual set of 100 base classes and 10 incremental sessions of 10 classes each, for a final total of 200 learned classes. 
+% To increase the diversity of demographics represented by the dataset, multiple languages, covering multiple language families, are included. 
+% A set of 5 base languages with 20 words each and 10 incremental languages with 10 words each was chosen, based on the data availability. 
+Fifteen languages are represented: the base classes are composed of a set of five base languages with 20 words each, and each of the ten incremental sessions contains 10 words from a distinct language. The languages were chosen based on data availability within the MSWC dataset. The top five languages with the greatest number of potential words (words with enough data samples) are used as the base class languages, while the next ten languages with the greatest numbers are the incremental classes. 
+The base languages are English, German, Catalan, French and Kinyarwada. Incremental languages are Persian, Spanish, Russian, Welsh, Italian, Basque, Polish, Esparanto, Portuguese and Dutch. The order of languages presented in the incremental sessions are randomized, but each incremental session will represent exactly one new language.
+
+For each language, the longest length words (that had the appropriate number of samples) were selected to allow for rich and robust temporal features to be learned. Next to the richness of longer words, there are practical considerations for this choice. The MSWC dataset normalizes all samples to a duration of 1 second, centered around the 0.5 seconds mark. For shorter words, this means that the data needs to be zero-padded on both sides to fill the entire duration. Longest-length words are likely to fill the complete sample and reduce zero-padding, which is also useful in scenarios in which algorithms seek to classify words before the sample has completed~\cite{jeffares2022spikeinspired}. Furthermore, common keyword spotting solutions, such as \textit{Ok Google}, \textit{Alexa}, and \textit{Hey Siri}, use multi-syllable wake-phrases to assist in accurate word classification. \revision{Using shorter keyword subsets can lead to greater challenge in both base language training and continual class learning. The full list of chosen words for the task presented in this paper (longest words), as well as other potential subsets of short words for the same languages, can be found with dataset documentation through the harness.}
+
+Within each language, words showing great similarity in phonics and meaning are not included (e.g. l'amendement and amendements in French). Across different, but related languages, words with similar pronunciation and meaning were not included as well (e.g., university, universität and universitat in English, German and Catalan).
+
+The subset of MSWC used for this FSCIL task is significantly smaller in size (630MB) compared to the full MSWC datatset (124GB), and subset download details can be found in the harness.
+
+% \TODO{Where to download the subset of the dataset}
+% The subset of the original dataset, which is used in this task, is hosted by NeuroBench. A complete list of the words used for this task, and the relevant download instructions, can be found in the \red{documentation}.
+
+\subsubsection*{Event Camera Object Detection}
+The task of object detection using event camera data involves identifying bounding boxes of objects belonging to multiple predetermined classes in an event stream. The dataset is the Prophesee 1 Megapixel automotive detection dataset~\cite{Perot2020}, which is one of the largest and highest-resolution event-camera detection datasets currently available. The performance of the task is defined by the COCO mean average precision (mAP) metric~\cite{LinCOCO_2014}, a metric that is commonly used for the evaluation of object detection algorithms. Only three out of the seven available object classes within the dataset are used due to limited sample availability in the dataset, which matches prior work~\cite{Perot2020}.
+
+COCO mAP is calculated using the intersection over union (IoU, Equation~\ref{eq:iou}) of the bounding boxes produced by the model against ground-truth boxes. Here, $A$ and $B$ refer to bounding boxes, and the intersection and union consider the overlapping area and the area covered by both boxes, respectively. The IoU is compared against 10 thresholds between 0.50 and 0.95, with a step size of 0.05.
+For each threshold, precision is calculated (Equation~\ref{eq:precision}) with True Positives (\textit{TP}) and False Positives (\textit{FP}) determined by whether the IoU meets the threshold or not, respectively. The mAP is calculated as the averaged precision over all thresholds for each class, which is further averaged over all classes to produce the final result.
+
+\begin{equation} \label{eq:iou}
+    IoU(A,B) = \frac{|A\cap B|}{|A\cup B|}
+\end{equation}
+
+\begin{equation} \label{eq:precision}
+    Precision(TP,FP) = \frac{\sum TP}{\sum TP + \sum FP}
+\end{equation}
+
+% COCO mAP specifies the threshold selection of the intersection over union (IoU) to be a series of 10 thresholds between 0.50 and 0.95 with a step size of 0.05. The calculation of the mAP consists of multiple steps. First, the model detects the relevant objects and provides a bounding box and class label. Then, the IoU for each detection is computed, which represents the overlap of the predicted bounding box, $A$, versus the correct bounding box $B$:
+
+% For all IoUs, we compare to each of the 10 COCO thresholds. If this is higher than  the threshold, the prediction is classified as a True Positive, \textit{TP}, else it is a False Positive, \textit{TF}. From these, we can calculate the average precision, and subsequently, th mean average precision (mAP). 
+
+Note that in the dataset, labels are generated from images from an RGB camera. Due to the nature of event cameras, objects which are still at the start of a recording sequence have no generated events and cannot be detected. Therefore, labels within the first 0.5 seconds of each sequence are not taken into account. Furthermore, as the RGB camera used for labeling has a higher resolution than the event camera, not all objects which appear in the RGB image are recognizable from the generated events. Thus, objects with a diagonal of less than 60 pixels are also not considered. The dataset and metric measurement is implemented using the Prophesee Metavision software~\cite{metavision}.
+%3) IoU Threshold Selection: On COCO, the average precision is evaluated over several IoU values, the thresholds of 0.50, the range 0.50-0.95, and 0.75. 
+
+% The object detection benchmark utilizes the Prophesee 1 Megapixel Automotive Detection Dataset. This dataset was recorded with a high-resolution event camera with a 110 degree field of view mounted on a car windshield. The car was driven in various areas under different daytime weather conditions over several months. The dataset was labeled using the video stream of an additional RGB camera in a semi-automated way, resulting in over 25 million bounding boxes for seven different object classes: pedestrian, two-wheeler, car, truck, bus, traffic sign, and traffic light. The labels are provided at a rate of 60Hz, and the recording of 14.65 hours is split into 11.19, 2.21, and 2.25 hours for training, validation, and testing, respectively. For the data included in NeuroBench, three classes are included, namely car, pedestrian and two-wheelers. These occur far more often in the recorded data than the remaining classes. Next to that, prior work included the three aforementioned classes. 
+
+
+\subsubsection*{Non-human Primate Motor Prediction}
+% The non-human primate motor prediction task is a predictive modeling task. Using neural data from the sensorimotor cortex, the task is to forecast the horizontal and vertical fingertip positions, x and y respectively. The metric used to measure the accuracy of the prediction is the $R^2$-score. Which is computed given the correct fingertip positions $X_i,Y_i$ and the predicted fingertip positions $x_i,y_i$, for across $n$ predictions. 
+The non-human primate motor prediction task involves predictive modeling of two-dimensional fingertip velocity, given neural motor cortex data.
+The six sessions used for the benchmark comprise three recording sessions each from two non-human primates (NHP Indy and NHP Loco) such that the chosen sessions approximately span the entire duration of the experiment~\cite{makin-dataset} (several months).
+The specific sessions used are indy\_20170131\_02, indy\_20160630\_01, indy\_20160622\_01, loco\_20170301\_05, loco\_20170215\_02, and loco\_20170210\_03.
+Each of these sessions consists of one day of experiments, during which multiple reaches are recorded. During each reach, a target position is displayed, which the NHP needs to localize and touch with its finger. Once the NHP touches the correct target for the current reach, the next reach is instantiated, showing a new target position. The data contains sensorimotor cortex recordings from 96 channels for the recordings of the first NHP (Indy), while 192 channels were used for the second NHP (Loco), and was gathered and labeled at a frequency of 250Hz. Two-dimensional position data of the NHP fingertip during its reaches is provided in the dataset, and these are translated into $X$ and $Y$ velocity ground-truth labels using discrete derivatives~\cite{makin-paper}.
+
+Each session is segmented into individual reaches based on the target position for the NHP to touch. 
+The data in each session is split such that the initial $75\%$ of reaches are used for training and validation, and the remaining $25\%$ of reaches are test data. The user can choose how to utilize the training and validation split for their particular method.  
+
+During evaluation, the coefficient of determination ($R^2$, Equation~\ref{eq:r2}) for the $X$ and $Y$ velocities are averaged to report the correctness score for each session, where $n$ is the number of labeled points in the test split of the session, $y_i$ is the ground-truth velocity, $\hat{y_i}$ is the predicted velocity, and $\bar{y}$ is the mean of the ground-truth velocities. The $R^2$ from sessions for each NHP are averaged, producing two final correctness scores.
+
+\begin{equation} \label{eq:r2}
+    R^2 = 1 - \frac{\sum_{i=1}^{n} (y_i - \hat{y_i})^2}{\sum_{i=1}^{n} (y_i - \bar{y})^2}
+\end{equation}
+
+\subsubsection*{Chaotic Function Prediction}
+% Similarly to the non-human primate motor prediction task, the Mackey Glass function prediction is a sequence-to-sequence problem, meaning that given an input sequence, the task is to predict the future values of the same function, $y(t)=x(t)$. Input data is passed to the model at an interval of $\Delta t$, given the history, the model expected to predict the  next point. After an entire run, the model will have made a prediction $y(t)$ of the original function $x(t)$. Subsequently, the Mean Squared Error (MSE) is used to measure the accuracy of the model across the entire run. 
+
+The chaotic function prediction is another sequence-to-sequence problem. Given an input sequence generated from a one-dimensional Mackey-Glass function, the task is to predict the future values of the same function.
+The dataset used for this task is synthetically generated, following the Mackey-Glass differential equation~\cite{mackey1977oscillation} (Equation \ref{eq:MackeyGlass}), which is integrated and discretized with a timestep of $\Delta t$. The time series generated by this differential equation is a function of the Mackey-Glass parameters $n$, $\beta$, $\gamma$ and $\tau$. Adhering to standard parameters~\cite{jaeger2004harnessing}, the values used for $n$, $\beta$, and $\gamma$ are 10, 0.2 and 0.1 respectively. $\tau$ is varied between 17 (a standard value) and 30, leading to 14 time series which vary greatly in dynamics and can be used to analyze the generalization of predictive models.
+
+Each value of $\tau$ is associated with a Lyapunov time, the expected predictability timescale for chaos~\cite{gilpin2023largescale}, which is used as the time unit for each series. To calculate the overall Lyapunov time for each value of $\tau$, we average the Lyapunov times of 30,000 generated time series of 2,000 timesteps, with $\Delta t=1.0$, each with a randomly chosen initial condition.
+All time series and Lyapunov times were generated and estimated using the \texttt{JiTCDDE} library~\cite{jitcxde}. 
+For each final time series used for benchmarking, initial conditions are a point randomly chosen along the series.
+The Lyapunov time and initial condition $x_0$ for each of the 14 final time series are provided in Table \ref{tab:MG_params}.
+
+% For each value of $\tau$, the Lyapunov time is computed to be the nearest whole number by averaging over 30,000 generated time series of 2,000 timesteps ($\Delta t=1.0$), each with a randomly chosen initial condition where the Lyapunov time for individual time series is estimated by the \texttt{JiTCDDE} library~\cite{jitcxde}.  
+% Initial conditions for each final time series is a point randomly chosen along the series.
+% The Lyapunov time and initial condition $x_0$ for each of the 14 values of $\tau$ are provided in Table \ref{tab:MG_params}.
+
+\begin{equation} \label{eq:MackeyGlass}
+    \frac{dx}{dt} = \frac{\beta x(t-\tau)}{1 + x(t-\tau)^n} - \gamma x(t)
+\end{equation}
+
+% Within NeuroBench, Mackey Glass series for 14 sets of parameters (varying $\tau$, Lyapunov time and $x_0$) are provided (table \ref{tab:MG_params}). A large range of different values for $\tau$ allow the user to analyze the robustness of their algorithm for the different settings. For every set of parameters, the datasets are precomputed to avoid variability between systems due to low-level libraries solving differential equations. The differential equation solver relies on the \texttt{jitcdde} library, which can produce different output on different machines based on platform microarchitecture. For computing this differential equation, integration parameters have to be defined. Firstly, the absolute error tolerance, which determines the maximum error between the prediction and the analytical solution of the differential equation, is defined. When the error is larger than this parameter, the timestep gets reduced. Related to the absolute tolerance is the relative tolerance. Where the absolute tolerance takes the difference between the prediction and the exact result, the relative tolerance takes the difference and divides by the magnitude of the exact solution. As the step size may become very small when solving the differential equation, cohering to the aforementioned parameters, a minimum step size is defined to avoid unnecessarily long computations. \KVDB{add exact values}. Using these integration parameters, timeseries for every combination of parameters in table \ref{tab:MG_params} are generated, all using the Mackey Glass parameters where $n$ is 10, $\beta$ is 0.2 and $\tau$ is 0.1. The length of the timeseries is 50 times the respective Lyapunov time, each with 75 data points per Lyapunov time, ensuring enough data to train, validate and test the model with varying time offsets. The instructions on retrieving this dataset can be found in the \texttt{MackeyGlass} dataloader included in NeuroBench.
+
+As the integration of the differential equation can depend on underlying floating-point arithmetic and thus produce varying time series on different machines, the datasets are precomputed and loaded for training and evaluation. In the benchmark results, 30 instantiations of the Mackey Glass system are used, each with a length of 20 Lyapunov times and successively shifted forwards by half a Lyapunov time. The dataset time series are generated for 50 total Lyapunov times to allow for varied offset starting points. The generated time series are available to be downloaded under the NeuroBench harness.
+
+\begin{table}[ht]    
+    \begin{center}
+    \begin{tabular}{|c|c|c|}
+        \hline
+        $\tau$ & Lyapunov Time & $x_0$ \\ \hline
+        17 & 197 & 0.7206597 \\
+        18 & 138 & 0.7744313 \\
+        19 & 315 & 0.7783468 \\
+        20 & 131 & 0.9225991 \\
+        21 & 191 & 0.9479431 \\
+        22 & 119 & 0.5455960 \\
+        23 & 106 & 0.8622247 \\
+        24 & 97 & 0.3259660 \\
+        25 & 98 & 0.8297825 \\
+        26 & 104 & 1.0033490 \\
+        27 & 112 & 0.6491406 \\
+        28 & 119 & 1.0957495 \\
+        29 & 131 & 0.9256179 \\
+        30 & 139 & 0.2713639 \\
+        \hline
+    \end{tabular}
+    \end{center}
+    \caption{Mackey-Glass parameters used for the 14 time series.}
+\label{tab:MG_params}
+\end{table}
+
+Symmetric mean absolute percentage error (sMAPE, Equation~\ref{eq:smape}), a standard metric in forecasting~\cite{MAKRIDAKIS202054}, is used to measure the correctness of the model predictions $\hat{y_i}$ against the ground-truth $y_i$, over $n$ data points in the test split of the time series. 
+The sMAPE metric has a bounded range of $[0, 200]$, thus diverging predictions (infinity or NaN) due to floating-point arithmetic have bounded error which can be used to average correctness over multiple time series instantiations.
+
+\begin{equation} \label{eq:smape}
+    sMAPE = 200 \times \frac{1}{n} \left( \sum_{i=1}^{n} \frac{|y_i - \hat{y_i}|}{(|y_i| + |\hat{y_i}|)}\right)
+\end{equation}

@@ -1,0 +1,21 @@
+% \subsection*{System Track Metrics}
+
+% \revision{Where applicable, rules and measurement guidelines from MLPerf Inference~\cite{Reddi2020} will be used. Accuracy and performance (latency or throughput) can be measured in accordance with these rules and as noted further by the individual benchmarks.}
+
+% \revision{However, due to the highly varied implementation features, board integration, and developmental progress of neuromorphic hardware, an initial benchmark framework cannot expect fully consistent power measurement across all systems. Thus, power measurement is instead standardized under a common transparent documentation structure, such that while results may not be directly comparable, there is still the ability to holistically analyze results and move towards future consistency.}
+
+% \revision{The NeuroBench power specification highlights component-level granularity and inclusion of all pre-/post-processing hardware. 
+% Any on-board components which contribute to workload calculation should be included.} \TODO{List further notes about power spec or where it will be defined. Or maybe don't include further detail and instead move the prior paragraph up into the main text? It is an important idea.}
+
+\subsection*{System Track Metrics}
+\secondrev{Given the variability of task application areas and system sizes, the NeuroBench metric methodology is defined on a per-benchmark basis.} \secondrev{Particularly for efficiency metrics, as neuromorphic systems are not matured, a singular power measurement method cannot be applied to all submissions. It is the responsibility of the submitter to faithfully capture all active processing components for their system and fairly outline their methodology in the report. As NeuroBench moves towards head-to-head benchmarking of neuromorphic systems by hardware vendors and owners, official results must be associated with a report that provides context for the benchmark submission results, as the overall benchmark format is generally open and does not have stringent consistency rules. The report must contain 
+\begin{itemize}
+    \item an outline of the system architecture,
+    \item an outline of the algorithm used (model architecture, tuning),
+    \item a diagram depicting the workflow, including (where applicable) data initialization, host pre-processing, data loading, on-device preprocessing, inference, post-processing,
+    \item timing measurement description,
+    \item power measurement description, including measurement devices, included hardware components, and measurement time resolution,
+    \item a re-iteration of the results.
+\end{itemize}}
+
+\secondrev{In addition, official submissions will be subject to potential audits during which an auditor will inspect the methodology and request additions or revisions to the results and report if necessary.}

@@ -1,0 +1,96 @@
+\subsection*{Algorithm Track Metrics}
+
+% \JY{Should we get rid of the implementation notes such as nn.modules, layers supported? If this is read far into the future there will be expanded support. Could say something like updated details are available on the repo?}
+
+NeuroBench includes correctness and complexity metrics, the latter of which is divided in static and workload metrics. Static metrics do not depend on the model inference and input data, while the workload metrics do. Note that the defined metrics reflect only the model and model execution. Data pre-processors and post-processors are not taken into account in the v1.0 algorithm track results. 
+% The harness currently supports the use of PyTorch \texttt{nn.Modules}.
+% other layer types or activation functions can be added with the provided functions of the \texttt{NeuroBenchModel}.
+
+\subsubsection*{Footprint}
+The footprint metric reflects the memory footprint a model. It is distinct from execution memory, which may incur further usage, e.g. to store activations. It is computed for a model by accumulating the sizes of the model's parameters and buffers, in bytes.
+% These buffers are important to take into account when the model stores tensors which do not require a gradient. 
+Parameters store the model synaptic weights, and buffers include other inference memory requirements, such as the internal states of recurrent or spiking layers and buffers of recent input data, if the model must record data for input binning. Considering $n$ parameters, each requiring $p_i$ bytes, and $b$ buffers of size $q_j$, the total model footprint is $\sum_{i=0}^{n}p_i + \sum_{j=0}^{b}q_j$.
+
+\subsubsection*{Model Execution Rate}
+Execution rate is a numeric which is not directly computed by the harness, but should be reported by the user. 
+The numeric reflects the real-time correlation of the rate at which the model computes input data. If the model processes input with a temporal stride of $t$~seconds, then the rate should be reported as $t^{-1}$~Hz. Note the distinction between \textit{stride} and \textit{bin window} - input can be binned in overlapping windows, but execution rate depends on the temporal stride of window processing. As an example, a model may use 50~ms windows of input and compute every 10~ms, which would give an execution rate of 100~Hz.
+
+This numeric is currently not well-defined for models operating under event-based or continuous-time contexts. These limitations will be addressed in future benchmark versions.
+% as needed to support research and tools facilitating such methods.
+
+\subsubsection*{Connection sparsity} 
+The parameter matrices of each layer $l$ in a model, representing synaptic weights, are collected, and the number of zero weights $m_l$ and total weights $n_l$ are aggregated, with the connection sparsity defined as $\frac{\sum_l m_l}{\sum_l n_l}$.
+
+% For each layer ($l$), each weight matrix ($W_l^i$) is collected, and the numbers of zero weights ($m_{l}^i$) and total number of weights ($n_l^i$) of each weight matrix $i$ are accumulated.
+% % Across all weight matrices within a layer, and all layers, the number of zero weights and number of weights are accumulated. 
+% The connection sparsity of the model is the complement of the ratio of the zero weights over total weights, 
+% $1 - \sum_l \frac{(m_l)}{(n_l)}$.
+
+% The layers currently supported by the harness are: \texttt{nn.Linear}, \texttt{nn.Conv1d}, \texttt{nn.Conv2d}, \texttt{nn.Conv3d}, \texttt{nn.RNN}, \texttt{nn.RNNBase}, \texttt{nn.RNNCell}, \texttt{nn.GRU}, \texttt{nn.GRUBase}, \texttt{nn.GRUCell}, \texttt{nn.LSTM}, \texttt{nn.LSTMBase}, \texttt{nn.LSTMCell}.
+
+
+\subsubsection*{Activation sparsity}
+Activation sparsity is computed after the inference phase. The sparsity is calculated by accumulating the number of zero activations ($z$), over all neuron layers ($l$), timesteps ($t$), and input samples ($i$) and dividing by the total number of neurons ($N$), $\frac{\sum_l \sum_t \sum_i z_{l,t}^i}{\sum_t \sum_l \sum_i N_{l,t}^i}$. 
+The outputs of ReLU functions and spikes from spiking neurons are considered activations.
+% The included activation types are \texttt{nn.ReLU, nn.Sigmoid, nn.Tanh} and all snnTorch neurons that are subclasses of \texttt{NeuronModel}. Custom activations can be added before running the benchmark by using the \texttt{NeuroBenchModel.add\_activation\_module} function.
+
+\subsubsection*{Synaptic operations}
+% \TODO{Note about \textit{Dense} vs \textit{EFF\_MACs} vs \textit{EFF\_ACs}}
+Synaptic operations are the multiplication of weights by activation or input data, and are calculated using the inputs and weights of connection layers (e.g., \texttt{torch.nn.Linear} and \texttt{torch.nn.Conv2d}).
+Effective synaptic operations are operations where a non-zero weight is multiplied by a non-zero activation. 
+% The reasoning behind this definition is that specialized hardware can make use of the sparsity in the input and weight matrices, representing the synapses. 
+% The metric distinguishes between the effective multiply-accumulates (MACs) in normal layers,  effective accumulates (ACs) in binary layers, and the total dense operations, which represents the number of MACs required when computed on conventional hardware. 
+Effective operations are further divided into multiply-accumulates (MACs), and accumulates (ACs), where accumulates correlate with activations or input data only containing values of [-1, 0, 1], and multiply-accumulates cover all other cases.
+The reported number of synaptic operations is the average number of synaptic operations required per model execution, the rate of which is defined by the \textit{model execution rate} metric.
+
+% input sample, when a sample is well-defined and independent such as in a classification task. In continuous tasks such as time-series modeling and continuous detection, the metric reports average operations per model computation, the rate of which is defined by the 
+% % Frequency metric.
+% Execution Rate metric.
+
+% Therefore, this is an accumulated metric. Meaning that the number of MACs and ACs are accumulated throughout the benchmark and normalized to a single sample at the end. 
+
+The number of \textit{effective} synaptic operations is computed by performing the forward pass of a layer and counting the number of operations in which there is no zero multiplication.
+Practically, this is implemented in the harness by setting all non-zero weights in the layer and all the non-zero activations to 1, then performing the forward pass and summing the output to give the number of synaptic operations. 
+
+% This is demonstrated below for a linear layer. Assume the bias to be zero, resulting in a forward pass following $y=W\cdot x$. An example weight and activation vector is presented below.\\
+% \begin{equation}
+%     W\cdot x=
+%     \begin{bmatrix}
+%         1.3 & 0 & -3.2 \\
+%         0 & 1.2 & -5.1 \\
+%         -1.1 & 2.7 & 0 \\
+%      \end{bmatrix}    \cdot \begin{bmatrix}
+%          0 \\
+%          1.3 \\
+%          -1 \\
+%      \end{bmatrix} 
+% \end{equation}
+% Both the weight matrix and the activation vector contain zeroes, so effective synaptic operations are only performed for a subset of the weight and input combinations. We make the weight matrix and input matrix binary and compute the forward pass to yield effective operations.
+% \begin{equation}
+%      \begin{bmatrix}
+%         1 & 0 & 1 \\
+%         0 & 1 & 1 \\
+%         1 & 1 & 0 \\
+%      \end{bmatrix}    \cdot \begin{bmatrix}
+%          0 \\
+%          1 \\
+%          1 \\
+%      \end{bmatrix} = 
+%      \begin{bmatrix}
+%          1 \\
+%          2 \\
+%          1 \\
+%      \end{bmatrix} \rightarrow 
+%      SynOps = 4
+% \end{equation}
+
+The number of \textit{dense} synaptic operations is computed in a similar fashion, by setting all weights and activations to 1 and accumulating the output of the forward pass.
+Biases are not taken into account in the calculation of the synaptic operations, as they are added after weight multiplications and accumulation. 
+
+Note that processing of activations before the connection layer, for instance using batch normalization, can transform sparse activations into dense input at the connection layer, which will lead to high effective synaptic operations despite high activation sparsity. Furthermore, such processing can transform binary activations to non-binary data, causing effective operations to be MACs rather than ACs. When deployed to neuromorphic hardware, such algorithms that normalize activations before multiplication with synaptic weights may lose the benefits of sparse operation, e.g., an SNN with normalization following each spiking layer would require dense MAC weight calculation, no matter how few spikes were generated.
+
+In some cases, algorithm execution may have distinct temporal sections of higher and lower synaptic operations, such as during initial caching versus continuous inference. For such algorithms, benchmark users may choose to distinguish synaptic operations and other complexity measurements between execution sections.
+
+% Accumulating the number of effective synaptic operations $SynOps$ for each layer gives the total effective synaptic operations required. Depending on whether the input $x$ is binary, which is the case for non-graded SNN, or non-binary, the effective operations are classified as ACs or MACs respectively. Next to the effective synaptic operations, the dense synaptic operations are reported, where the number of synaptic operations consisting of zero multiplications is also taken into account.
+
+% Additional metrics are currently implemented in algorithm track harness. An example is the number of updates per neuron type. This metric returns the number of times each neuron type was updated. For this metric, it is assumed that the neuron is only updated when a non-zero signal is passed. 

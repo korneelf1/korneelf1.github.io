@@ -1,0 +1,97 @@
+%%%% imav.tex
+% This is the tex-file for the IMAV 2014 conference
+% for questions / remarks / bugs regarding the files, please contact info@imavs.org
+% You can use this style for your conference, as long as you refer to the IMAV 2014
+% in a comment similar to this one.
+% Of course, the IMAV 2014 is not liable for any aspects of its use.
+
+\documentclass{article}
+% The style file
+\usepackage{imav}
+% Use the postscript times font!
+\usepackage{times}
+\usepackage{graphicx}
+% \usepackage{algorithmic}
+\usepackage{wasysym}
+\usepackage{hyperref}
+\usepackage{svg}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+% \usepackage{algcompatible}
+\usepackage{pifont}
+\usepackage{wrapfig}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+% \usepackage[demo]{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{siunitx}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{array}
+\usepackage{booktabs}
+%%%%%% Add comment commands here %%%%%%%%%%%%%
+\definecolor{YB}{RGB}{0,150,255}
+\newcommand{\YB}[1]{\textcolor{YB}{YB: #1}}
+\newcommand{\KVDB}[1]{\textcolor{green}{KVDB: #1}}
+\newcommand{\TODO}[1]{\textcolor{red}{TODO: #1}}
+\newcommand{\note}[1]{\textcolor{blue}{Note: #1}}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+
+\def\thickhline{\noalign{\hrule height.8pt}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\pagenumbering{none}
+%\numberwithin{algorithm}{chapter}
+%\usepackage{algorithmicx}
+% the following package is optional:
+%\usepackage{latexsym}
+
+\title{A Comparative Study of Spiking and Non-Spiking Neural Networks in Actor-Critic Reinforcement Learning}
+\author{K. Van den Berghe\\ \textit{Technische Universiteit van Delft, 1 Kluyverweg, Delft}\vspace{-0.5cm}}
+
+% \renewenvironment{abstract}
+%  {\small
+%   \begin{center}
+%   \bfseries \abstractname\vspace{-.5em}\vspace{0pt}
+%   \end{center}
+%   \list{}{
+%     \setlength{\leftmargin}{0cm}%
+%     \setlength{\rightmargin}{\leftmargin}%
+%   }%
+%   \item\relax}
+%  {\endlist}
+
+\begin{document}
+% \pagenumbering{arabic}
+\maketitle
+
+\begin{abstract}
+Within the world of autonomous micro robotics, constraints in computational resources and energy usage is a pressing issue, motivating the exploration of novel innovative algorithms to bring intelligence to these systems. Currently, the state of the art in embodied intelligence makes use of artificial neural networks. These neural networks often require intensive computations and occupy a large memory footprint. Recently, neuromorphic solutions have gained attention from the machine learning community as a possible avenue to tackle the issue of energy efficiency. More specifically, spiking neural networks have shown impressive results requiring only a fraction of the operations required for similar performance to their non-spiking alternatives. While supervised, unsupervised and even self-supervised training are widely explored, reinforcement learning using these networks has received little attention. This work aims at exploring the challenges and opportunities that arise when deploying spiking neural networks as workers in actor-critic deep reinforcement learning. The reinforcement learning algorithm chosen is the A2C algorithm, optimizing an artificial neural network and a spiking neural network, using the leaky integrate and fire neuron model. The task under consideration is the balancing of a stick on a cart, the CartPole task. While the training of the spiking agents was noisy, and performance is slightly inferior to the non-spiking variant, it is found that the computational complexity for the spiking variants can be easily decreased significantly with respect to their non-spiking alternatives. Furthermore, the spiking variants showed an improved noise robustness. 
+\end{abstract}
+
+\input{chapters/01-Introduction}
+
+\input{chapters/02-LiteratureReview}
+
+\input{chapters/03-Methods}
+
+\input{chapters/04-Results}
+
+\input{chapters/05-Discussion}
+
+\input{chapters/06-Recommendations}
+
+
+% BIBLIOGRAPHY:
+% use {unsrt}:
+\bibliographystyle{unsrt}
+\bibliography{imav_bibliography}
+
+% Supplementary materials
+% \input{chapters/S1}
+
+
+\end{document}
+

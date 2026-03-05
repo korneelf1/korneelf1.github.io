@@ -1,0 +1,79 @@
+% \JY{No inclusion in the article since there should be more room to change the benchmarks before the first results are published.}
+
+% \subsection*{System Track Benchmarks}
+
+% \TODO{Should we add this detail in this article?}
+
+
+\subsection*{System Track Benchmarks}
+\secondrev{Detailed information on each v1.0 system track benchmark is provided here, and the most updated information can be found in the official NeuroBench system track documentation: \url{https://github.com/NeuroBench/system_benchmarks}}
+
+\subsubsection*{Acoustic Scene Classification (ASC)}
+\secondrev{\paragraph{Benchmark Dataset} The dataset is based on the DCASE 2020 acoustic scene classification challenge~\cite{Heittola2020}, using the TAU Urban Acoustic Scenes 2020 Mobile datasets.
+Of the 10 available scene classes, 4 are used: ``airport'', ``street\_traffic'', ``bus'', ``park''.
+Of the 9 real / simulated audio recoding devices available, 1 real device is used: ``a''.
+Audio samples are sliced into 1-second samples. The audio may be resampled to a different frequency as a pre-processing step, which is not included in inference measurement.
+41360 training samples are available, as well as 16240 test samples.
+The NeuroBench system track repository linked above provides a download script and a PyTorch-compatible dataset file which is expected to be used as the front-end data generator for all submissions. The data may be reformatted into a different framework, this is not included in inference measurement.}
+
+\secondrev{\paragraph{Task} After training a model using the training set, the submitter will report test set accuracy, as well as execution time and energy per inference on the system. The test split should not be used to train or tune the model, only the train split.
+Audio samples will be processed in batch-size 1, in which one sample is processed at a time and the next sample is not processed until the previous one is finished.
+The general compute flow consists of three steps: pre-processing, inference, and classification. 
+One inference is defined as the processing of one second of audio data. Inference is separate from classification because systems are often intended to process samples as sequences over time, rather than all at once, and the classification may be available before the whole data sequence is seen. Classification thus does not need to be included in the benchmark measurement.
+Pre-processing in general can be defined as feature extraction or the conversion of raw audio data into a format that is suitable for inference. Execution time and energy of pre-processing must be included in benchmark measurement, and will be reported separately from inference. 
+In certain systems, e.g. Synsense Xylo, pre-processing blocks use analog hardware on-chip to directly convert real-time analog microphone output to digital spikes for inference. In order to operate inference from a digitally-encoded dataset, this pre-processing must be simulated and the spikes are sent through a side-channel directly to the inference block. For such cases, the reported pre-processing measurements will be for the analog hardware running in real-time on the dataset audio played over speakers into the device microphone.
+}
+
+\secondrev{\paragraph{Metrics} The following metrics should be reported: \begin{itemize}
+    \item \textbf{Accuracy} -- Accuracy of the predictions on the test set, measured from the system and not in any software simulation.
+    \item \textbf{Execution time} -- Execution time is the average time per sample for pre-processing and inference. The final result should be averaged over all samples in the test set. The time begins when data has been loaded into on-board or on-chip memory and is prepared to be processed. The time ends when the last timestep of the sequence has completed processing.
+    \item \textbf{Power/Energy} -- Idle power and active power should be reported, where idle power is power of the chip when it has been configured and it has prepared to begin processing. Note that this should not measure the device in a lower-power sleeping state. Active power is the average power consumed during processing. The difference between active power and idle power should be reported as dynamic power. Power should be converted to energy by multiplying power by the averaged execution time. The power measurement should include all computational components and power domains which are active during the workload processing. If applicable, power may be measured over longer data sequences (e.g. 5 seconds rather than 1 second), such that configuration costs are amortized over a longer period of processing. This should be done separately from accuracy and execution time experiments, and should be clearly detailed in the associated submission report.
+\end{itemize}}
+
+\subsubsection*{Quadratic Unconstrained Binary Optimization (QUBO)}
+
+\secondrev{Quadratic Unconstrained Binary Optimization (QUBO) refers to the problem of finding the binary variable assignment $x_i\in\{0, 1\}$ that optimizes the quadratic cost function
+$$ \min_{\mathbf{x}\in\{0,1\}^n} c(\mathbf{x}) = \min_{\mathbf{x}\in\{0,1\}^n} \mathbf{x}^T\mathbf{Q}\mathbf{x}$$
+subject to no constraints.}
+
+\secondrev{The solvers for QUBO will be benchmarked using Maximum Independent Set (MIS) workloads. Given an undirected graph $\mathcal{G}=(\mathcal{V}, \mathcal{E})$, an independent set $\mathcal{I}$ is a subset of $\mathcal{V}$ such that, for any two vertices $u, v \in \mathcal{I}$, there is no edge connecting them, i.e., $\nexists \; e \in \mathcal{E} \;s.t.\; e=(u,v) \;\vee\; e=(v,u)$.}
+
+\secondrev{The MIS problem has a natural QUBO formulation: for each node $u\in\mathcal{V}$ in the graph, a binary variable $x_u$ is introduced to model the inclusion or not of $u$ in the candidate solution. Summing the quadratic terms $x_u^2$ will thus result in the size of the set of selected nodes. To penalize the selection of nodes that are not mutually independent, a penalization term is associated to the interactions $x_ux_v$ if $u$ and $v$ are connected. The resulting $\mathbf{Q}$ matrix coefficients are defined as
+$$
+q_{uv} = \begin{cases}
+    -1 &\text{if } u = v \\
+    4 &\text{if } u \neq v \text{ and } (u, v) \in \mathcal{E} \\
+    0 & \text{otherwise.}
+\end{cases}
+$$
+The MIS problem is NP-hard and intractable, and therefore any solver system approximates a solution. Therefore, the cost of the QUBO formulation ($\mathbf{x}^T\mathbf{Q}\mathbf{x}$) is used to assess solutions, and solutions are not restricted to being maximum nor independent sets. The QUBO formulation ensures that any non-independent set will always have a higher cost than a corresponding independent set with conflicting nodes removed.}
+
+\secondrev{\paragraph{Benchmark Dataset} The benchmark's workload complexity is defined such that it can automatically grow over time, as neuromorphic systems mature and are able to support larger problems.
+\begin{itemize}
+    \item Number of nodes, spaced in a pseudo-geometric progression: 10, 25, 50, 100, 250, 500, 1000, 2500, 5000, ...
+    \item Density of edges: 1\%, 5\%, 10\%, 25\%.
+    \item Problem seeds: 0, 1, 2, 3, 4 are allowed for tuning. At evaluation time, for official results NeuroBench will announce five seeds for submission. Unofficial results may use seeds which are randomly generated at runtime.
+\end{itemize}
+}
+\secondrev{Each workload will be associated with a target optimality, which is the minimum cost found using a conventional solver algorithm. Small QUBO workloads with fewer than 50 nodes will be solved to global optimality, corresponding to the true maximum independent set. Larger workloads cannot be reasonably globally solved. The DWave Tabu CPU sampler~\cite{dwavesamplers} will be used with 100 reads and 50 restarts, and the QUBO solution with the best cost (best-known solution, BKS) found will set the target optimality for the tuning workload seeds. For evaluation workload seeds, the same method will be used to set the target optimality. 
+NeuroBench will provide target optimalities for workloads up to 5000 nodes. Submissions are encouraged to continue scaling up the workload size along the pattern to demonstrate the capacity of their systems. The first group that tackles workloads of an unprecedented size should provide the benchmark solutions via a pull request to the system track repository. The dataset workload generator and scripts for the DWave Tabu sampler to compute optimal costs are available in the repository, and this code is expected to be used as the front-end data generator for all submissions.
+}
+
+\secondrev{\paragraph{Task and Metrics} Based on the BKS found for each workload, the BKS-Gap optimality score of the solution found by the SUT is defined as
+$$
+\text{BKS-Gap} = (\frac{c - c_{\mathrm{target}}} {c_\mathrm{target}})\ ,
+$$ where $c_\mathrm{target}$ is the QUBO cost of the BKS, and $c$ is the cost found by the SUT. This may be reported as a percentage gap by multiplying by 100. If the SUT manages to beat the BKS, then the BKS-Gap will be negative.}
+
+\secondrev{Given each workload, the benchmark should report the BKS-Gap of the solution found by the SUT after a fixed runtime. The time begins after the graph has been loaded into the SUT. Timeouts spread across orders of magnitude ($10^{-3}$, $10^{-2}$, $10^{-1}$, $10^{0}$, $10^{1}$, $10^{2}$). As the runtime is fixed, no measured timing metric is reported, and submissions should report average power over the duration of the runtime, as it is directly proportional to energy consumed. Importantly, the QUBO solver needs a module to measure the cost of its solutions, and this module should be considered as part of the SUT, thus its computational demand and power must be included in the benchmarking results.}
+
+\secondrev{In the future, a different optimization task scenario may be used for the same QUBO dataset, in which the SUT must run until it reaches a small BKS-Gap, rather than stopping after a fixed-timeout. Here, the benchmark should report latency and energy required to reach BKS-Gap thresholds, e.g., 0.1, 0.05, and 0.01. This task scenario normalizes systems to solution quality, rather than SUT runtime.}
+
+% \secondrev{\paragraph{Tasks} The QUBO benchmark is defined with two benchmark task scenarios: fixed-time and time-to-solution.
+% \begin{itemize}
+%     \item \textbf{Fixed-time} -- Given each workload, report the BKS-Gap of the solution found by the SUT after a fixed runtime. The time begins after the graph has been loaded into the SUT. Timeouts spread across orders of magnitude ($10^{-3}$, $10^{-2}$, $10^{-1}$, $10^{0}$, $10^{1}$, $10^{2}$). As the runtime is fixed, no measured timing metric is reported, and submissions should report average power over the duration of the runtime, as it is directly proportional to energy consumed.
+%     \item \textbf{Time-to-solution} -- Given each workload, report the latency and energy to meet optimality thresholds. The average over 5 seeds for each workload is officially listed, as well as standard error. Results for all 5 seeds should be included in the submission report.
+%     Based on the target optimality $c_\mathrm{target}$ for each workload, the normalized optimality score of a solution is defined as 
+%     The BKS-Gap score thresholds are 0.1, 0.05, and 0.01. For each threshold, the submission reports the solution, the cost of the best solution, latency between start of the solver and finding the reported solution, and system energy. If the system does not reach the score threshold, no result is reported. All problem seeds must reach a score threshold in order for the result to be included in the official leaderboard, otherwise that particular result will be left blank.
+% \end{itemize}}
+
+% \secondrev{Under each task scenario, the solver needs to include a module that measures the cost of its solutions. This module should be considered as part of the SUT, thus its computational demand and energy must be included in the benchmarking results.}

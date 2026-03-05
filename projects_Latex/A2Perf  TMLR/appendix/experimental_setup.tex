@@ -1,0 +1,39 @@
+% \subsection{Training}
+% We used the Tensorflow Agents \cite{TFAgents} library to conduct distributed reinforcement learning experiments across the three domains: computer chip floorplanning, web navigation, and quadruped locomotion.
+% Our training setup consisted of one training server equipped with four A100 GPUs and multiple collect servers running in parallel.
+% The number of collect jobs running simultaneously varied depending on the specific domain and the available resources (such as CPU and memory) on the collect machines, which are important for running the environments efficiently.
+% When using a collect machine with 96 vCPUs, we adjusted the number of environment instances based on the computational requirements of each domain:
+
+% \begin{enumerate}
+
+% \item \textbf{Quadruped Locomotion}: With 96 vCPUs on the collect machine, we ran 44 quadruped locomotion environment instances concurrently.
+% \item \textbf{Computer Chip Floorplanning}: For the computer chip floorplanning domain, we ran 25 computer chip floorplanning environment instances on a collect machine with 96 vCPUs.
+
+% \item \textbf{Web Navigation}: When running web navigation experiments on a collect machine with 96 vCPUs, we instantiated 40 web navigation environment instances simultaneously.
+
+% \end{enumerate}
+% The behavioral cloning experiments for all three domains used the same setup as the online training experiments, with one training server equipped with four A100 GPUs.
+
+% \subsection{Inference}
+% For the inference phase, we used a single machine equipped with one V100 GPU to evaluate the trained models across all three domains: computer chip floorplanning, web navigation, and quadruped locomotion.
+% The difference in hardware between the training and inference setups does not affect the application performance metrics, as these metrics are independent of the hardware and reflect the effectiveness of the trained models. However, the system performance metrics, such as inference time and memory usage, may vary depending on the specific hardware used during inference.
+
+\subsection{Training}
+We used the Tensorflow Agents \cite{TFAgents} library to conduct distributed reinforcement learning experiments across the three domains: computer chip floorplanning, web navigation, and quadruped locomotion.
+Our training setup consisted of one training server (a Google Cloud a2-highgpu-8g instance\protect\footnotemark[1]) equipped with four NVIDIA A100 GPUs, and multiple collect servers (Google Cloud n2-standard-96 instances\protect\footnotemark[2]) with 96 vCPUs running in parallel.
+
+\footnotetext[1]{\href{https://cloud.google.com/compute/docs/gpus\#a100-gpus}{cloud.google.com/compute/docs/gpus}}
+\footnotetext[2]{\href{https://cloud.google.com/compute/docs/general-purpose-machines\#n2-standard}{cloud.google.com/compute/docs/general-purpose-machines}}
+
+The number of collect jobs running simultaneously varied depending on the specific domain and the available resources (such as CPU and memory) on the collect machines, which are important for running the environments efficiently. When using a collect machine with 96 vCPUs, we adjusted the number of environment instances based on the computational requirements of each domain:
+
+\begin{enumerate}
+\item \textbf{Quadruped Locomotion}: With 96 vCPUs on the collect machine, we ran 44 quadruped locomotion environment instances concurrently using Python 3.9.
+\item \textbf{Computer Chip Floorplanning}: For the computer chip floorplanning domain, we ran 25 computer chip floorplanning environment instances on a collect machine with 96 vCPUs using Python 3.10.
+\item \textbf{Web Navigation}: When running web navigation experiments on a collect machine with 96 vCPUs, we instantiated 40 web navigation environment instances simultaneously using Python 3.10.
+\end{enumerate}
+
+The behavioral cloning experiments for all three domains used the same setup as the online training experiments, with one training server equipped with four A100 GPUs.
+
+\subsection{Inference}
+For the inference phase, we used a single machine equipped with one NVIDIA V100 GPU to evaluate the trained models across all three domains: computer chip floorplanning, web navigation, and quadruped locomotion. The difference in hardware between the training and inference setups does not affect the application performance metrics, as these metrics are independent of the hardware and reflect the effectiveness of the trained models. However, the system performance metrics, such as inference time and memory usage, may vary depending on the specific hardware used during inference.

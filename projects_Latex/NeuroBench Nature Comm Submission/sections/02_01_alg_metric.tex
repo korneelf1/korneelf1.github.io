@@ -1,0 +1,45 @@
+    \subsection*{Algorithm Track Metrics}
+    The algorithm track establishes \textit{solution-agnostic} primary metrics which are generally relevant to all types of solutions, including artificial and spiking neural networks (ANNs, SNNs). Firstly, there are \textit{correctness} metrics, which measure the quality of the model predictions on the particular task, such as accuracy, mean average precision (mAP), and mean-squared error (MSE). The correctness metrics are specified per task for each benchmark. Next, there are \textit{complexity} metrics, which measure the computational demands of the algorithm. In the first iteration of the NeuroBench algorithm track, we assume a digital, time-stepped execution of the algorithm and define the following complexity metrics:
+
+    \begin{itemize}
+        \item \textbf{Footprint} -- A measure of the memory footprint, in bytes, required to represent a model, which reflects quantization, parameters, and buffering requirements. The metric summarizes (and can be further broken down into) synaptic weight count, weight precision, trainable neuron parameters, data buffers, etc. Zero weights are included, as they are distinguished in the \textit{connection sparsity} metric. 
+
+        % \item \textbf{Model Execution Rate} -- Execution rate, in Hz, of the model computation based on forward inference passes per second, measured in the time-stepped simulation timescale. The time is correlated to real-world data time. For example, if a model is designed to process data from an event camera with 50~ms input stride, the model execution rate is 20~Hz. This metric provides intuition into the deployed real-time responsiveness of a model, as well as its computational requirements. 
+        
+        \item \textbf{Connection Sparsity} -- %Within the model, a measure of the relationship between the nonzero ($m$) and total potential connections ($n$), summed over each layer ($l$), $1 - \sum_l \frac{(m_l)}{(n_l)}$. 
+        For a given model, the connection sparsity is the number of zero weights divided by the total number of weights, accumulated over all layers.
+        0 refers to no sparsity (fully connected) and 1 refers to full sparsity (no connections). This metric accounts for deliberate pruning and sparse network architectures. 
+        
+        \item \textbf{Activation Sparsity} -- During execution, the average sparsity of neuron activations over all neurons in all model layers, for all timesteps of all tested samples, where 0 refers to no sparsity (i.e., all neurons are always activated), and 1 refers to the case where all neurons have a zero output.
+
+        \item \textbf{Synaptic Operations} -- Average number of synaptic operations per model execution, based on neuron activations and the associated fanout synapses.
+        % The Frequency metric lists the rate of model computations. 
+        This metric is further subdivided into dense, effective multiply-accumulate, and effective accumulate synaptic operations (Dense, Eff\_MACs, Eff\_ACs). Dense accounts for all zero and nonzero neuron activations and synaptic connections, and reflects the number of operations necessary on hardware that does not support sparsity. Eff\_MACs and Eff\_ACs only count effective synaptic operations by disregarding zero activations (e.g., produced by the ReLU function in an ANN or no spike in an SNN) and zero connections, thus reflecting operation cost on sparsity-aware hardware. Synaptic operations with non-binary activation are considered multiply-accumulates (MACs), while those with binary activation are considered accumulates (ACs).
+    \end{itemize}
+
+    Footprint and connection sparsity are classified as \textit{static metrics}, which can be analytically determined from the model only. Activation sparsity, synaptic operations, and correctness are classified as \textit{workload metrics}, which are dependent on execution or simulation of the model based on the benchmark data.
+
+    \revision{In addition to the above complexity metrics, the algorithm track proposes to define \textit{Model Execution Rate}, corresponding to the rate, in Hz, at which the model's forward inference pass needs to be executed. For example, if a model is designed to process data from an event camera with a 50 ms input stride, the model execution rate is 20 Hz. The execution rate is a critical feature of the algorithm which provides intuition into the tradeoff between latency and computational footprint of a \textit{deployed} model, and is reported directly by the solution designer in benchmark results since it neither needs to be calculated nor extracted from the model or its outputs.}
+
+    %\revision{In addition to the complexity metrics, the algorithm track defines the \textbf{Model Execution Rate} numeric, which is the execution rate, in Hz, of the model computation based on forward inference passes per second, measured in the time-stepped simulation timescale. For example, if a model is designed to process data from an event camera with 50 ms input stride, the model execution rate is 20 Hz. The execution rate is a critical feature of the algorithm which provides intuition into the deployed real-time responsiveness and computational requirements of a model, and is reported directly by the solution designer in benchmark results since it neither needs to be calculated nor extracted from the model or its outputs.}
+    
+    The complexity metrics are measured independently of the underlying hardware and therefore do not explicitly correlate with post-deployment latency or energy consumption. However, they provide valuable insight into algorithm performance and resource requirements, enabling high-level comparison and facilitating prototyping. For instance, the execution rate and number of synaptic operations can be taken together to estimate the speed and dynamic power of a model deployed to certain hardware, and the footprint and connection sparsity can be used to proxy hardware resource utilization. %and static power.
+
+    Furthermore, the algorithm track can be extended with \textit{solution-specific} secondary metrics, which can offer deeper insights by using information specific to particular types of solutions. For example, for algorithms geared towards analog hardware, noise robustness is an important solution-specific metric. In addition, approaches with complex neuron dynamics may warrant measuring the overall complexity of a neuron update (i.e., type and counts of operations necessary to simulate the update), which can be combined with the total number of neuron updates in a model pass to calculate the cost of state updates. Such solution-specific metrics are expected to be community-driven and will be included in future NeuroBench algorithm track releases.
+
+
+    % JY: Moved this to after the benchmarks
+    % \paragraph{Limitations and Future Extensions.}
+    % The first-iteration algorithm track metrics are currently restricted to the assumption of a digital time-stepped execution of the algorithm. 
+    % Complexity analysis of digital time-stepped prototypes can be used as an intermediate step for solutions intended for analog or continuous time deployment, but the metric measurements are not yet defined for such execution.
+    % Informed by further benchmark implementations, future versions of NeuroBench will extend inclusiveness by expanding measurement protocols to include such algorithms.
+
+    % The synaptic operations metric, intended to capture the model computation cost, currently does not account for neuron updates. The dynamics of neuron models, including mechanisms such as leakage and reset, can vary heavily in complexity. However, the number and type of operations of neuron updates, as well as their overall costs, depend on arithmetic or circuit implementation, and thus are not accounted for in the broader algorithmic complexity metrics. Solution-specific metrics which assume a particular implementation platform, which have been defined previously~\cite{Lemaire_2023}, can be used to estimate neuron update costs. These can be combined with the total number of neuron updates per model computation in order to measure neuron operation complexity during evaluation.
+
+    % Data pre- and post-processing costs are also not yet captured in the NeuroBench algorithm track metrics. Such costs are, however, captured in the deployed metrics of the system track, which accounts for data processing hardware as part of the overall system during performance and efficiency measurements. Data processing metrics will be added as a separate complexity category for the algorithm track in the future.
+
+
+    
+    
+    % Data pre- and post-processing costs are not captured in the algorithm track due to the system-specific reliance of data manipulation (e.g., in-sensor data processing, such as in spiking sensors~\cite{anumula2018feature, Lichtsteiner_etal08_128x120}). 
+    % Such costs are, however, captured in the deployed metrics of the system track, which accounts for data processing hardware as part of the overall system during performance and efficiency measurements.

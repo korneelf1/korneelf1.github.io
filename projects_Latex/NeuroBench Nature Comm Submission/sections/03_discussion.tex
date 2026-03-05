@@ -1,0 +1,42 @@
+% Discussion section: succinct and no subheadings
+
+\section*{Discussion} % 500-750 words maximum
+
+% high level recap
+Benchmarking neuromorphic computing has faced challenges stemming from the diversity of neuromorphic approaches, the range of implementation and deployment tools, and rapid research evolution.
+NeuroBench addresses these challenges as a framework for the inclusive, actionable, and iterative benchmarking of neuromorphic solutions, by including novel tasks and metrics, open-source and extendable harness tooling, and facilitating systematic growth via community collaboration. NeuroBench is supported and developed by a broad community of neuromorphic researchers to be a standard, agreed-upon benchmarking framework for neuromorphic technology.
+
+Initial NeuroBench benchmarks span applications across domains of continual learning, computer vision, sensorimotor prediction, and time-series forecasting, as well as system implementations for audio and optimization settings. Baselines for each benchmark of the complete v1.0 algorithm track demonstrate the utility and validity of the metric framework, and offer a starting point to further algorithmic research in model architecture and training for greater performance and lowered complexity. 
+\secondrev{The system track v1.0 benchmark baselines similarly provide the groundwork for both conventional and head-to-head comparisons of deployed hardware systems. Via collaboratively-defined measurement methodology and task specifications, the shared system track guidelines will be modified and extended to define standard protocols for continuous-time execution, analog circuit implementations, and other exploratory platforms in simulation stages, such as memristive hardware.}
+
+% \revision{The initial NeuroBench algorithm and system tracks achieve the first steps of designing benchmarks for algorithms executed in a digital time-stepped fashion and systems in mature deployment stages.
+% % The algorithm track benchmarks are yet limited by an absence of standard metrics for measuring continuous-time solutions, and capturing the complexities of data pre-/post-processing and neuron dynamics. 
+% % Currently, the benchmark is limited to models written using PyTorch dependent libraries and does not yet measure complexity related to the neuron dynamics. Both of these limitations are planned to be covered in the future. NeuroBench benchmarks the model in isolation, not taking into account the pre- and post-processing of the complete pipeline. 
+% In order to expand inclusive and fair benchmarking to further approaches, the next milestones of the NeuroBench project will be to extend metrics and standard protocol designs to cover continuous-time execution and a wider range of hardware platforms including FPGAs, custom integrated circuits, as well as more exploratory platforms in simulation stage, such as memristive hardware.}
+
+Another important direction for NeuroBench is towards closed-loop benchmarks~\cite{closedloop-andre, closedloop-terry}. Biological systems excel in interacting with dynamic environments, demonstrating high energy efficiency, real-time reaction, and versatility. As such, embodied intelligence with adaptive sensory and action capabilities are of interest to neuromorphic research. In closed-loop scenarios, the objective is to sense and act within an environment to complete a task, rather than to statically process a frozen dataset, thus the benchmark harness infrastructure and measurement protocols will be extended to facilitate such benchmarks.
+
+% , the current implemented tasks fall short in benchmarking these problems.
+
+% Another important direction for NeuroBench, is closed-loop benchmarks. Biological systems excel in interacting with their environment and acting in dynamic environments, while maintaining an impressive energy efficiency, speed and adaptability. Researchers in the field of neuromorphics attempt to replicate the biological systems responsible for these capabilities to achieve these desired characteristics. Due to the unique nature of closed-loop systems, where objective is to complete a task in an environment rather than the classic tasks where static datasets are used and the model accuracy is the primary metric, the current implemented tasks fall short in benchmarking these problems. To support the efforts in the development of neuromorphic intelligence, including closed-loop benchmarks is of utmost importance.
+
+All future NeuroBench expansion will be informed by collected results and continue to be driven by the interests and development of the broader community.
+
+% The benchmarks provide the community with goalpoint targets and offer modes for measuring steps towards those targets.
+
+% The v1.0 algorithm track benchmark suite and first iteration of the system track measure the complexity of algorithms executed in a digital time-stepped fashion and performance of mature neuromorphic hardware systems. Future iterations of NeuroBench will look to expand to include support for the measurement of continuous-time executed algorithms and less-developed hardware platforms, such as FPGA and simulated synthesized designs, by defining further standard measurement protocols and metrics. 
+
+%     \KVDB{list of covered not covered not yet covered (not final) }\\
+%     covered:
+%     complexity metrics for digital timestepped alg isolated model, based off pytorch
+% \\
+%     not YET covered:
+%     neuron complexity,
+%     tensorflow or other libraries,
+%     continuous time algorithms,
+%     (closed-loop)
+% \\
+%     not covered: 
+%     full data pipeline (pre and post processing)
+
+% \paragraph{Next steps.} NeuroBench will continue to expand, in finalizing the system track v1.0 benchmarks and looking towards further benchmark tasks, metrics, and supported approaches in future versions of the algorithm track. Benchmark leaderboards will be maintained in order to track the state-of-the-art methods and research growth over time. Competitions, workshops, and tutorials may also be planned utilizing the NeuroBench benchmark tasks and tooling. NeuroBench welcomes collaborative design in its open community, in order to foster standard and representative neuromorphic benchmarking, interested members can find details on the website\footnote{\href{https://neurobench.ai}{https://neurobench.ai}}.

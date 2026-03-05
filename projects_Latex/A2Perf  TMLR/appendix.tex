@@ -1,0 +1,44 @@
+\addcontentsline{toc}{section}{Appendix} % Add the appendix text to the document TOC
+\part{Appendix} % Start the appendix part
+\parttoc % Insert the appendix TOC
+
+\section{Additional Experiments}
+\label{appendix:additional_experiments}
+
+We present an extensive set of additional experiments that showcase A2Perf's capabilities in evaluating autonomous agents across various domains and tasks. The results encompass a wide range of metrics, including data cost, reliability, system performance, and application performance, providing a holistic view of the strengths and limitations of different algorithmic approaches.
+
+The circuit training domain experiments (Appendix~\ref{appendix:circuit_training}) reveal interesting trade-offs between behavioral cloning, DDQN, and PPO in terms of data efficiency, computational requirements, and performance consistency. Moving to the quadruped locomotion domain (Appendix~\ref{appendix:quadruped_locomotion}), we observe how the reliability metrics shed light on the robustness and worst-case behavior of the agents during both training and inference phases. The web navigation domain (Appendix~\ref{appendix:quadruped_locomotion}) introduces an additional layer of complexity, with websites of varying difficulty levels. Here, the system performance metrics highlight the substantial computational demands, particularly in terms of memory usage, associated with training web navigation agents. To further facilitate a clear and intuitive comparison of the algorithms' performance across all domains and tasks, we have included graphical visualizations (Appendix~\ref{appendix:radar_plots}) that summarize the key metrics along different evaluation dimensions.
+
+These experiments show A2Perf's versatility in providing a comprehensive and nuanced evaluation of autonomous agents operating in diverse and realistic settings. By considering multiple performance aspects and presenting the results in both tabular and graphical formats, A2Perf enables researchers and practitioners to gain valuable insights into the behavior and limitations of different algorithmic choices, ultimately guiding the development of more robust and efficient autonomous agents.
+
+\input{appendix/additional_experiments}
+
+\section{Experimental Setup}
+\label{appendix:experimental_setup}
+\input{appendix/experimental_setup}
+
+\section{Hyperparameters}
+\label{appendix:hyperparameters}
+\input{appendix/hyperparameters}
+
+
+
+\section{Dataset Collection}
+\label{appendix:dataset_collection}
+\input{appendix/dataset_collection}
+
+
+\section{Dataset Information}
+\label{appendix:dataset_information}
+\input{appendix/dataset_information}
+
+
+\section{Software Usage}
+\label{appendix:software_usage}
+\input{appendix/software_usage}
+
+
+\section{Website Generation \& Agent Interaction}
+\label{appendix:website_generation}
+\input{appendix/website_generation}
+

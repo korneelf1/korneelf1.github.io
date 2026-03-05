@@ -1,0 +1,40 @@
+% \begin{table}[h]
+% \centerline{
+% \renewcommand{\arraystretch}{1.2}
+% \begin{tabular}{|c|c|c|c|c|c|ccc|}
+% \hline
+% \multirow{2}{*}{Baseline} &
+%   \multirow{2}{*}{COCO mAP} &
+%   \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Footprint\\ (bytes)\end{tabular}} &
+%   \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Frequency\\ (Hz)\end{tabular}} &
+%   \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Connection\\ Sparsity\end{tabular}} &
+%   \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Activation\\ Sparsity\end{tabular}} &
+%   \multicolumn{3}{c|}{SynOps} \\ \cline{7-9} 
+%         &       &          &    &     &       & \multicolumn{1}{c|}{Dense}    & \multicolumn{1}{c|}{Eff\_MACs} & Eff\_ACs \\ \hline
+% RED ANN & 0.429 & $9.13 \times 10^7$ & 20 & 0.0 & 0.634 & \multicolumn{1}{c|}{$2.84 \times 10^{11}$} & \multicolumn{1}{c|}{$2.48 \times 10^{11}$}  & 0 \\ \hline
+% Hybrid  & 0.271 & $1.21 \times 10^7$ & 20 & 0.0 & 0.613 & \multicolumn{1}{c|}{$9.85 \times 10^{10}$} & \multicolumn{1}{c|}{$3.76\times 10^{10}$}  & $5.60\times10^8$ \\ \hline
+% \end{tabular}
+% }
+% \caption{Baseline results for the event camera object detection task.}
+%     \label{tab:ObjDet_resuls}
+% \end{table}
+
+\begin{table}[ht]
+\centerline{
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{c|cccccccc} \thickhline
+\multirow{2}{*}{Baseline} &
+  \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}mAP\end{tabular}} &
+  \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Footprint\\ (bytes)\end{tabular}} &
+  \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Model Exec.\\ Rate (Hz)\end{tabular}} &
+  \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Connection\\ Sparsity\end{tabular}} &
+  \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Activation\\ Sparsity\end{tabular}} &
+  \multicolumn{3}{c}{SynOps (per model exec.)} \\ \cline{7-9} 
+        &       &          &    &     &       & \multicolumn{1}{c}{Dense}    & \multicolumn{1}{c}{Eff\_MACs} & Eff\_ACs \\ \hline
+RED ANN & 0.429 & $9.13 \times 10^7$ & 20 & 0.0 & 0.634 & \multicolumn{1}{c}{$2.84 \times 10^{11}$} & \multicolumn{1}{c}{$2.48 \times 10^{11}$}  & 0 \\
+Hybrid  & 0.271 & $1.21 \times 10^7$ & 20 & 0.0 & 0.613 & \multicolumn{1}{c}{$9.85 \times 10^{10}$} & \multicolumn{1}{c}{$3.76\times 10^{10}$}  & $5.60\times10^8$ \\ \thickhline
+\end{tabular}
+}
+\caption{Baseline results for the event camera object detection task.}
+    \label{tab:ObjDet_resuls}
+\end{table}

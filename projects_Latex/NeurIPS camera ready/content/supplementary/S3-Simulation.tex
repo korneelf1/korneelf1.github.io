@@ -1,0 +1,84 @@
+\subsection{Simulator and Training Details} \label{sup:sim}
+
+The design of the reward structure and termination conditions plays a critical role in shaping the learned policy. Overly strict rewards can prevent learning altogether, while rewards that are too lenient often lead to unsafe or suboptimal behavior. In practice, tuning the reward function is crucial for the success of reinforcement learning algorithms \cite{Silver2021}.
+
+The reward function is described as:
+\begin{equation}\label{eq:supreward}
+    r_t = C_{rs} - C_{rp}\|p_t - p_{\text{des}}\|^2 - C_{rv}\|v_t - v_{\text{des}}\|^2 - C_{rq}\|q_t - q_{\text{des}}\|^2 - C_{ra}\|a_t- C_{rab}\|^2 
+\end{equation}
+
+where:
+\begin{itemize}
+    \item $p_t \in \mathbb{R}^3$ is the current position $(x, y, z)$, $p_{\text{des}}$ is the desired hover position
+    \item $v_t \in \mathbb{R}^3$ is the linear velocity $(v_x, v_y, v_z)$, $v_{\text{des}}$ is the desired velocity
+    \item $q_t \in \mathbb{R}^3$ represents the orientation angles $(\theta, \phi, \psi)$, $q_{\text{des}}$ is the desired orientation
+    \item $a_t \in \mathbb{R}^4$ is the action (motor commands)
+    \item $C_{rs}$ is the survival bonus to discourage early termination
+    \item $C_{rab}$ is a fixed action baseline offset
+\end{itemize}
+
+To encourage stable and progressively more precise control, a reward curriculum is applied by linearly increasing the penalties during training. The initial and final values are summarized in Table~\ref{tab:reward_parameters}.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{@{}lcccccc@{}}
+        \toprule
+        & \(C_{rp}\) & \(C_{rv}\) & \(C_{ra}\) & \(C_{rq}\) & \(C_{rs}\) & \(C_{rab}\) \\
+        \midrule
+        Start & 1.0 & 0.01 & 0.14 & 0.25 & 1.0 & 0.667 \\
+        End   & 3.5 & 0.10 & 0.50 & 0.25 & 1.0 & 0.667 \\
+        \bottomrule
+    \end{tabular}
+    \caption{Reward parameters used during training. Penalties increase linearly across epochs, updated in six steps.}
+    \label{tab:reward_parameters}
+\end{table}
+
+
+
+
+\paragraph{Drone Dynamics.}
+The simulated drone uses a simple physics model. Motor thrust is derived from RPM via a second-order polynomial:
+\[
+T = c_0 + c_1 \cdot \text{rpm} + c_2 \cdot \text{rpm}^2
+\]
+The motor dynamics are modeled using a first-order low-pass filter:
+\[
+\Delta \text{rpm} = \frac{\text{rpm}_{\text{des}} - \text{rpm}_{\text{curr}}}{\tau}
+\]
+where \( \tau \) represents the motor time constant. Body-frame dynamics are integrated and then transformed to the world frame, as described by Eschmann et al.\cite{Eschmann2023}.
+
+\paragraph{Training Hyperparameters.}
+Table~\ref{tab:hyperparameters} provides an overview of the hyperparameters used across all methods. Common parameters are listed first, followed by method-specific values.
+
+\begin{table}[htbp]
+\centering
+\caption{Training hyperparameters for all methods.}
+\label{tab:hyperparameters}
+\begin{tabular}{lllll}
+\toprule
+\textbf{Parameter} & \textbf{BC} & \textbf{TD3BC} & \textbf{TD3BC+JSRL} [Ours] & \textbf{TD3} \\
+\midrule
+\multicolumn{5}{l}{\textbf{Common Parameters}} \\
+\midrule
+Hidden sizes        & [256, 128] & [256, 256] & [256, 128] & [256, 128] \\
+Learning rate       & 1e-3       & 1e-3       & 1e-3       & 1e-3       \\
+Buffer size         & 1M         & 1M         & 2M         & 2M         \\
+Slope start         & 2          & 2          & 2          & 2          \\
+Slope schedule      & adaptive   & adaptive   & adaptive   & adaptive   \\
+Scheduling order    & 3          & 3          & 3          & 3          \\
+\midrule
+\multicolumn{5}{l}{\textbf{Method-Specific Parameters}} \\
+\midrule
+Warm-up steps       & 50         & 50         & 50         & --         \\
+Policy noise        & 0.0        & 0.0        & 0.2        & --         \\
+Noise clip          & --         & 0.5        & 0.5        & --         \\
+\(\alpha\) (TD3BC)  & --         & 2.0        & 2.0        & --         \\
+\(\tau\) (Target)   & --         & 0.01       & 0.01       & 0.01      \\
+\(\gamma\) (Discount) & --       & 0.99       & 0.99       & 0.99       \\
+\(\lambda\) (BC coef)      & --         & --         & 0.2        & --         \\
+BC decay factor     & --         & --         & 0.99       & --         \\
+Training epochs     & 300        & 300        & 1000       & 1000        \\
+Steps per epoch     & --         & --         & 2M         & 1M         \\
+\bottomrule
+\end{tabular}
+\end{table}

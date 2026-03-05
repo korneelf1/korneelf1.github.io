@@ -1,0 +1,12 @@
+As a kid, I was convinced I would grow up to be an inventor. Flying cars, time machines, intelligent robots, the usual ambitious roadmap. Reality, of course, intervened early. Most of my first “inventions” failed spectacularly. But looking back, there is one early project that I still consider a success, not because it was impressive, but because it was the first time I truly tried to engineer something and saw it (sort of) work.
+
+This was back in 2012, in the final year of primary school. My dad was about to throw away an old chainsaw, and to my 11-year-old brain, that engine represented pure potential. Fascinated by loud engines and going fast, I though the logical thing to do was to build myself a motorcycle out of it. 
+
+Armed with naïve confidence and a complete lack of understanding, I began sketching concepts. There were vintage café-racer–style bikes, futuristic Tron-inspired designs, and drivetrains ranging from chain-driven to belt-driven to direct drive. After reality slowly set in, I converged on a much simpler plan: find an old bicycle, attach the chainsaw, and weld everything together.
+
+Convincing my parents to sacrifice my old bike as a testbed for this “motorcycle” took some effort, I finally got the ideal bike to start the project. An old mountainbike, which I believed would be perfect to go offroading. That still left one major problem: neither I, nor anyone I knew, had any real experience with engines, welding, or mechanical design of any kind. What followed were weeks of bike rides through industrial terrains, searching for sprockets, spare parts, advice, and anyone who seemed knowledgeable enough to help.
+
+Finally, I converged to the simplest possible implementation once again, just let the clutch of the chainsaw drive my back wheel directly, and connect the throttle of the chainsaw to one of my brakes. Drawing out what this would look like, I found a family friend who was willing to help me weld it together, and a few weeks later I was terrorizing my neighborhood with a chainsaw powered bike, that could reach a topspeed around 40km/h. 
+
+While the project only succeeded thanks to the help of people who became just as enthusiastic as I was, but who actually had the knowledge to make it work, the experience was incredibly rewarding. That sense of building something real, with my own hands, was enough to hook me immediately.
+That same year, Santa Claus brought me a welding machine, and I spent all of my savings on three old (and very broken) pocket bikes for thirty euros.

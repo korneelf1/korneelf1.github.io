@@ -1,0 +1,91 @@
+\documentclass[fleqn,10pt]{wlscirep}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+% \usepackage[demo]{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{siunitx}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{svg}
+
+\usepackage[normalem]{ulem}
+
+\usepackage{lineno}
+\linenumbers
+
+%% Activate this line for a clean version
+% \def\forsubmission{1}
+
+%%%%%% Add comment commands here %%%%%%%%%%%%%
+\ifx\forsubmission\undefined
+\definecolor{YB}{RGB}{0,150,255}
+\newcommand{\JY}[1]{\textcolor{blue}{JY: #1}}
+\newcommand{\CF}[1]{\textcolor{red}{CF: #1}}
+\newcommand{\YB}[1]{\textcolor{YB}{YB: #1}}
+\newcommand{\KVDB}[1]{\textcolor{green}{KVDB: #1}}
+\newcommand{\TODO}[1]{\textcolor{blue}{TODO: #1}}
+\newcommand{\note}[1]{\textcolor{blue}{Note: #1}}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\revision}[1]{\textcolor{black}{#1}}
+\newcommand{\secondrev}[1]{\textcolor{red}{#1}}
+\else 
+\newcommand{\JY}[1]{\textcolor{blue}{}}
+\newcommand{\CF}[1]{\textcolor{red}{}}
+\newcommand{\YB}[1]{{}}
+\newcommand{\KVDB}[1]{\textcolor{green}{}}
+\newcommand{\TODO}[1]{\textcolor{red}{}}
+\newcommand{\note}[1]{\textcolor{blue}{}}
+\newcommand{\red}[1]{\textcolor{red}{}}
+\newcommand{\revision}[1]{#1}
+\newcommand{\secondrev}[1]{#1}
+\fi
+
+
+
+\def\thickhline{\noalign{\hrule height.8pt}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\renewcommand*\thefootnote{\alph{footnote}}
+
+% JY: No punctuation is allowed in the title for Nature papers
+\title{The NeuroBench Framework for Benchmarking Neuromorphic Computing Algorithms and Systems}
+% \title{NeuroBench: A Framework for Benchmarking Neuromorphic Computing Algorithms and Systems}
+
+\input{sections/authors}
+
+\keywords{benchmark, neuromorphic}
+
+\input{sections/00_abstract}
+
+\begin{document}
+
+\flushbottom
+
+% \ifx\forsubmission\undefined
+% \maketitlewithnodistribute
+% \else
+\maketitle
+% \fi
+
+\thispagestyle{empty}
+
+%%% Text %%%
+
+\input{sections/01_introduction}
+\input{sections/02_00_alg_track}
+\input{sections/03_discussion}
+\input{sections/04_00_methods}
+\input{sections/05_acknowledgements}
+
+\bibliography{ref}
+
+\input{sections/06_additional}
+
+%%%      %%%
+
+\end{document}

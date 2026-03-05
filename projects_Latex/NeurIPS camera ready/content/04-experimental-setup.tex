@@ -1,0 +1,59 @@
+\subsection{Quadrotor Position Control Task}
+We validate our approach on low-level quadrotor control, a challenging domain where (1) early crashes prevent long sequences needed for SNN warm-up, directly testing our TD3BC+JSRL solution, and (2) the temporal dynamics stress-test surrogate gradient choices across extended rollouts. 
+he Crazyflie 2.1 platform \cite{crazyflie} provides 18-dimensional state vectors of position, velocity, orientation, and angular velocity. The controller outputs motor commands $a_t \in \mathbb{R}^4$ at $100Hz$, matching the onboard sensor update rate.
+
+\autoref{fig:task_descript} illustrates the information flow between the Crazyflie platform and the spiking controller.
+
+\begin{figure*}[ht!]
+    \centering
+    % \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includesvg[width=.49\textwidth]{figures/task_drawing.svg}
+        \caption{The spiking controller receives $(x, y, z)$, linear velocity $(v_x, v_y, v_z)$, orientation angles $(\theta, \phi, \psi)$, and angular velocities $(p, q, r)$ inputs and outputs motor commands $(m_1, m_2, m_3, m_4)$. }
+        \label{fig:task_descript}
+\end{figure*}
+
+Episodes terminate after $500$ timesteps ($5$ seconds) or upon crashes. This limit creates the core challenge our method addresses: early training policies crash within ~100 steps, preventing data collection beyond the 50-step warm-up period required for stable SNN gradients.
+
+Training completes in 6 hours on an M4 Pro MacBook (24GB RAM). We compare four approaches (\autoref{tab:learning_methods_comparison}): 
+
+\newcommand{\xmark}{\text{\sffamily X}} 
+\begin{table}[h]
+    \caption{Method comparison. Only TD3BC+JSRL (ours) combines online learning 
+    with warm-up bridging and demonstration leveraging, enabling sequence-based 
+    SNN training despite early crashes.}
+    \centering
+    \begin{tabular}{@{}lcccc@{}}
+        \toprule
+        \textbf{Method} & \textbf{Type} & \textbf{Leverages Reward} & \textbf{Warm-up} & \textbf{Uses Demos}  \\ 
+        \midrule
+        BC & Offline & \xmark & \xmark & \checkmark \\
+
+        TD3BC & Offline & \checkmark & \xmark & \checkmark  \\
+
+        TD3 & Online & \checkmark & \xmark & \xmark  \\
+
+        TD3BC+JSRL (Ours) & Online & \checkmark & \checkmark & \checkmark \\
+        % \bottomrule
+    \end{tabular}
+    \label{tab:learning_methods_comparison}
+\end{table}
+
+\subsection{Simulation Environment and Reward Structure}
+The controller is trained in simulation, relying on a dynamics model which has demonstrated sim-to-real bridging capabilities \cite{Eschmann2023}. 
+
+We employ a linear curriculum learning approach where the reward structure increases difficulty as training advances. The total reward at each timestep is computed using \autoref{eq:reward}.
+
+\begin{equation}\label{eq:reward}
+    r_t = C_{rs} - C_{rp}\|p_t - p_{\text{des}}\|^2 - C_{rv}\|v_t - v_{\text{des}}\|^2 - C_{rq}\|q_t - q_{\text{des}}\|^2 - C_{ra}\|a_t- C_{rab}\|^2, 
+\end{equation}
+where $C_{rs}$ is a survival bonus encouraging long episodes, $C_{rp}, C_{rv}, C_{rq}$ penalize deviations from desired 
+states, such as $p_{\text{des}}$, and $C_{ra}\|a_t - C_{rab}\|^2$ penalizes deviations from hover throttle 
+$C_{rab}$. We apply curriculum learning by linearly interpolating penalty 
+coefficients from lenient to strict values over training. The reward is explained in detail in \autoref{sup:sim}.
+
+
+
+
+% A more detailed description of the environment and reward structure can be found in \autoref{sup:sim}.
+

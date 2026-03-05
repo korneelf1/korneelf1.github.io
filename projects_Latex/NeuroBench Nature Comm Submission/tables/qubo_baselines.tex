@@ -1,0 +1,17 @@
+\begin{table}[ht]
+\centerline{
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{c|cc}
+\thickhline
+\multirow{2}{*}{Baseline} &
+  \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Avg.\\ BKS-Gap \%\end{tabular}} &
+  \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Avg. Runtime \\ Power (W)\end{tabular}} \\
+           &      &       \\ \hline
+CPU - SA   & TODO & 87.78 \\ \hline
+CPU - TABU & TODO & 97.56 \\ \hline
+Loihi 2    & TODO & 2.62  \\ \thickhline
+\end{tabular}
+}
+\caption{\secondrev{Baseline results for the QUBO task. Avg. BKS-Gap\% measures the average gap percentage between the solution found by the SUT and the best-known solution, averaged across fixed timeouts from $10^{-3}$ to $10^{2}$ seconds, graph sizes of $10^1$ to $10^3$, and graph density of 15\%. Average runtime power is measured over graph sizes of $10^1$ to $10^3$, and densities of 5\%, 15\%, and 30\%. Figures~\ref{fig:qubo_bksgap} and~\ref{fig:qubo_power} provide the breakdown of these results.} \TODO{Doesn't make sense to have a table since graph size changes things a log, and power increases as a function of graph size. Intel also prefer to keep the credit for their results, which means this benchmark will appear to be a copy.}}
+\label{tab:qubo_results}
+\end{table}

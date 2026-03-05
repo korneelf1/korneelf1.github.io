@@ -1,0 +1,221 @@
+
+% To assess autonomous agents for the real-world, in \method we offer a comprehensive set of metrics along four categories for evaluation: data cost, application performance, system performance, and reliability.
+% Table~\ref{tab:all_metrics} offers a summary of the metrics corresponding to each category.
+
+% The importance of each category depends on the specific application at hand, and \method provides a detailed breakdown of these metrics to guide practitioners in selecting the most suitable agent for their use case.
+
+
+% To assess autonomous agents for real-world applications, \method offers a comprehensive set of metrics across four categories: data cost, application performance, system performance, and reliability.
+% Table~\ref{tab:all_metrics} summarizes the metrics corresponding to each category.
+% The relative importance of these categories varies depending on the specific application domain, so in Section~\ref{sec:domain_background}, we state which metric categories are most critical for each domain included in the initial release of \method to help guide practitioners in selecting the most suitable agent for their use case.
+
+
+\subsection{Motivation}
+\label{ssec:metrics_motivation}
+Deploying autonomous agents in real-world applications generally follows a progression: practitioners first collect demonstration data or other offline data, train the agent using custom or off-the-shelf algorithms, and finally deploy the agent to a target domain.
+\method provides metric categories that evaluate each stage: data cost, system performance, application performance, and reliability. 
+Data cost quantifies the effort required to collect the initial demonstrations or other offline data used for training.
+Application performance metrics are used to evaluate how effectively an agent learns to perform tasks within its domain.
+For deployment, system performance determines what computational resources the agent requires, while reliability metrics reveal how consistently it performs beyond simple averages of achieved rewards.
+Table~\ref{tab:all_metrics} summarizes the individual metrics corresponding to each category.
+The relative importance of these categories varies depending on the specific application domain, so in Section~\ref{sec:domain_background}, we state which metric categories are most critical for each of \method's domains to help guide practitioners in selecting the most suitable agent for their use case.
+
+\begin{table}[!t]
+\setlength{\tabcolsep}{3pt} % default value: 6pt
+\small
+\centering
+\resizebox{\textwidth}{!}{
+\begin{tabular}{>{\centering\arraybackslash}m{2cm}>{\centering\arraybackslash}m{3cm}>{\centering\arraybackslash}m{3cm}>{\centering\arraybackslash}m{4cm}>{\centering\arraybackslash}m{3cm}}
+\toprule
+\textbf{} & \textbf{Data Cost} & \textbf{System} & \textbf{Reliability} & \textbf{Application} \\
+\midrule
+\textbf{Training} & 
+\begin{tabular}{@{}c@{}}Training Sample Cost\end{tabular} & 
+\begin{tabular}{@{}c@{}}Energy\\Power\\RAM Usage\\Wall-Clock Time\end{tabular} & 
+\begin{tabular}{@{}c@{}}Dispersion (Runs)\\Dispersion (Time)\\Long-Term Risk (Time)\\Risk (Runs)\\Short-Term Risk (Time)\end{tabular} & 
+\begin{tabular}{@{}c@{}}Episodic Returns\\Generalization Returns\end{tabular} \\
+\midrule
+\textbf{Inference} & 
+\begin{tabular}{@{}c@{}}N/A\end{tabular} & 
+\begin{tabular}{@{}c@{}}Inference Time\\Power\\RAM Usage\end{tabular} & 
+\begin{tabular}{@{}c@{}}Dispersion (Rollouts)\\Risk (Rollouts)\end{tabular} & 
+\begin{tabular}{@{}c@{}}N/A \\ \end{tabular} \\
+\bottomrule
+\end{tabular}
+}
+\caption{\method assesses four categories—data cost, system performance, reliability, and application performance—during training and inference. These metrics provide a comprehensive evaluation of autonomous agents. See Section \ref{sec:metrics} for detailed descriptions of the metric categories. Data Cost is marked as "N/A" at inference time since pre-existing data and demonstrations are only used during training. Application metrics are marked as "N/A" during inference since performance and generalization are evaluated based on the complete training process.}
+\label{tab:all_metrics}
+\end{table}
+
+\subsection{Data Cost}
+\label{sec:training_sample_cost}
+Autonomous agents can be trained either with or without expert demonstrations. Methods that leverage expert demonstrations, such as imitation learning (IL) \citep{gail, bc_zero, robotics_transformer, bansal2018chauffeurnet,kelly2019hg,Sermanet2018TimeContrastive}, aim to learn from pre-collected datasets of human or expert agent trajectories. On the other hand, methods like online \citep{mnih2015human} and offline RL \citep{levine2020offline,uchendu2023jump,nair2020awac,ball2023efficient} do not necessarily require expert demonstrations and instead learn through interaction with the environment or sub-optimal demonstration data.
+
+Comparing agent performance trained using different approaches is challenging but important to gain a holistic picture of the costs and trade-offs involved.
+IL methods may be more sample efficient than RL methods, as they do not need to interact with the environment online. However, this perspective overlooks the \textit{effort} required to collect demonstration data used for IL.
+
+To facilitate fair comparisons between these approaches, we propose the \textbf{training sample cost} metric, which quantifies the effort required to obtain offline datasets used by the agent.
+In this context, we denote the training sample cost of an offline dataset $D$ as $C_D$.
+An agent that uses samples from datasets $D_1, D_2, \dots, D_K$ will incur a total training sample cost of $\texttt{Training Sample Cost} = \sum_{i=1}^K C_{D_i}$.
+The datasets $D_i$ could be of different \textit{expertise} levels, meaning they contain demonstrations from agents or humans with varying levels of task proficiency.
+
+The training sample cost can be measured with any metric that meaningfully represents the effort required to generate samples for imitation learning. For example, the cost could be expressed in terms of money spent on human labor or computational resources, hours invested in collecting the data, or any other relevant metric.
+The choice of metric may depend on the specific application and the type of data being collected since training samples can originate from a variety of sources, such as human operators \citep{mandlekar2020learning}, pre-existing policies \citep{hester2018deep}, or logged experiences from different agents \citep{fujimoto2019off,kostrikov2021offline}.
+
+% In \method, we restrict our use of the training sample cost metric to datasets generated solely from RL policies. Specifically, we define the training sample cost, $C_D$, of a dataset $D$ as the average energy consumed to train the policies that are used to generate the dataset $D$.  This can be expressed as:
+In \method, we adopt a simplified approach by focusing on datasets generated solely from RL policies, using energy consumption as our training sample cost metric. This design choice enables systematic evaluation while avoiding the complexities of collecting and pricing human demonstrations. Specifically, we define the training sample cost, $C_D$, of a dataset $D$ as the average energy consumed to train the policies that are used to generate the dataset $D$. This can be expressed as:
+\begin{align}
+C_D = \frac{1}{|\Pi_D|} \sum_{\pi \in \Pi_D} E_{\text{train}}(\pi)
+\end{align}where $\Pi_D$ is the set of policies used to generate the dataset $D$, $|\Pi_D|$ denotes the number of policies in this set, and $E_{\text{train}}(\pi)$ represents the energy consumed to train the policy $\pi$.
+As we strive for more equitable comparisons between approaches to training autonomous agents, we urge the research community to consider the cost of acquiring training data. To this end, we release datasets for each domain and task in \method, along with their associated training sample costs.
+While the specific expertise levels may vary across domains and tasks, we generally consider three categories: \texttt{novice}, \texttt{intermediate}, and \texttt{expert}.
+See Appendix \ref{appendix:dataset_collection} for the dataset collection procedure and Appendix \ref{appendix:dataset_information} for details on the dataset format.
+
+\subsection{System Performance}
+\label{ssec:system_performance}
+System metrics provide insight into the feasibility of deploying autonomous agents, particularly considering the scaling demands on energy and data efficiency \citep{frey2022benchmarking}. \method uses the CodeCarbon library \citep{codecarbon} to track metrics during training, such as energy usage, power draw, RAM consumption, and wall-clock time. Energy and power usage inform the user about the sustainability and costs associated with training the agent, which is particularly important in power-constrained environments or when planning for long-term, continuous training \citep{PARISI201954}. RAM consumption metrics help in understanding the memory efficiency of the training process, as high RAM consumption may limit the settings where the agent can be trained or require costly hardware upgrades \citep{li2023breaking}. During the inference phase, \method records power draw, RAM consumption, and average inference time.
+
+% System performance measurements may vary significantly across different experimental setups. 
+% To ensure reproducibility and facilitate meaningful comparisons, we strongly recommend that users report the deep learning framework, CPU model, GPU model, and Python version used when running \method.
+% Section \ref{ssec:community_benchmarking} provides a detailed overview of how practitioners should report results obtained with \method.
+% Providing this information allows for more accurate interpretation of results.
+% For details on our experimental setup, please refer to Appendix \ref{appendix:experimental_setup}.
+
+Given that system performance metrics can vary substantially across hardware configurations and software environments, reporting detailed experimental setup information is crucial for reproducibility.
+When using \method, researchers should specify their deep learning framework, CPU and GPU models, and Python version to enable meaningful comparisons.
+We provide a guideline for reporting results in Section \ref{ssec:community_benchmarking}, and our own experimental configuration is detailed in Appendix \ref{appendix:experimental_setup}. This standardized reporting approach ensures that the research community can accurately interpret and build upon published results.
+
+\subsection{Reliability}
+\label{ssec:reliability}
+
+\renewcommand{\arraystretch}{1.2}
+\begin{table}[h]
+\centering
+\small
+\resizebox{0.95\linewidth}{!}{
+% \begin{tabular}{|c|c|p{6cm}|c|}
+% \begin{tabular}{|c|c|>{\centering\arraybackslash}p{6cm}|>{\centering\arraybackslash}m{4cm}|}
+\begin{tabular}{|c|c|>{\centering\arraybackslash}p{6cm}|>{\centering\arraybackslash\hspace{0.5em}}m{4.5cm}<{\hspace{0.5em}}|}
+\hline
+\textbf{Phase} & \textbf{Metric Name} & \centering \textbf{Description} & \textbf{Equation} \\
+\hline
+\multirow{5}{*}{\raisebox{-22ex}{\rotatebox[origin=c]{90}{\textbf{Training}}}} 
+& Dispersion Within Runs 
+& Measures higher-frequency variability using IQR within a sliding window along the detrended training curve. Lower values indicate more stable performance.
+& $\displaystyle \frac{1}{T-4} \sum_{t=3}^{T-2} \text{IQR}\left(\{\Delta P_{t'}\}_{t'=t-2}^{t+2}\right)$ \\ \cline{2-4}
+& Short-term Risk (CVaR) 
+& Estimates extreme short-term performance drops. Lower values indicate less risk of sudden drops.
+& $\displaystyle\text{CVaR}_\alpha \left(\Delta P_t\right)_{t=1}^T$ \\ \cline{2-4}
+& Long-term Risk (CVaR) 
+& Captures potential for long-term performance decrease. Lower values indicate less risk of degradation.
+& $\displaystyle\text{CVaR}_\alpha \left(\max_{t' \leq t} P_{t'} - P_t\right)$ \\ \cline{2-4}
+& Dispersion Across Runs 
+& Measures variance across training runs. Lower values indicate more consistent performance across runs.
+& $\displaystyle \frac{1}{T} \sum_{t=1}^{T} \text{IQR}\left(\{P_{t,j}\}_{j=1}^{n}\right)$ \\ \cline{2-4}
+& Risk Across Runs (CVaR) 
+& Measures expected performance of worst-performing agents. Higher values indicate better worst-case performance.
+& $\displaystyle\text{CVaR}_\alpha \left(P_{T,j}\right)_{j=1}^n$ \\ \cline{1-4}
+\multirow{2}{*}{\raisebox{-7ex}{\rotatebox[origin=c]{90}{\textbf{Inference}}}} 
+& Dispersion Across Rollouts 
+& Measures variability in performance across multiple rollouts. Lower values indicate more consistent performance.
+& $\displaystyle\text{IQR}\left(R_i\right)_{i=1}^m$ \\ \cline{2-4}
+& Risk Across Rollouts (CVaR) 
+& Measures worst-case performance during inference. Higher values indicate better worst-case performance.
+& $\displaystyle\text{CVaR}_\alpha \left(R_i\right)_{i=1}^m$ \\ \hline
+\end{tabular}
+}
+\caption{Reliability Metrics from \citet{chan2019measuring} with Mathematical Formulations. 
+$P_t$: performance at time $t$. 
+$P_{t,j}$: performance at time $t$ for run $j$. 
+$R_i$: performance during rollout $i$. 
+$\Delta P_t = P_t - P_{t-1}$: performance change between consecutive time steps (detrended value). 
+$\text{CVaR}_\alpha$\protect\footnotemark: Conditional Value at Risk at level $\alpha$. 
+IQR: Inter-Quartile Range. 
+Sliding window length is 5 time steps centered on $t$, calculated over all $t$ from 3 to $T-2$ to ensure the window is valid. 
+$T$: total number of time steps. 
+$n$: number of runs (10 for our experiments). 
+$m$: number of rollouts (100 for our experiments).}
+\label{tab:reliability}
+\end{table}
+\footnotetext{\url{https://en.wikipedia.org/wiki/Expected_shortfall}}
+
+% Reliability signifies safety, accountability, reproducibility, stability, and trustworthiness \citep{chan2019measuring, roszel2021know}.
+% \method uses the statistical methods proposed by \citet{chan2019measuring} to measure the reliability of autonomous agents during training and inference.
+% During training, \method examines dispersion across multiple training runs, dispersion over time within a single run, risk across runs, and risk over time.
+% These metrics provide insights into the variability and worst-case performance of the agent.
+% For inference, \method measures dispersion and risk across rollouts to assess the consistency and potential suboptimal performance of the final trained agent.
+% % Table \ref{tab:appendix_reliability} provides an overview of the reliability metrics tracked by \method, along with how they should be interpreted.
+% Table  \ref{tab:reliability} provides an overview of the reliability metrics tracked by \method, along with how they should be interpreted.
+% For a detailed description of each metric and their calculation, please refer to the work by \citet{chan2019measuring}.
+
+Reliability signifies safety, accountability, reproducibility, stability, and trustworthiness \citep{chan2019measuring, roszel2021know}.
+\method uses the statistical methods proposed by \citet{chan2019measuring} to measure the reliability of autonomous agents during training and inference.
+During training, \method examines dispersion across multiple training runs, dispersion over time within a single run, risk across runs, and risk over time.
+These metrics provide insights into the variability and worst-case performance of the agent. For example, low dispersion across training runs indicates that the algorithm consistently achieves similar performance regardless of random initialization, while low risk metrics suggest the agent avoids catastrophic performance drops.
+For inference, \method measures dispersion and risk across rollouts to assess the consistency and potential suboptimal performance of the final trained agent.
+Table \ref{tab:reliability} provides an overview of the reliability metrics tracked by \method, along with how they should be interpreted.
+For a detailed description of each metric and their calculation, please refer to the work by \citet{chan2019measuring}.
+
+\subsection{Application Performance}
+\label{ssec:application_performance}
+% Application performance is measured using task performance and generalization.
+% Task performance is the agent's mean returns when rolled out for $100$  episodes on the task it was trained for. 
+% Generalization assesses the agent's ability to adapt to tasks outside of its specific training distribution, and is computed as the sum of mean returns for all tasks, including the task the agent was trained to perform.
+
+Application performance is measured using task performance and generalization.
+Task performance is the agent's mean returns when rolled out for $100$ episodes on the task it was trained for.
+Since autonomous agents deployed in real-world settings must often handle scenarios that differ from their exact training distribution, measuring generalization to tasks outside this distribution is crucial.
+Generalization is computed as the sum of mean returns for all tasks, including the task the agent was trained to perform.
+
+\subsection{Using \method Metrics in Practice}
+\label{ssec:metric_selection}
+
+The metrics provided by \method across data cost, application performance, system performance, and reliability offer a holistic view of an agent's performance.
+However, the relative importance of these metrics can vary significantly depending on the specific application domain.
+For instance, in resource-constrained environments, system performance metrics may be critical, while in safety-critical applications, reliability metrics might take precedence.
+In Section \ref{sec:evaluation}, we demonstrate how these metrics can be applied and interpreted in the context of our three benchmark domains: computer chip floorplanning, web navigation, and quadruped locomotion.
+\subsection{Community Benchmarking with \method}
+\label{ssec:community_benchmarking}
+While system performance metrics like energy usage, inference time, and memory consumption can vary significantly across different hardware platforms and software implementations, these measurements become meaningful when properly contextualized. To facilitate fair and useful comparisons, \method will include a community leaderboard where researchers must report:
+
+\begin{itemize}
+\item \textbf{Hardware Configuration:}
+\begin{itemize}
+\item CPU model
+\item GPU model
+\end{itemize}
+
+\item \textbf{Software Environment:}
+\begin{itemize}
+\item Deep learning framework (e.g., PyTorch \citep{paszke2019pytorch}, Tensorflow \citep{abadi2016tensorflow}, Jax \citep{jax2018github}, etc.)
+\item Python Version
+\item Operating System
+\end{itemize}
+
+\item \textbf{Metric Results:}
+\begin{itemize}
+\item Data Cost
+\item System Performance
+\item Reliability
+\item Application Performance
+\end{itemize}
+
+\item \textbf{Experimental Details:}
+\begin{itemize}
+\item Number of random seeds used
+\item All Hyperparameter Settings
+\end{itemize}
+
+\end{itemize}
+
+
+To facilitate this standardized reporting and obtain the metric results above, researchers can leverage \method's easy-to-use, open-source codebase.\footnote{The A2Perf codebase is available at \url{https://anonymous.4open.science/r/A2Perf-2BFC}}
+The codebase includes detailed tutorials, examples, and docker containers that simplify the evaluation process.
+Its modular implementation also allows users to integrate their own custom algorithms without needing to modify the benchmarking code.
+
+By standardizing the reporting of system configurations, researchers can meaningfully compare results across similar hardware and software setups, providing insights into how different agents perform under comparable conditions.
+The community leaderboard also enables understanding of performance scaling across different platforms, from resource-constrained environments to high-performance systems.
+Furthermore, practitioners can use this information to make informed decisions about deployment requirements and track optimization progress for specific hardware targets.
+
+For example, researchers deploying a quadruped with a specific compute stack could filter the leaderboard entries to find results from comparable system configurations.
+As the community contributes results to \method, this repository of performance data will expand across many computing environments, providing comprehensive coverage of different configurations.

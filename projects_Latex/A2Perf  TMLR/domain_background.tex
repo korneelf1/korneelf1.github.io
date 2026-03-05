@@ -1,0 +1,221 @@
+
+\newcommand{\cmark}{\textcolor{green!80!black}{\ding{51}}}
+\newcommand{\xmark}{\textcolor{red}{\ding{55}}}
+
+\begin{table}[t!]
+    \small
+    \centering
+    \begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}Xccc}
+        \toprule
+        \textbf{Real-World Challenges} & \makecell{Chip \\Floorplanning} & \makecell{Web \\Navigation} & \makecell{Quadruped \\Locomotion}\\ 
+        \midrule
+        \textbf{(RW1)\textsuperscript{*}} Training offline from fixed logs. & \cmark & \cmark & \cmark \\
+        \addlinespace
+        \textbf{(RW2)} Learning on the real system from limited samples. & \xmark & \xmark & \cmark \\ 
+        \addlinespace
+        \textbf{(RW3)} High-dimensional and continuous state and action spaces. & \cmark & \xmark & \cmark \\ 
+        \addlinespace
+        \textbf{(RW4)} Safety constraints. & \xmark & \cmark & \cmark \\ 
+        \addlinespace
+        \textbf{(RW5)} Tasks are partially observable, non-stationary or stochastic. & \xmark & \xmark & \cmark \\ 
+        \addlinespace
+        \textbf{(RW6)} Unspecified, multi-objective or risk sensitive reward functions. & \cmark & \cmark & \cmark \\
+        \addlinespace
+        \textbf{(RW7)} Need for explainable policies. & \xmark & \cmark & \xmark \\ 
+        \addlinespace
+        \textbf{(RW8)} Real-time inference at the control frequency of the system. & \xmark & \cmark & \cmark \\ 
+        \addlinespace
+        \textbf{(RW9)} Delays in actuators, sensors or rewards. & \xmark & \cmark & \cmark  \\ 
+        \bottomrule
+    \end{tabularx}
+    % \vspace{0.5em}
+    \caption{Real-World Challenges proposed by \citeauthor{dulac2021challenges} \citep{dulac2021challenges}. Checkmarks (\cmark) indicate challenges commonly encountered in the general domain area, while (\xmark) denotes challenges less frequently encountered.
+    The challenge marked with an asterisk (*), RW1, applies to all \method domains, as learning from offline data is possible for all environments.
+    Each broad challenge is encountered in at least one of the \method domain areas, highlighting the relevance of the selected domains to current real-world reinforcement learning problems.}
+    \label{tab:dulac_real_world_challenges}
+% \vspace{-1em}
+\end{table}
+
+
+% \vspace{-1em}
+
+
+Our guiding question when selecting domains for \method was ``how can we choose domains that reflect real-world applications of autonomous agents?''
+To identify suitable domains, we conducted interviews with industry practitioners to understand where autonomous agents are currently deployed and where they show future promise.
+This process led us to three application areas with significant industrial relevance: computer chip floorplanning, quadruped locomotion, and website navigation.
+
+From these industrially relevant application areas, we specifically selected domains with demonstrated simulation-to-reality transfer. This selection criterion enables researchers without access to specialized hardware (like robots or chip fabrication facilities) to make meaningful contributions using simulated environments. The circuit training domain was used in creating an iteration of Google's Tensor Processing Unit (TPU) \citep{mirhoseini2021graph}. The quadruped locomotion domain has been shown to transfer successfully to real Unitree Laikago robots \citep{peng2020learning_agile_imitate}. 
+The web navigation domain is derived from MiniWob \citep{shi2017world}, MiniWob++ \citep{liu2018reinforcement}, and gMiniWob \citep{gur2021environment}, and operates in an actual Google Chrome browser, mirroring real-life web interactions. Additionally, \cite{gur2018learning_to_navigate_the_web} showed that policies trained in MiniWob++ transfer to real-life web pages for task completion.
+
+By focusing on domains with demonstrated real-world applicability, progress made within the \method benchmark can directly contribute to improving the performance of downstream real-world (RW) tasks.
+We specify how each domain aligns with the real-world challenges presented by \citet{dulac2021challenges} (Table \ref{tab:dulac_real_world_challenges}), and denote which of \method's metric categories are important for each domain.
+
+% Our guiding question when selecting domains for \method was ``how can we choose domains that reflect real-world applications of autonomous agents?''
+% This ensures that progress on the \method benchmark will translate directly to improvements in practical applications.
+% To identify suitable domains, we conducted interviews with industry practitioners to understand where autonomous agents are currently deployed and where they show future promise.
+% This process led us to three application areas with significant industrial relevance: computer chip floorplanning, quadruped locomotion, and website navigation.
+
+% From these industrially relevant application areas, we specifically selected domains with demonstrated simulation-to-reality transfer. This selection criterion enables researchers without access to specialized hardware (like robots or chip fabrication facilities) to make meaningful contributions using simulated environments. The circuit training domain was used in creating an iteration of Google's Tensor Processing Unit (TPU) \citep{mirhoseini2021graph}. The quadruped locomotion domain has been shown to transfer successfully to real Unitree Laikago robots \citep{peng2020learning_agile_imitate}. 
+% The web navigation domain is derived from MiniWob \citep{shi2017world}, MiniWob++ \citep{liu2018reinforcement}, and gMiniWob \citep{gur2021environment}, and operates in an actual Google Chrome browser, mirroring real-life web interactions. Additionally, \cite{gur2018learning_to_navigate_the_web} showed that policies trained in MiniWob++ transfer to real-life web pages for task completion.
+
+
+% Our guiding question when selecting domains for \method was ``how can we choose domains that reflect real-world applications of autonomous agents?''
+% This ensures that progress on the \method benchmark will translate directly to improvements in practical applications.
+% To identify suitable domains, we conducted interviews with industry practitioners to understand where autonomous agents are currently deployed and where they show future promise.
+% This process led us to three domains with significant industrial relevance: computer chip floorplanning, quadruped locomotion, and website navigation.
+
+% % The domains in \method were selected based on their demonstrated transfer from simulated environments to the real world.
+% % The circuit training domain was used in creating an iteration of Google's Tensor Processing Unit (TPU) \citep{mirhoseini2021graph}.
+% % The quadruped locomotion domain has been shown to transfer successfully to real Unitree Laikago robots \citep{peng2020learning_agile_imitate}.
+% % From these industrially relevant domains, we specifically selected environments with demonstrated simulation-to-reality transfer. This selection criterion enables researchers without access to specialized hardware (like robots or chip fabrication facilities) to make meaningful contributions using simulated environments. The circuit training domain was used in creating an iteration of Google's Tensor Processing Unit (TPU) \citep{mirhoseini2021graph}. The quadruped locomotion domain has been shown to transfer successfully to real Unitree Laikago robots \citep{peng2020learning_agile_imitate}. 
+% % The web navigation domain is derived from MiniWob \citep{shi2017world}, MiniWob++ \citep{liu2018reinforcement}, and gMiniWob \citep{gur2021environment}, and operates in an actual Google Chrome browser, mirroring real-life web interactions. Additionally, \cite{gur2018learning_to_navigate_the_web} showed that policies trained in MiniWob++ transfer to real-life web pages for task completion.
+
+% % By focusing on domains with demonstrated real-world applicability, progress made within the \method benchmark can directly contribute to improving the performance of downstream real-world (RW) tasks.
+% % We specify how each domain aligns with the real-world challenges presented by \citet{dulac2021challenges} (Table \ref{tab:dulac_real_world_challenges}), and denote which of \method's metric categories are important for each domain.
+
+% From these industrially relevant domains, we specifically selected environments with demonstrated simulation-to-reality transfer. This selection criterion enables researchers without access to specialized hardware (like robots or chip fabrication facilities) to make meaningful contributions using simulated environments. The circuit training domain was used in creating an iteration of Google's Tensor Processing Unit (TPU) \citep{mirhoseini2021graph}. The quadruped locomotion domain has been shown to transfer successfully to real Unitree Laikago robots \citep{peng2020learning_agile_imitate}. 
+% The web navigation domain is derived from MiniWob \citep{shi2017world}, MiniWob++ \citep{liu2018reinforcement}, and gMiniWob \citep{gur2021environment}, and operates in an actual Google Chrome browser, mirroring real-life web interactions. Additionally, \cite{gur2018learning_to_navigate_the_web} showed that policies trained in MiniWob++ transfer to real-life web pages for task completion.
+
+% Progress made within the \method benchmark can directly contribute to improving downstream industrial applications. We specify how each domain aligns with the challenges presented by \citet{dulac2021challenges} (Table \ref{tab:dulac_real_world_challenges}), and denote which of \method's metric categories are important for each domain.
+
+\subsection{Circuit Training (RW1, RW3, RW6)}
+% \vspace{-0.5em}
+
+Chip floorplanning involves creating a physical layout for a microprocessor, a task that has resisted automation for decades and requires months of human engineering effort. To address this challenge, Google has made Circuit Training available as an open-source framework that uses RL to generate chip floorplans~\citep{CircuitTraining2021}.
+In this domain, an agent places macros (reusable blocks of circuitry) onto the chip canvas, with the objective of optimizing wirelength, congestion, and density.
+Even though the state and action spaces are discrete, the number of states and actions increases combinatorially with the number of nodes and cells on the chip (RW3).
+As an illustration, \citet{mirhoseini2021graph} calculate that placing 1,000 clusters of nodes on a grid with 1,000 cells results in a state space on the order of $10^{2,500}$, which is vastly larger than the state space of Go at $10^{360}$.
+Chip design also involves optimizing for multiple objectives, such as maximizing clock frequency, reducing power consumption, and minimizing chip area (RW6). During training, these objectives are approximated using proxy metrics.
+However, evaluating the true objectives requires time-consuming simulations with industry-grade placement tools \footnote{For example, \href{https://www.cadence.com/en_US/home/tools/digital-design-and-signoff/soc-implementation-and-floorplanning/innovus-implementation-system.html}{Cadence Innovus} and \href{https://www.synopsys.com/implementation-and-signoff/physical-implementation/ic-compiler.html}{Synopsys IC Compiler}}.
+If the results are unsatisfactory, the proxy metrics must be adjusted, and the agents must be retrained, leading to a costly iterative and resource-intensive process.
+
+% The metric categories included in \method that are crucial to evaluating Circuit Training agents are \textbf{task performance} (optimality of macro placements), \textbf{inference reliability} (to ensure consistent macro placements for human designers to build on top of), \textbf{inference system performance} (to collaborate with human designers in a timely manner), \textbf{generalization} (to optimally generate chip designs for new netlists), and \textbf{data cost} (due to many netlists being proprietary and the high overhead of human designers producing final macro placements).
+
+\paragraph{Important Metric Categories}
+For Circuit Training agents, the following metric categories are most critical for real-world use:
+
+\begin{itemize}
+    \item \textbf{Task Performance}: Circuit Training agents must generate high-quality macro placements by minimizing wirelength, congestion, and density of the chip.
+    
+    \item \textbf{Inference Reliability}: Chip designers use these agents to generate initial macro placements, then manually refine them. Agents must produce consistent macro placements across multiple rollouts. Inconsistent placements would force designers to repeatedly roll out the same policy to try achieving favored initial placements.
+    
+    \item \textbf{Inference System Performance}: Fast inference time is crucial to enable interactive use by human designers. Designers need to quickly evaluate and refine different placement options.
+    
+    \item \textbf{Generalization}: The ability to handle new circuit architectures without retraining is vital, as new circuits are frequently created. Strong generalization performance reduces the need to train separate agents for each new netlist.
+    
+    \item \textbf{Data Cost}: Many circuit netlists are proprietary, and generating high-quality macro placements requires significant human effort. Understanding data collection costs helps evaluate the practicality of different learning approaches.
+\end{itemize}
+
+
+% \subsection{Web Navigation (RW1, RW4, RW6, RW7, RW8, RW9)}
+% Software tools exist to automate browser tasks\footnote{\href{https://www.selenium.dev/documentation/webdriver/}{Selenium}, used in \method, is a popular browser automation tool.}, but due to the varied formatting of websites, hand-crafted algorithms are not a viable solution for general web navigation.
+% Researchers have begun applying learning algorithms to design agents that can understand web pages \cite{gur2022understanding_html_llm} and automatically navigate through them to fill out forms \cite{gur2021environment, gur2018learning_to_navigate_the_web}.
+% In \method, we use gMiniWob \cite{gur2021environment} to create mock websites that act as environments for the agent.
+% See Appendix \ref{appendix:website_generation} for details about the website generation process and agent interaction.
+% % See Appendix F for details about the website generation process and agent interaction.
+% To achieve maximum rewards, the agent must avoid malicious links and advertisement banners (RW4) while correctly filling out all fields in web forms.
+% The combination of these constraints create a multi-objective reward function (RW6).
+% The explainability of an agent's decision-making is also important, particularly when agents handle sensitive tasks such as online shopping or investing (RW7).
+% Finally, agents must be robust to the system challenges of real-time inference, such as inference speed and network delays (RW8, RW9).
+
+\subsection{Web Navigation (RW1, RW4, RW6, RW7, RW8, RW9)}
+\vspace{-0.5em}
+Software tools exist to automate browser tasks\footnote{\href{https://www.selenium.dev/documentation/webdriver/}{Selenium}, used in \method, is a popular browser automation tool.}, but due to the varied formatting of websites, hand-crafted algorithms are not a viable solution for general web navigation.
+Researchers have begun applying learning algorithms to design agents that can understand web pages \citep{gur2022understanding_html_llm} and automatically navigate through them to fill out forms \citep{gur2021environment, gur2018learning_to_navigate_the_web}.
+In \method, we use gMiniWob \cite{gur2021environment} to create mock websites that act as environments for the agent.
+See Appendix \ref{appendix:website_generation} for details about the website generation process and agent interaction.
+% See Appendix F for details about the website generation process and agent interaction.
+To achieve maximum rewards, the agent must avoid malicious links and advertisement banners (RW4) while correctly filling out all fields in web forms.
+The combination of these constraints create a multi-objective reward function (RW6).
+The explainability of an agent's decision-making is also important, particularly when agents handle sensitive tasks such as online shopping or investing (RW7).
+Finally, agents must be robust to the system challenges of real-time inference, such as inference speed and network delays (RW8, RW9).
+
+% The metric categories included in \method that are crucial to evaluating web navigation agents are \textbf{task performance} (general correctness of form-filling), \textbf{inference system performance} (for seamlessly navigating the web at speeds similar to humans), \textbf{inference reliability} (to avoid dangerous actions like clicking malicious links), \textbf{generalization} (to handle varying website designs), and \textbf{training system performance} (to account for the computational demands of training on diverse web environments, which often requires tokenizing HTML web pages).
+
+\paragraph{Important Metric Categories}
+For web navigation agents, the following metric categories are most critical for real-world use:
+\begin{itemize}
+    \item \textbf{Task Performance}: Agents must accurately complete web forms and navigate sites correctly. 
+    
+    \item \textbf{Inference System Performance}: Agents need to operate at speeds comparable to human web browsing to provide a seamless user experience. This includes both inference time and resource usage on consumer devices.
+    
+    \item \textbf{Inference Reliability}: Reliability is crucial for safety, as unreliable agents might occasionally click on malicious links or advertisements. Even rare mistakes in web navigation can have serious consequences.
+    
+    \item \textbf{Generalization}: Websites vary greatly in design and structure. Agents must adapt to different layouts, styles, and interaction patterns without requiring retraining for each new site.
+    
+    \item \textbf{Training System Performance}: Web navigation training involves processing HTML pages and running multiple browser instances, creating significant computational demands. 
+\end{itemize}
+
+
+\renewcommand{\arraystretch}{1.0}
+\begin{table}[!t]
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|l|c|c|c|}
+\toprule
+\multicolumn{5}{|c|}{\textbf{Ariane (Training)}} \\
+ &  & \textbf{BC} & \textbf{DDQN} & \textbf{PPO} \\
+\textbf{Category} & \textbf{Metric Name} &  &  &  \\
+\midrule
+\multirow[t]{1}{*}{Data Cost} & Training Sample Cost & 48.28 & 0 & 0 \\
+\midrule
+\multirow[t]{2}{*}{Application} & Generalization (100 eps. [all tasks]) & -2.18 & -2.19 & -2.05 \\
+ & Returns (100 eps.) & -1.10 $\pm$ 0.04 & -1.13 $\pm$ 0.04 & -0.99 $\pm$ 7.25e-03 \\
+\cline{1-5}
+\multirow[t]{5}{*}{Reliability} & Dispersion Across Runs (IQR) & N/A & 0.03 $\pm$ 0.03 & 0.04 $\pm$ 0.02 \\
+ & Dispersion Within Runs (IQR) & N/A & 0.02 $\pm$ 0.03 & 4.77e-03 $\pm$ 4.92e-03 \\
+ & Long Term Risk (CVaR) & N/A & 1.20 & 0.03 \\
+ & Risk Across Runs (CVaR) & N/A & -1.17 & -1.03 \\
+ & Short Term Risk (CVaR) & N/A & 0.07 & 0.01 \\
+\cline{1-5}
+\multirow[t]{5}{*}{System} & Energy Consumed (kWh) & 0.11 $\pm$ 6.45e-04 & 108.20 $\pm$ 4.29 & 120.53 $\pm$ 2.78 \\
+ & GPU Power Usage (W) & 211.35 $\pm$ 16.76 & 585.98 $\pm$ 172.50 & 692.94 $\pm$ 120.08 \\
+ & Mean RAM Usage (GB) & 4.72 $\pm$ 0.53 & 849.37 $\pm$ 64.85 & 834.05 $\pm$ 55.90 \\
+ & Peak RAM Usage (GB) & 5.25 $\pm$ 0.07 & 889.56 $\pm$ 23.44 & 906.45 $\pm$ 68.01 \\
+ & Wall Clock Time (Hours) & 0.48 $\pm$ 2.61e-03 & 21.94 $\pm$ 0.90 & 23.95 $\pm$ 0.54 \\
+\midrule
+\multicolumn{5}{|c|}{\textbf{Ariane (Inference)}} \\
+\multirow[t]{2}{*}{Reliability} & Dispersion Across Rollouts (IQR) & 0.01 & 0.05 & 0.01 \\
+ & Risk Across Rollouts (CVaR) & -1.23 & -1.25 & -1.01 \\
+\cline{1-5}
+\multirow[t]{4}{*}{System} & GPU Power Usage (W) & 136.91 $\pm$ 21.48 & 69.50 $\pm$ 4.60 & 49.43 $\pm$ 30.29 \\
+ % & Inference Time (ms) & 0.01 $\pm$ 4.62e-04 & 0.02 $\pm$ 2.69e-03 & 0.02 $\pm$ 2.68e-03 \\
+ & Inference Time (ms) & 10.0 $\pm$ 0.46 & 20.0 $\pm$ 2.69 & 20.0 $\pm$ 2.68 \\
+ & Mean RAM Usage (GB) & 2.19 $\pm$ 0.21 & 2.15 $\pm$ 0.30 & 2.51 $\pm$ 0.49 \\
+ & Peak RAM Usage (GB) & 2.29 $\pm$ 0.01 & 2.28 $\pm$ 0.13 & 2.71 $\pm$ 0.62 \\
+\bottomrule
+\end{tabular}
+}
+% \vspace{0.5em}
+\caption{Metrics for the Ariane Netlist task of CircuitTraining-v0. All metrics are averaged over ten random seeds. We report mean and standard deviation for metrics where it is applicable. BC results are obtained by training on the entire \texttt{intermediate} dataset. Note that the training reliability metrics for BC are marked as ``N/A'' since BC does not perform online rollouts in the environment.}
+\label{tab:metrics_circuit_training_ariane}
+\vspace{-1em}
+\end{table}
+% \vspace{-1em}
+
+\subsection{Quadruped Locomotion (RW1, RW2, RW3, RW4, RW5, RW6, RW8, RW9)}
+\vspace{-0.5em}
+In recent years, the robotics community has gradually shifted towards training autonomous agents for robotic control.
+A prominent example of this trend is seen in quadruped locomotion, where RL has become the dominant technique.
+We followed the work of \citet{peng2020learning_agile_imitate}, in which a quadruped robot learns complex locomotion skills such as pacing, trotting, spinning, hop-turning, and side-stepping by imitating motion capture data from a real dog.
+
+
+Given the physical dynamics involved in quadruped locomotion, research often necessitates learning directly from limited samples on the actual robot (RW2).
+Learning walking gaits also involves high-dimensional, continuous state and action spaces (RW3), as the robot needs to precisely control multiple joints and limbs to navigate complex environments. The agent must reason about complex dynamics, avoid unsafe falls (RW4), adapt gaits to various speeds and terrains (RW5), and operate in partially observable environments (RW5) where states like contact forces are not directly measurable.
+Optimizing robotic controllers is usually multi-objective (RW6), balancing competing objectives like locomotion speed, stability, satisfying safety constraints, and minimizing energy expenditure. Furthermore, real-time inference (RW8) and dealing with system delays (RW9) are critical for controlling robots, as slow computations or delays can negatively impact stability and performance.
+
+
+
+% The metric categories included in \method that are crucial to evaluating quadruped locomotion agents are \textbf{task performance} (accuracy in imitating desired gaits), \textbf{inference reliability} (to ensure smooth, stable motions without sudden dangerous movements), \textbf{inference system performance} (for real-time responsiveness and energy efficiency on onboard compute), \textbf{generalization} (to adapt to novel terrains and morphologies of the robot).
+
+\paragraph{Important Metric Categories}
+For quadruped locomotion agents, the following metric categories are most critical for real-world use:
+
+\begin{itemize}
+    \item \textbf{Task Performance}: Agents must accurately reproduce desired walking gaits, as poor imitation of natural movements can lead to inefficient or unstable locomotion.
+    
+    \item \textbf{Inference Reliability}: The agent must maintain smooth, stable motions without sudden movements or changes in behavior. Inconsistent movements could damage the robot or cause falls in real-world environments.
+    
+    \item \textbf{Inference System Performance}: Quadrupeds require real-time responsiveness from their onboard computers to maintain stability. Both inference speed and energy efficiency are crucial, as robots often operate with limited computing resources and battery power.
+    
+    \item \textbf{Generalization}: Robots must adapt to different terrains, slopes, and surface conditions without retraining. Strong generalization also helps robots handle variations in their own morphology due to wear or manufacturing differences.
+\end{itemize}

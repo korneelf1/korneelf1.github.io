@@ -1,0 +1,35 @@
+\begin{table}[ht]
+\centerline{
+\renewcommand{\arraystretch}{1.3}
+% \begin{tabular}{@{}c|ccccccc@{}}
+% \begin{tabular}{@{}c|cccccc@{}}
+% \thickhline
+% \multirow{2}{*}{Baseline} &
+%   \multirow{2}{*}{Accuracy} &
+%   \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Latency\\ (ms)\end{tabular}} &
+%   \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Idle \\ Power (mW)\end{tabular}} &
+%   \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Active\\ Power (mW)\end{tabular}} &
+%   \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Dynamic \\ Power (mW)\end{tabular}} &
+%   % \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Active\\ Energy (mJ/inf)\end{tabular}} &
+%   \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Dynamic\\ Energy (mJ/inf)\end{tabular}} \\
+%                       &                          &     &       &        &       &        &        \\ \hline
+%           CPU         & \multirow{2}{*}{79.64\%} & 43  & 79.40 & 100.72 & 21.32 &  4.33  & 0.917   \\
+%     (\textit{system-wise}) &                     & 45  & 79.40 & 100.15 & 20.75 &  4.51  & 0.934   \\ \hline
+% Xylo & \multirow{2}{*}{76.00\%} & \textbf{N/A} & \textbf{N/A}   & 0.015  & \textbf{N/A}   & \textbf{N/A}    & \textbf{N/A}    \\
+%  (\textit{component-wise})&                      & 40  & 0.298 & 0.503  & 0.205 & 0.0201 & 0.0082 \\ \thickhline
+% \end{tabular}
+%%%%%%%%%%%%%%%%%%% JY: The below block is the updated numbers / format
+\begin{tabular}{@{}cc|cccccc@{}}
+\toprule
+\multicolumn{2}{c|}{\multirow{2}{*}{Baseline}}                        & \multirow{2}{*}{Accuracy} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Execution\\ Time (ms)\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Idle \\ Power (mW)\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Active\\ Power (mW)\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Dynamic \\ Power (mW)\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Dynamic\\ Energy (mJ/inf)\end{tabular}} \\
+\multicolumn{2}{c|}{}                                                 &                           &                                                                         &                                                                             &                                                                              &                                                                                &                                                                                    \\ \midrule
+\multicolumn{1}{c|}{CPU}                       & \textit{pre-process} & \multirow{2}{*}{79.64\%}  & 43                                                                      & 79.40                                                                       & 100.72                                                                       & 21.32                                                                          & 0.917                                                                              \\
+\multicolumn{1}{c|}{\textit{(system-wise)}}    & \textit{inference}   &                           & 45                                                                      & 79.40                                                                       & 100.15                                                                       & 20.75                                                                          & 0.934                                                                              \\ \midrule
+\multicolumn{1}{c|}{Xylo}                      & \textit{pre-process*} & \multirow{2}{*}{79.90\%}  & -                                                                       & 0.00017*                                                             & 0.015*                                                                        & 0.015*                                                               & 0.015*                                                                                  \\
+\multicolumn{1}{c|}{\textit{(component-wise)}} & \textit{inference}   &                           & 84                                                                      & 0.351                                                                       & 0.692                                                                        & 0.341                                                                          & 0.028                                                                             \\ \bottomrule
+\end{tabular}
+}
+\caption{\secondrev{Baseline results for the acoustic scene classification task. Pre-processing of the Xylo (marked with an asterisk *) measures power of the analog pre-processor in real-time relative to the audio data, whereas other measurements are of digital components processing digital data on-hand. Idle Xylo pre-processing measures silence and active measures test data audio played to the device, and energy is measured over the sample duration of 1 second. CPU power is measured over the full Arduino system, as it does not have on-board power instrumentation, while Xylo power measures power consumed by the Xylo Audio 2 ASIC only. Dynamic power and energy provide proper comparison between the systems, and idle and active measurements are provided for transparency.}}
+\label{tab:asc_results}
+\end{table}
+

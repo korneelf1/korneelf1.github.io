@@ -1,0 +1,161 @@
+\begin{thebibliography}{10}
+
+\bibitem{Maass1997}
+Wolfgang Maass.
+\newblock Networks of spiking neurons: The third generation of neural network models.
+\newblock 10:1659--1671, 1997.
+
+\bibitem{yik2023neurobench}
+Jason Yik, Korneel Van~den Berghe, Douwe den Blanken, Younes Bouhadjar, Maxime Fabre, Paul Hueber, Weijie Ke, Mina~A Khoei, Denis Kleyko, Noah Pacik-Nelson, et~al.
+\newblock The neurobench framework for benchmarking neuromorphic computing algorithms and systems.
+\newblock {\em Nature communications}, 16(1):1545, 2025.
+
+\bibitem{zhu2023spikegpt}
+Rui-Jie Zhu, Qihang Zhao, Guoqi Li, and Jason~K Eshraghian.
+\newblock Spikegpt: Generative pre-trained language model with spiking neural networks.
+\newblock {\em arXiv preprint arXiv:2302.13939}, 2023.
+
+\bibitem{shi2024towards}
+Xinyu Shi, Jianhao Ding, Zecheng Hao, and Zhaofei Yu.
+\newblock Towards energy efficient spiking neural networks: An unstructured pruning framework.
+\newblock In {\em The Twelfth International Conference on Learning Representations}, 2024.
+
+\bibitem{NeftciSurrogate}
+Emre~O Neftci, Hesham Mostafa, and Friedemann Zenke.
+\newblock Surrogate gradient learning in spiking neural networks.
+
+\bibitem{GygaxElucidating}
+Julia Gygax and Friedemann Zenke.
+\newblock Elucidating the theoretical underpinnings of surrogate gradient learning in spiking neural networks.
+
+\bibitem{mnih2013playingatarideepreinforcement}
+Volodymyr Mnih, Koray Kavukcuoglu, David Silver, Alex Graves, Ioannis Antonoglou, Daan Wierstra, and Martin Riedmiller.
+\newblock Playing atari with deep reinforcement learning, 2013.
+
+\bibitem{wurman2022outracing}
+Peter~R Wurman, Samuel Barrett, Kenta Kawamoto, James MacGlashan, Kaushik Subramanian, Thomas~J Walsh, Roberto Capobianco, Alisa Devlic, Franziska Eckert, Florian Fuchs, et~al.
+\newblock Outracing champion gran turismo drivers with deep reinforcement learning.
+\newblock {\em Nature}, 602(7896):223--228, 2022.
+
+\bibitem{Wayne2018}
+Greg Wayne, Chia-Chun Hung, David Amos, Mehdi Mirza, Arun Ahuja, Agnieszka Grabska-Barwi´nskabarwi´nska, Jack Rae, Piotr Mirowski, Joel~Z Leibo, Adam Santoro, Mevlana Gemici, Malcolm Reynolds, Tim Harley, Josh Abramson, Shakir Mohamed, Danilo Rezende, David Saxton, Adam Cain, Chloe Hillier, David Silver, Koray Kavukcuoglu, Matt Botvinick, Demis Hassabis, and Timothy Lillicrap.
+\newblock Unsupervised predictive memory in a goal-directed agent.
+\newblock 2018.
+
+\bibitem{WierstraRecurrentPG}
+Daan Wierstra, Alexander Förster, Jan Peters, and Jürgen Schmidhuber.
+\newblock Recurrent policy gradients.
+
+\bibitem{Chen2022}
+Ding Chen, Peixi Peng, Tiejun Huang, and Yonghong Tian.
+\newblock Deep reinforcement learning with spiking q-learning.
+\newblock {\em arXiv.org}, 2022.
+
+\bibitem{Liu2022}
+Guisong Liu, Wenjie Deng, Xiurui Xie, Li~Huang, and Huajin Tang.
+\newblock Human-level control through directly trained deep spiking $q$-networks.
+\newblock {\em IEEE transactions on cybernetics}, pages 1--12, 2022.
+
+\bibitem{Mnih2016}
+Volodymyr Mnih, Adria~Puigdomenech Badia, Mehdi Mirza, Alex Graves, Timothy Lillicrap, Tim Harley, David Silver, and Koray Kavukcuoglu.
+\newblock Asynchronous methods for deep reinforcement learning.
+\newblock In Maria~Florina Balcan and Kilian~Q. Weinberger, editors, {\em Proceedings of The 33rd International Conference on Machine Learning}, volume~48 of {\em Proceedings of Machine Learning Research}, pages 1928--1937, New York, New York, USA, 20--22 Jun 2016. PMLR.
+
+\bibitem{Eschmann2023}
+Jonas Eschmann, Dario Albani, and Giuseppe Loianno.
+\newblock Learning to fly in seconds.
+\newblock 11 2023.
+
+\bibitem{crazyflie}
+Wojciech Giernacki, Mateusz Skwierczyński, Wojciech Witwicki, Paweł Wroński, and Piotr Kozierski.
+\newblock Crazyflie 2.0 quadrotor as a platform for research and education in robotics and control engineering.
+\newblock In {\em 2017 22nd International Conference on Methods and Models in Automation and Robotics (MMAR)}, pages 37--42, 2017.
+
+\bibitem{Florian2005}
+Răzvan~V Florian.
+\newblock A reinforcement learning algorithm for spiking neural networks.
+\newblock {\em Symposium on Symbolic and Numeric Algorithms for Scientific Computing}, pages 299--306, 2005.
+
+\bibitem{fremaux2013spiking}
+Nicolas Frémaux, Henning Sprekeler, and Wulfram Gerstner.
+\newblock Reinforcement learning using a continuous time actor-critic framework with spiking neurons.
+\newblock {\em PLOS Computational Biology}, 9(4):1--21, 04 2013.
+
+\bibitem{akl2021porting}
+Mahmoud Akl, Yulia Sandamirskaya, Florian Walter, and Alois Knoll.
+\newblock Porting deep spiking q-networks to neuromorphic chip loihi.
+\newblock In {\em International Conference on Neuromorphic Systems 2021}, pages 1--7, 2021.
+
+\bibitem{Kapturowski2019}
+Steven Kapturowski, Georg Ostrovski, John Quan, Remi Munos, and Will Dabney.
+\newblock Recurrent experience replay in distributed reinforcement learning.
+\newblock In {\em ICLR}, 2019.
+
+\bibitem{zanatta2024exploring}
+Luca Zanatta, Francesco Barchi, Simone Manoni, Silvia Tolu, Andrea Bartolini, and Andrea Acquaviva.
+\newblock Exploring spiking neural networks for deep reinforcement learning in robotic tasks.
+\newblock {\em Scientific Reports}, 14(1):30648, 2024.
+
+\bibitem{mujoco}
+Emanuel Todorov, Tom Erez, and Yuval Tassa.
+\newblock Mujoco: A physics engine for model-based control.
+\newblock In {\em 2012 IEEE/RSJ International Conference on Intelligent Robots and Systems}, pages 5026--5033, 2012.
+
+\bibitem{Tang2020}
+Guangzhi Tang, Neelesh Kumar, Raymond Yoo, and Konstantinos Michmizos.
+\newblock Deep reinforcement learning with population-coded spiking neural network for continuous control.
+\newblock In Jens Kober, Fabio Ramos, and Claire Tomlin, editors, {\em Proceedings of the 2020 Conference on Robot Learning}, volume 155 of {\em Proceedings of Machine Learning Research}, pages 2016--2029. PMLR, 16--18 Nov 2021.
+
+\bibitem{Tang2020_Hardware}
+Guangzhi Tang, Neelesh Kumar, and Konstantinos~P. Michmizos.
+\newblock Reinforcement co-learning of deep and spiking neural networks for energy-efficient mapless navigation with neuromorphic hardware.
+\newblock 3 2020.
+
+\bibitem{Uchendu2022}
+Ikechukwu Uchendu, Ted Xiao, Yao Lu, Banghua Zhu, Mengyuan Yan, Joséphine Simon, Matthew Bennice, Chuyuan Fu, Cong Ma, Jiantao Jiao, Sergey Levine, and Karol Hausman.
+\newblock Jump-start reinforcement learning.
+\newblock 4 2022.
+
+\bibitem{fujimoto2018addressing}
+Scott Fujimoto, Herke Hoof, and David Meger.
+\newblock Addressing function approximation error in actor-critic methods.
+\newblock In {\em International conference on machine learning}, pages 1587--1596. PMLR, 2018.
+
+\bibitem{FujimotoMinimal}
+Scott Fujimoto and Shixiang~Shane Gu.
+\newblock A minimalist approach to offline reinforcement learning.
+
+\bibitem{zenke2018superspike}
+Friedemann Zenke and Surya Ganguli.
+\newblock Superspike: Supervised learning in multilayer spiking neural networks.
+\newblock {\em Neural computation}, 30(6):1514--1541, 2018.
+
+\bibitem{stroobants2025neuromorphic}
+Stein Stroobants, Christophe De~Wagter, and Guido~CHE De~Croon.
+\newblock Neuromorphic attitude estimation and control.
+\newblock {\em IEEE Robotics and Automation Letters}, 2025.
+
+\bibitem{plappert2017parameter}
+Matthias Plappert, Rein Houthooft, Prafulla Dhariwal, Szymon Sidor, Richard~Y Chen, Xi~Chen, Tamim Asfour, Pieter Abbeel, and Marcin Andrychowicz.
+\newblock Parameter space noise for exploration.
+\newblock {\em arXiv preprint arXiv:1706.01905}, 2017.
+
+\bibitem{Davies2018}
+Mike Davies, Narayan Srinivasa, Tsung-Han Lin, Gautham Chinya, Yongqiang Cao, Sri~Harsha Choday, Georgios Dimou, Prasad Joshi, Nabil Imam, Shweta Jain, Yuyun Liao, Chit-Kwan Lin, Andrew Lines, Ruokun Liu, Deepak Mathaikutty, Steven McCoy, Arnab Paul, Jonathan Tse, Guruguhanathan Venkataramanan, Yi-Hsin Weng, Andreas Wild, Yoonseok Yang, and Hong Wang.
+\newblock Loihi: A neuromorphic manycore processor with on-chip learning.
+\newblock {\em IEEE Micro}, 38:82--99, 2018.
+
+\bibitem{Silver2021}
+David Silver, Satinder Singh, Doina Precup, and Richard~S. Sutton.
+\newblock Reward is enough, 10 2021.
+
+\bibitem{wang2023evolving}
+Guan Wang, Yuhao Sun, Sijie Cheng, and Sen Song.
+\newblock Evolving connectivity for recurrent spiking neural networks.
+\newblock {\em Advances in Neural Information Processing Systems}, 36:2991--3007, 2023.
+
+\bibitem{Paredes2023}
+Federico Paredes-Vallés, Jesse Hagenaars, Julien Dupeyroux, Stein Stroobants, Yingfu Xu, and Guido de~Croon.
+\newblock Fully neuromorphic vision and control for autonomous drone flight, 2023.
+
+\end{thebibliography}

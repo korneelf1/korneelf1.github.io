@@ -1,0 +1,62 @@
+\subsection{Effect of Surrogate Gradients on Gradient Alignment} \label{sup:surrgrad}
+
+When training spiking neural networks (SNNs), the non-differentiability of the spiking function is often handled by replacing it with a smooth surrogate function. In this section, we formalize how the slope of the surrogate gradient affects weight updates in deeper networks, supporting the main paper’s findings on cosine similarity decay. We replace the binary spike with a sigmoid to obtain a tractable closed-form baseline, the qualitative slope argument still holds.
+
+\paragraph{Network Setup.}
+We consider a feedforward network with two hidden layers and sigmoid activations. Let \( \mathbf{x} \in \mathbb{R}^n \) denote the input vector. Each layer performs an affine transformation followed by a nonlinearity:
+\[
+\mathbf{z}_1 = \mathbf{W}_1 \mathbf{x} + \mathbf{b}_1, \quad \mathbf{a}_1 = \sigma(\mathbf{z}_1)
+\]
+\[
+\mathbf{z}_2 = \mathbf{W}_2 \mathbf{a}_1 + \mathbf{b}_2, \quad \mathbf{a}_2 = \sigma(\mathbf{z}_2)
+\]
+\[
+\mathbf{z}_3 = \mathbf{W}_3 \mathbf{a}_2 + \mathbf{b}_3, \quad \mathbf{a}_3 = \mathbf{z}_3
+\]
+Here, \( \sigma(z) = \frac{1}{1 + e^{-z}} \) is the sigmoid activation. The output layer performs linear population decoding.
+
+\paragraph{Backpropagation and Surrogates.}
+During backpropagation, the delta for a neuron \( i \) in the layer \( l \) is:
+\[
+\delta^l_i = \left( \sum_{j=1}^{n_{l+1}} W^{(l+1)}_{ij} \delta^{(l+1)}_j \right) \cdot \sigma'(z^l_i)
+\]
+and the weight update is:
+\[
+\frac{\partial L}{\partial W^{(l)}_{ji}} = a^{(l-1)}_j \cdot \delta^l_i
+\]
+In SNN training, we replace the true derivative \( \sigma'(z) \) with a surrogate gradient:
+\[
+\Tilde{\sigma}'_k(z) = \frac{\sigma'(kz)}{k^2} = \frac{1}{k} \cdot \sigma(kz) \cdot (1 - \sigma(kz))
+\]
+where \( k \) controls the slope of the surrogate.  Since the surrogate gradient involves both scaling the input by $k$ (to sharpen the activation) and differentiating with respect to that input, the resulting gradient scales with $k^2$ due to the chain rule. Without compensating for this, gradient magnitudes can explode as $k$ increases. We therefore divide by $k^2$ to stabilize gradient flow regardless of the steepness.”
+
+\paragraph{Bias in Gradient Magnitude.}
+The gradient of the second layer weights becomes:
+\[
+\Tilde{\frac{\partial L}{\partial W^{(2)}_{ji}}} = a_j^{(1)} \cdot \left( \sum_{h=1}^{n_3} W_{ih}^{(3)} \delta_h^{(3)} \right) \cdot \Tilde{\sigma}'_k(z^{(2)}_i)
+\]
+Compared to the true gradient using \( \sigma'(z) \), the surrogate gradient generally yields:
+\[
+\Tilde{\sigma}'_k(z) \geq \sigma'(z) \quad \text{for most } z
+\]
+This introduces a positive bias in gradient magnitude, as:
+\[
+\text{bias} = \mathbb{E}\left[ \Tilde{\frac{\partial L}{\partial W^{(2)}_{ji}}} - \frac{\partial L}{\partial W^{(2)}_{ji}} \right] > 0
+\]
+unless \( k = 1 \), which recovers the original derivative.
+
+\paragraph{Effect on Deep Layers.}
+In deeper networks, this overestimation accumulates. For example, the first-layer gradient becomes:
+\[
+\Tilde{\frac{\partial L}{\partial W^{(1)}_{ji}}} = x_j \cdot \left[
+\sum_{g=1}^{n_2} W^{(2)}_{ig} \cdot \left( \sum_{h=1}^{n_3} W^{(3)}_{gh} \delta^{(3)}_h \cdot \Tilde{\sigma}'_k(z^{(2)}_g) \right)
+\right] \cdot \Tilde{\sigma}'_k(z^{(1)}_i)
+\]
+Compared to its counterpart using the true derivative, the surrogate gradient not only increases magnitude but distorts direction.
+
+To quantify this, we compute the cosine similarity between gradients using surrogate and true derivatives:
+\[
+\text{cosine similarity} = \frac{\nabla W \cdot \Tilde{\nabla W}}{\|\nabla W\| \cdot \|\Tilde{\nabla W}\|}
+\]
+As shown in \autoref{fig:cossim} of the main paper, cosine similarity decays toward 0 in deeper layers when using shallow slopes (e.g., \( k=1 \)). This indicates that surrogate-based gradients become increasingly misaligned with the true gradient, effectively randomizing weight updates.
+

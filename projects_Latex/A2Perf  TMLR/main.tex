@@ -1,0 +1,232 @@
+
+\documentclass[10pt]{article} % For LaTeX2e
+%  Use these together
+% \usepackage{arxiv}
+% \usepackage[numbers]{natbib}
+
+
+%  TMLR styles
+\usepackage{tmlr}
+% \usepackage[preprint]{tmlr}
+
+% If accepted, instead use the following line for the camera-ready submission:
+%\usepackage[accepted]{tmlr}
+% To de-anonymize and remove mentions to TMLR (for example for posting to preprint servers), instead use the following:
+
+% Optional math commands from https://github.com/goodfeli/dlbook_notation.
+\input{math_commands.tex}
+\usepackage{xspace}
+\usepackage{graphicx}
+\usepackage{changepage}
+\usepackage[font=small,labelfont=bf]{caption} % Add this line for smaller caption font
+\usepackage{booktabs} 
+% \usepackage[table,xcdraw]{xcolor}
+\usepackage{multirow}
+\usepackage{pifont}
+\usepackage{makecell}
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{amsmath}
+\usepackage{pifont}
+\usepackage{siunitx}
+\usepackage{rotating}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{listings}
+% \usepackage{todonotes}
+\usepackage{comment}
+\usepackage{mathtools}
+\usepackage{float}
+\usepackage{tabularx}
+% \usepackage[numbers]{natbib}
+
+
+\usepackage[toc,page,header]{appendix}
+\usepackage{minitoc}
+
+
+
+\title{A2Perf: Real-World Autonomous Agents Benchmark}
+
+
+% Authors must not appear in the submitted version. They should be hidden
+% as long as the tmlr package is used without the [accepted] or [preprint] options.
+% Non-anonymous submissions will be rejected without review.
+
+% \author{
+% \name Ikechukwu Uchendu\thanks{Work done as a student researcher at Google DeepMind.} \\
+% \addr Google DeepMind and Harvard University
+% \AND \name Jason Jabbour \\
+% \addr Harvard University
+% \AND
+% \name Korneel Van den Berghe \\
+% \addr Delft University of Technology
+% \AND
+% \name Joel Runevic \\
+% \addr Harvard University
+% \AND
+% \name Matthew Stewart \\
+% \addr Harvard University
+% \AND
+% \name Jeffrey Ma \\
+% \addr Harvard University
+% \AND
+% \name Srivatsan Krishnan \\
+% \addr Harvard University
+% \AND
+% \name Izzeddin Gur \\
+% \addr Google DeepMind
+% \AND
+% \name Austin Huang \\
+% \addr Google DeepMind
+% \AND
+% \name Colton Bishop \\
+% \addr Google DeepMind
+% \AND
+% \name Paige Bailey \\
+% \addr Google DeepMind
+% \AND
+% \name Wenjie Jiang \\
+% \addr Google DeepMind
+% \AND
+% \name Ebrahim M. Songhori \\
+% \addr Google DeepMind
+% \AND
+% \name Sergio Guadarrama \\
+% \addr Google DeepMind
+% \AND
+% \name Jie Tan \\
+% \addr Google DeepMind
+% \AND
+% \name Jordan K. Terry \\
+% \addr Farama Foundation
+% \AND
+% \name Aleksandra Faust \\
+% \addr Google DeepMind
+% \AND
+% \name Vijay Janapa Reddi\thanks{Work done as a visiting researcher at Google DeepMind.} \\
+% \addr Google DeepMind and Harvard University
+% }
+
+
+% \author{
+%   Ikechukwu Uchendu$^{1,2*}$,
+%   Jason Jabbour$^{2}$,
+%   Korneel Van den Berghe$^{3}$,
+%   Joel Runevic$^{2}$,
+%   Matthew Stewart$^{2}$,
+%   Jeffrey Ma$^{2}$,
+%   Srivatsan Krishnan$^{2}$,
+%   Izzeddin Gur$^{1}$,
+%   Austin Huang$^{1}$,
+%   Colton Bishop$^{1}$,
+%   Paige Bailey$^{1}$,
+%   Wenjie Jiang$^{1}$,
+%   Ebrahim M. Songhori$^{1}$,
+%   Sergio Guadarrama$^{1}$,
+%   Jie Tan$^{1}$,
+%   Jordan K. Terry$^{4}$,
+%   Aleksandra Faust$^{1}$,
+%   Vijay Janapa Reddi$^{1,2\dagger}$
+% }
+% The \author macro works with any number of authors. Use \AND 
+% to separate the names and addresses of multiple authors.
+
+
+% \author{
+% \begin{tabular}{@{}lll@{}}
+% Ikechukwu Uchendu$^{*}$ & Jason Jabbour & Korneel Van den Berghe \\
+% \textit{Google DeepMind \& Harvard} & \textit{Harvard University} & \textit{Delft University} \\[3pt]
+% Joel Runevic & Matthew Stewart & Jeffrey Ma \\
+% \textit{Harvard University} & \textit{Harvard University} & \textit{Harvard University} \\[3pt]
+% Srivatsan Krishnan & Izzeddin Gur & Austin Huang \\
+% \textit{Harvard University} & \textit{Google DeepMind} & \textit{Google DeepMind} \\[3pt]
+% Colton Bishop & Paige Bailey & Wenjie Jiang \\
+% \textit{Google DeepMind} & \textit{Google DeepMind} & \textit{Google DeepMind} \\[3pt]
+% Ebrahim M. Songhori & Sergio Guadarrama & Jie Tan \\
+% \textit{Google DeepMind} & \textit{Google DeepMind} & \textit{Google DeepMind} \\[3pt]
+% Jordan K. Terry & Aleksandra Faust & Vijay Janapa Reddi$^{\dagger}$ \\
+% \textit{Farama Foundation} & \textit{Google DeepMind} & \textit{Google DeepMind \& Harvard} \\
+% \end{tabular}
+% \vspace{5pt}
+% $^{*}$Work done as a student researcher at Google DeepMind.\\
+% $^{\dagger}$Work done as a visiting researcher at Google DeepMind.
+% }
+
+\newcommand{\fix}{\marginpar{FIX}}
+\newcommand{\new}{\marginpar{NEW}}
+\newcommand{\method}{A2Perf\xspace}
+
+
+\def\month{MM}  % Insert correct month for camera-ready version
+\def\year{YYYY} % Insert correct year for camera-ready version
+\def\openreview{\url{https://openreview.net/forum?id=XXXX}} % Insert correct link to OpenReview for camera-ready version
+
+% Make the "Part I" text invisible
+\renewcommand \thepart{}
+\renewcommand \partname{}
+
+\begin{document}
+
+\maketitle
+
+\doparttoc % Tell to minitoc to generate a toc for the parts
+\faketableofcontents % Run a fake tableofcontents command for the partocs
+
+\part{} % Start the document part
+% \parttoc % Insert the document TOC
+
+
+\begin{abstract}
+\input{abstract}
+\end{abstract}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+
+\label{sec:introduction}
+\input{introduction}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Related Work}
+\label{sec:related_work}
+\input{related_work}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Metrics for Real-World Evaluation}
+\label{sec:metrics}
+\input{metrics}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\method~Domains}
+\label{sec:domain_background}
+\input{domain_background}
+\section{Evaluation}
+\label{sec:evaluation}
+\input{evaluation}
+\section{Limitations and Future Work}
+\label{sec:limitations_and_future_work}
+\input{discussion}
+\section{Conclusion}
+\label{sec:conclusion}
+\input{conclusion}
+
+\bibliography{references}
+\bibliographystyle{tmlr}
+
+\appendix
+\input{appendix}
+
+\end{document}

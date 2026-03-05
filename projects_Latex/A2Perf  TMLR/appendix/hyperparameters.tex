@@ -1,0 +1,73 @@
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{Hyperparameter} & \textbf{BC} & \textbf{PPO} & \textbf{DDQN} \\ \hline
+\multicolumn{4}{|c|}{\textbf{Toy Macro Standard Cell}} \\ \hline
+Batch Size & 64 & 128 & 256 \\ \hline
+Learning Rate & 1e-4 & 4e-4 & 4e-5 \\ \hline
+Environment Batch Size & - & 512 & 512 \\ \hline
+Number of Epochs & - & 6 & - \\ \hline
+Number of Iterations & 200 & 5000 & 10000 \\ \hline
+Entropy Regularization & - & 1e-2 & - \\ \hline
+Number of Episodes Per Iteration & - & 32 & - \\ \hline
+Epsilon Greedy & - & - & 0.3 \\ \hline
+Replay Buffer Capacity & - & - & 1000000 \\ \hline
+\multicolumn{4}{|c|}{\textbf{Ariane}} \\ \hline
+Batch Size & 64 & 128 & 256 \\ \hline
+Learning Rate & 1e-4 & 4e-4 & 4e-5 \\ \hline
+Environment Batch Size & - & 512 & 512 \\ \hline
+Number of Epochs & - & 4 & - \\ \hline
+Number of Iterations & 200 & 250 & 100000 \\ \hline
+Entropy Regularization & - & 1e-2 & - \\ \hline
+Number of Episodes Per Iteration & - & 1024 & - \\ \hline
+Epsilon Greedy & - & - & 0.3 \\ \hline
+Replay Buffer Capacity & - & - & 10000000 \\ \hline
+\end{tabular}
+\vspace{0.5em}
+\caption{Circuit Training Hyperparameters}
+
+\end{table}
+
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{Hyperparameter} & \textbf{BC} & \textbf{PPO} & \textbf{DDQN} \\ \hline
+Batch Size & 128 & 128 & 128 \\ \hline
+Learning Rate & 1e-4 & 3e-6 & 3e-6 \\ \hline
+Entropy Regularization & - & 1e-2 & - \\ \hline
+Number of Episodes Per Iteration & - & 512 & - \\ \hline
+Environment Batch Size & - & 512 & 512 \\ \hline
+Number of Epochs & - & 4 & - \\ \hline
+Number of Iterations & 5000 & 200 & 50000 \\ \hline
+Epsilon Greedy & - & - & 0.3 \\ \hline
+Replay Buffer Capacity & - & - & 1000000 \\ \hline
+Maximum Vocabulary Size & 500 & 500 & 500 \\ \hline
+Latent Dimension & 50 & 50 & 50 \\ \hline
+Embedding Dimension & 100 & 100 & 100 \\ \hline
+Profile Value Dropout & 1.0 & 1.0 & 1.0 \\ \hline
+\end{tabular}
+\vspace{0.5em}
+\caption{Web Navigation Hyperparameters}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{Hyperparameter} & \textbf{BC} & \textbf{PPO} & \textbf{SAC} \\ \hline
+Batch Size & 64 & 128 & 256 \\ \hline
+Learning Rate & 1e-4 & 1e-5 & 3e-4 \\ \hline
+Environment Batch Size & - & 512 & 512 \\ \hline
+Number of Epochs & - & 4 & - \\ \hline
+Number of Iterations & 1000 & 8000 & 2000000 \\ \hline
+Entropy Regularization & - & 1e-2 & - \\ \hline
+Number of Episodes Per Iteration & - & 512 & - \\ \hline
+Replay Buffer Capacity & - & - & 2000000 \\ \hline
+\end{tabular}
+\vspace{0.5em}
+\caption{Quadruped Locomotion Hyperparameters}
+
+\end{table}

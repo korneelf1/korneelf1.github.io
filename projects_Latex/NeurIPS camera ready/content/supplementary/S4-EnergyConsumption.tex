@@ -1,0 +1,34 @@
+\subsection{Energy Consumption Analysis}\label{sup:energy}
+Although we do not have access to neuromorphic hardware small enough to fit on the Crazyflie, the energy consumption can be estimated using the method proposed by Davies \textit{et al.} \cite{Davies2018}, also used in \cite{wang2023evolving}, we see that the total energy per inference would be $9.7 \times 10^{-5}\,\mathrm{mJ}$, which is in line with the result from Wang \textit{et al.} \cite{wang2023evolving} (normalized per timestep), and also in line with real-world measurements from Paredes-Valles \textit{et al.} \cite{Paredes2023}, who measured $7 \times 10^{-3}\,\mathrm{mJ}$ for a much larger and deeper vision network deployed on a neuromorphic system.
+
+An overview of this calculation is given below.
+
+\begin{table}[h!]
+\centering
+\caption{Simulation Parameters and Energy Values}
+\begin{tabular}{l c}
+\toprule
+\textbf{Parameter} & \textbf{Value} \\
+\midrule
+Energy per synaptic spike op $P_s$ & 23.6 (pJ) \\
+Within-tile spike energy $P_w$ & 1.7 (pJ) \\
+Energy per neuron update $P_u$ & 81 (pJ) \\
+Layer sizes $[N_{in}, N_1, N_2, N_{out}]$ & 18, 256, 128, 4 \\
+Activation Sparsity $AS$ & 0.79 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent The total energy per inference is estimated as:
+\begin{align*}
+E &= [N_1 \cdot (P_u + N_{in} \cdot P_w)] \\
+&\quad + [P_s \cdot (1 - AS) \cdot N_1 + N_2 \cdot (P_u + N_1 \cdot P_w)] \\
+&\quad + [P_s \cdot (1 - AS) \cdot N_2 + N_{out} \cdot (N_2 \cdot P_w)] \\
+&\approx 9.7 \times 10^{-5}\,\mathrm{mJ}
+\end{align*}
+
+\noindent \textit{Note:} The multiply operations of the input encoding are ignored. The output is a linear layer that accumulates spikes, without explicit output neurons, therefore no energy for neuron updates $P_u$ are accounted for.
+
+\subsection*{Discussion}
+
+A comparison of a conventional method (traditional controller or RNN) versus our method on the Teensy would not be fair. For realizing the energy efficiency, our method depends on neuromorphic hardware that leverages sparsity and asynchronous compute, while conventional methods would not be able to profit as much. Therefore, the hardware implementation section of our paper aims at demonstrating the feasibility of neuromorphic control, not at showing improved energy efficiency.

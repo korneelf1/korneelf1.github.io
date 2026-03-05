@@ -1,0 +1,24 @@
+\section*{Algorithm Track Benchmark Framework}
+\begin{figure}[t]
+            \centering
+            \includesvg[width=.95\textwidth]{figures/Software_Architecture.svg}
+            \caption{An overview of the NeuroBench algorithm track.}
+        \label{fig:AlgTrack_SA}
+    \end{figure}
+
+The algorithm benchmark track aims to evaluate algorithms in a system-independent manner, separating algorithm performance from specific implementation details. The implementation platform can thus be ill-matched to the particular algorithm benchmark that it executes (e.g., SNN execution via dense matrix multiplication on a GPU), and the algorithm complexity and expected performance can be examined in a theoretical manner, motivating agile prototyping and functional analysis. Furthermore, minimal assumptions are made about the solutions tested, promoting inclusion of diverse algorithmic approaches.
+
+The framework, as illustrated in Figure~\ref{fig:AlgTrack_SA}, is composed of inclusively-defined benchmark metrics, datasets and data loaders, and common harness infrastructure, shown in red. The metrics focus on assessing algorithm correctness on specific tasks as well as capturing general metrics that reflect the architectural complexity, computational demands, and storage requirements of the models. The datasets and data loaders specify the details of the tasks used for evaluation and ensure consistency across benchmarks. Finally, the harness infrastructure automates runtime execution and result output for the algorithm benchmark specified by the input interface, which consists of the user's model and customizable components for data processing and desired metrics, shown in green and orange.
+
+
+% This standardized framework, as illustrated in Figure~\ref{fig:AlgTrack_SA}, allows the same algorithm to be tested across multiple platforms, with reproducible and comparable performance measurements regardless of hardware and software specifics.   In other words, the benchmarks evaluate the algorithm itself, separate from any specific implementation details. 
+
+% Additionally, the algorithm benchmarks promote inclusion of diverse solutions by making minimal assumptions about the type of solution being tested. The benchmarks focus on assessing the correctness of the algorithm on specific tasks, as well as capturing general metrics that reflect the architectural complexity, computational demands, and storage requirements of the models. These task-centric evaluations and implementation-agnostic metrics allow for benchmarking of different algorithmic approaches to the same problem.
+
+% The components that enable algorithm benchmarking within the standardized NeuroBench framework are shown in Figure~\ref{fig:AlgTrack_SA}. As illustrated by the red boxes, these components include defined benchmarking metrics, datasets and data loaders that specify the details of the task, and harness infrastructure to handle execution and analysis. Together, these elements allow algorithm performance to be measured in a consistent, reproducible way across algorithm categories and implementation platforms.
+
+\input{sections/02_01_alg_metric}
+\input{sections/02_02_alg_tasks}
+\input{sections/02_03_alg_harness}    
+\input{sections/02_04_alg_baselines}
+\input{sections/02_05_system}

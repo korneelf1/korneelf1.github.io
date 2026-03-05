@@ -1,0 +1,8 @@
+To collect datasets for each domain and task, we periodically saved the policies at fixed intervals throughout the training process. We then evaluated all the saved policies on 100 episodes for each domain and task.
+Based on these evaluations, we created a distribution of median returns and assigned an \texttt{expertise} level to each policy as follows:
+\begin{enumerate}
+\item \texttt{Novice}: The median return lies within one standard deviation below the mean.
+\item \texttt{Intermediate}: The median return is within one standard deviation above or below the mean.
+\item \texttt{Expert}: The median return is one standard deviation above the mean or higher.
+\end{enumerate}
+In some cases, certain domains or tasks were too challenging, resulting in no policies of a given skill level. In such instances, we only provide a \texttt{novice} dataset.

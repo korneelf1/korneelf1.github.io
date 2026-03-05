@@ -1,0 +1,375 @@
+\subsection*{Algorithm Track Baselines}
+% This section details the baseline methods implemented for each task. \TODO{Training details were commented out from main text, make sure they are added here.}
+
+All baselines are implemented using PyTorch \texttt{nn.Module} objects in order to interface with the harness.
+
+\subsubsection*{Keyword FSCIL}
+
+The ANN baseline employs Mel-frequency cepstral coefficients (MFCC) pre-processing along with a modified version of the M5 deep convolutional network architecture~\cite{dai2016deep}. 
+
+The MFCC pre-processing converts the 48~kHz, 1~second audio samples from MSWC into 20 channels of 200 timesteps (5~ms stride, 10~ms time bins), focusing on frequencies within the human voice range between 20~Hz and 40~kHz.
+The network contains four successive blocks, each consisting of 1D convolution, batch-normalization, ReLU activation, and max-pooling layers, followed by a single readout fully-connected layer. Convolutional layers apply their kernels over the temporal dimension of the samples, thus extracting longer temporal features through the depth of the network. 
+We also incorporate dropout after the ReLU activations to avoid over-fitting and let the network be more general for incremental learning. 
+% The detailed parametrization of this modified M5 network can be found in the neuroBench repository.   
+The network is trained with stochastic gradient descent using cross-entropy loss and the Adam optimizer.
+
+
+For the SNN baseline, we employ the Speech2Spikes~\cite{stewart23speech2spikes} (S2S) preprocessing algorithm to convert audio samples to spikes.
+For S2S we use the default parameters from the original implementation, only the hop length is updated to match the 48~kHz audio frequency of the MSWC samples, whereas the original implementation was applied to 16~kHz audio. S2S applies a Mel Spectrogram and a log operation to raw audio samples, converting them to positive and negative trains of spikes using delta-encoding.
+
+Spike trains from S2S are used as input for the recurrent SNN (RSNN), which consists of 2 recurrent adaptive leaky integrate-and-fire (RadLIF) layers of 1024 neurons and one linear output layer. The model architecture is adapted from Bittar's work~\cite{bittar22surrogate}.
+The RadLIF neurons in these layers are LIF neurons that produce a binary spike $\mathbf{s}(t)$ and reset via subtraction when their membrane potential $\mathbf{u}(t)$ crosses a certain threshold value $\theta$, combined with an extra adaptation variable $\mathbf{w}(t)$ to enable more complex temporal dynamics and firing patterns. Equation~\ref{eq:adLIF_current} is the input current to neurons, with $x$ the input spikes from the previous layer, $W_f$ the forward weight matrix, $BNTT$ batch-normalization through time, and $W_r$ the recurrent weight matrix. $\mathbf{u}(t)$ and $\mathbf{w}(t)$ are shown in Equation~\ref{eq:adLIF}, where $\alpha$, $\beta$, $a$ and $b$ are heterogeneously trainable parameters of the neuron. Finally, spikes $\mathbf{s}(t)$ are generated according to Equation~\ref{eq:adLif_spike}.
+
+\begin{equation} \label{eq:adLIF_current}
+    \mathbf{I}(t) = BNTT(W_f[x(t)]) + W_r[s(t-1)]
+\end{equation}
+
+
+\begin{equation}
+    \label{eq:adLIF}
+    \begin{aligned}
+        \mathbf{u}(t) &= \alpha \left[ \mathbf{u}(t - 1) \right] + (1 - \alpha)\left[\mathbf{I}(t) - \mathbf{w}(t - 1)\right] - \theta [\mathbf{s}(t - 1)] \\
+        \mathbf{w}(t) &= \beta [\mathbf{w}(t - 1)] + a (1 - \beta)  [\mathbf{u}(t - 1)] + b [\mathbf{s}(t - 1)] \\
+    \end{aligned}
+\end{equation}
+
+\begin{equation} \label{eq:adLif_spike}
+    \mathbf{s}(t) = 
+    \begin{cases}
+        0 \text{ if } \mathbf{u}(t) < \theta \\
+        1 \text{ if } \mathbf{u}(t) \geq \theta
+    \end{cases}
+\end{equation}
+
+% where $\alpha$, $\beta$, $a$ and $b$ are heterogeneously trainable parameters of the neuron. $I(t) = BNTT(Wx(t)) + Vs(t-1)$ is the input current to the neuron, with $x$ the input spikes from the previous layer, $W$ the forward weight matrix, $BNTT$ a batch-normalization through time and $V$ the recurrent weight matrix. Output spikes are also passed through a dropout layer. 
+The last layer of the network is a readout linear classifier, and the class corresponding to the maximum of the summation of output activities over all timesteps is chosen as the network prediction.
+The RSNN network is trained with backpropagation through time using a boxed pseudo-gradient and cross-entropy loss.
+
+
+\begin{center}
+\begin{minipage}{.9\linewidth}
+\begin{algorithm}[H]
+\caption{Few-Shot Class-Incremental Learning with Prototypes}
+\label{alg:prototypical_continual_learning}
+\textbf{Requires:} Pre-trained network $g \circ f$ consisting of feature extractor $f$ and classifier $g: x 	\mapsto Wx+b$ \\
+\textbf{Define:} $(x)_l$, $w_l$ and $b_l$ respectively the set of input samples, classifier weights and biases associated with a class $l$
+\begin{algorithmic}[1]
+\For{each base class $k$}
+\State Compute prototype embedding $c_k = \text{Mean}[f((x)_k)]$ ~~~~~~~~~~~~~~~~ \textit{(also summed over time for SNN baseline)}
+\State Compute corresponding classifier weights $w_k = 2c_k$ and biases $b_k = - c_kc_k^T$
+\EndFor
+\State Replace classifier layer $g$ with prototype weights: $W \leftarrow W_{B} = (w_k)_{k \in B}$ and biases $b \leftarrow b_{B} = (b_k)_{k \in B}$
+\For{each session $i$ in sessions}
+    \State Get session support $S^i$
+    \State Repeat lines \textit{1} to \textit{4} for all new classes of $S^i$ to get prototype weights $W_{S^i}$ and biases $b_{S^i}$
+    \State Extend the classifier layer weights $W \leftarrow [W, W_{S^i}]$ and $b \leftarrow [b, b_{S^i}]$
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+\end{minipage}
+\end{center}
+
+We implement baseline solutions for the FSCIL task with both ANN and SNN models. The \textbf{frozen} baselines do not learn any new classes while the \textbf{prototypical} baselines follow the prototypical networks approach~\cite{snell2017prototypical} to classify new classes. For both baselines, the ANN and SNN models are pre-trained on the 100 base classes $B$, which employs the abundant number of samples to develop a robust feature extractor $f$, which generates embeddings from hidden layers that are passed to a readout classifier.
+% also including the 100 extra output neurons for the incremental classes which are thus only trained to not recognize any sample. 
+
+For the \textbf{frozen} baselines, the models parameters are frozen after pre-training for inference during all incremental sessions, thus setting a `worst-case' reference with no incremental learning but also no risk of catastrophic forgetting.
+
+For the \textbf{prototypical} baselines, the pre-trained models learn 100 extra classes within the 10 incremental sessions in a 5-shot learning scenario. The prototypical networks protocol is applied in each incremental session as shown in Algorithm \ref{alg:prototypical_continual_learning}. 
+% to define effective output weights and biases for new classes based on the pre-trained embedding from hidden layers.
+Prototypical networks provide a clustering algorithm for classification that is equivalent to a readout affine operation on feature embeddings, resulting in a linear layer of weights and biases. Each class $k$ is represented by a prototype vector $c_k = \text{Mean}[f((x)_k)]$ defined as the average feature embedding produced by $f$ over all corresponding training samples $(x)_k$. The readout classifier layer is defined based on this prototype such that the weights $w_k$ and biases $b_k$ associated with class $k$ follow $w_k = 2c_k$ and $b_k = - c_kc_k^T$, which associates embeddings with the closest prototype with respect to the squared Euclidean distance~\cite{snell2017prototypical}.
+
+% JY: seems like we don't necessarily need this info, it is slightly redundant with next paragraph
+% In the original prototypical networks work~\cite{snell2017prototypical}, the feature extractor network is pre-trained specifically for this evaluation method. However, here we use a simplified approach here using the networks pre-trained on base classes and swapping their readout layer~\cite{chen2019closer}. 
+For the SNN baselines, as the features also have a temporal dimensionality, we accumulate embeddings over all timesteps $t$ to define the prototype vector $c_k = \text{Mean}[\sum_t(f((x)_k)_t)]$. Also, as we maintain the summation over timesteps after the final prototype layer to keep the online nature of the SNN baseline, the biases will be applied at each timestep. Thus to maintain the balance between weighted inputs and biases, for the SNN baseline we also normalize the biases by the total number of timesteps $T$: $b_k = - c_kc_k^T/T$.
+
+We fit the prototypical networks approach to the FSCIL task by first discarding the original output layer and replacing it with the prototype weights $W_{B}$ and biases $b_{B}$ of the base classes, computed as described above based on the averaged feature embeddings over all 500 training samples per base class. This causes an initial accuracy drop, as the trained output layer weights are replaced by clustered weights for the prototypical learning approach.
+Then, for each incremental session, the prototype of each of the 10 new classes is defined based on the 5 corresponding support samples. The prototype weights and biases are computed in the same manner and concatenated to the existing classifier layer to accommodate for the new classes. 
+
+% JY: I feel like we should be making these points in Results rather than Methods
+% Altogether this method limits to the minimum any risk of catastrophic forgetting by only updating or adding class-specific parameters and defining these parameters based on features embeddings which tend to be balanced due to the pre-training on abundant samples. The incremental learning step is also very computationally efficient as it only requires to pass support samples through the hidden layers of the networks, compute an average and a norm for the biases. It also doesn't suffer the variability and sensitivity issues of gradient descent approaches, and especially of BPTT that needs to compute gradients through time. Prototypical Networks also do not require any extra parameter to optimize, like a learning rate and are thus a very suitable off-the-shelf solution to benchmark this new FSCIL task.
+
+
+
+% WEIGHT CONSOLIDATION METHOD: OLD VERSION
+
+%Labeled base dataset $D^{\text{base}}$, $n$ labeled incremental sessions \\
+
+
+
+% \begin{center}
+% \begin{minipage}{.7\linewidth}
+% \begin{algorithm}[H]
+% \caption{Weight Consolidation Algorithm}
+% \label{alg:weight_consolidation}
+% \textbf{Requires:} Pre-trained output weights $W^{out}$ from training on base classes $B$ \\
+% \textbf{Define:} $(W^{out})_{C}$ output weights connecting to the neurons representing classes $C$
+% \begin{algorithmic}[1]
+% \State Save centered output weights of base classes: $(W_{cent}^{out})_{B} = (W^{out})_{B} - Mean[(W^{out})_{B}]$
+% \For{each session $i$ in sessions}
+%     \State Get session support $S^i$ 
+%     \State Update output weights with support $S^i$ data: $W^{out} \leftarrow W^{out} + \Delta W^{out}$
+%     \State Save centered new classes weights: $(W_{cent}^{out})_{S^i} = (W^{out})_{S^i} - Mean[(W^{out})_{S^i}]$
+%     \State Reset all centered weights: $(W^{out})_{B \ \cup \ S_{0 \rightarrow i}} \leftarrow (W_{cent}^{out})_{B \ \cup \ S_{0 \rightarrow i}}$
+% \EndFor
+% \end{algorithmic}
+% \end{algorithm}
+% \end{minipage}
+% \end{center}
+
+
+
+% We implement baseline solutions for the FSCIL task with both ANN and SNN models. The \textbf{frozen} baselines do not learn any new classes while the \textbf{consolidated} baselines employ a weight consolidation mechanism to learn new classes. For both baselines, the full ANN and SNN models are pre-trained on the 100 base classes $B$. Weights for the 100 output neurons representing incremental classes are also included at this point (trained with no positive labels), but they are masked during inference until the incremental classes are added by the task.
+% % also including the 100 extra output neurons for the incremental classes which are thus only trained to not recognize any sample. 
+
+% For the \textbf{frozen} baselines, the models parameters are frozen during all incremental learning sessions, thus setting a "worst-case" reference with no risk of catastrophic forgetting.
+% For the \textbf{consolidated} baselines, the pre-trained models learn 100 new classes within the 10 incremental sessions in a 5-shot learning scenario. The weight consolidation algorithm (Algorithm \ref{alg:weight_consolidation}) allows the models to learn to recognize new classes while limiting forgetting of previously learned classes~\cite{pellegrini20latent}. 
+% %This proposed solution only updates output weights during incremental sessions and relies on centering the weights around 0 after each new set of classes are learned. 
+% First, the pre-trained weights associated with base classes $B$ (connecting to output neurons representing base classes), denoted $(W^{out})_{B}$, are saved after being centered around zero by subtracting their mean value. Then, for each incremental session, the output weights of the models are updated in 5 successive shots on the support samples $S$. The updated support-associated weights $(W^{out})_{S}$ are then centered around 0 and saved while all the centered and saved weights from previous sessions are reset to their values before the training on the new support. This way weights are updated with the same number of positive and negative labels and the risks of catastrophic forgetting are significantly decreased.
+
+
+% For the few-shot weight updates themselves, the training setup, including loss function and optimizer, is the same as for pre-training. 
+% The few-shot learning rates, which highly impact learning performance, are selected through grid search. 
+% % For the ANN solution we obtain $lr_{fs}=0.3$ out of $\{1, 0.5, 0.3, 0.2, 0.1, 0.05, 0.01\}$ and for the SNN one $lr_{fs}=0.005$ out of $\{0.1, 0.05, 0.01, 0.008, 0.005, 0.003, 0.002, 0.001, 0.0005, 0.0001\}$. 
+% The right choice of a learning rate directly impacts the balance between the ability to learn new classes and the issue of forgetting previously learned ones, as the range of new learned weights can cause the corresponding output activities to either overshadow or be overshadowed by activities of other classes. We note that we tried to add a normalization step to the centering one in the weight consolidation algorithm to limit this learning rate sensitivity but this did not lead to improved results.
+
+
+% JY: I feel that this is written already in the Results section
+% Note that both the ANN and SNN baselines operate on input which is processed with 5~ms stride - 5~ms strided MFCC processing of 10~ms time bins, which is further converted to spike trains with S2S for the SNN. The difference between the models is that the ANN temporally flatten the input and uses features from the whole sample length in one model execution, while the SNN processes each time bin sequentially. This is reflected in the 1~Hz vs 200~Hz model execution rate for the ANN and SNN, respectively. \JY{I feel like we should avoid discussing continuous-time kw-spotting setups, because we would need to make the assumption that the ANN must be run every 5ms. But for example one could run a non-ML algorithm that buffers input and only wakes up the ANN to execute and classify if a certain condition has been reached.}
+
+
+% \JY{I think we want to communicate this that the model execution rate of 1~Hz means that each ANN pass operates on 1~s of data, whereas 200~Hz model execution rate means each SNN pass operates on 5~ms of data.}
+% We note that both the ANN and SNN solutions process data with a frequency of 200~Hz at the input as the Mel spectrogram they employ has a window size of 10~ms and hop-length of 5~ms, meaning that spectrogram features are computed over the last 10~ms every 5~ms. The difference of reported frequency (200~Hz for the SNN vs 1~Hz for the ANN solution) comes from the fact that in a continuous keyword spotting set-up, while running the full model only once per second, the SNN can produce one prediction every 5~ms whereas the CNN will only produce a single prediction. This is due to the sequential nature of the SNN solution that can process input spectrograms independently when the CNN solution requires aggregation over 1 second of input data to process activation in its deeper layers. The CNN solution can be optimized to avoid having to run the full model every time a prediction is needed but it will always face an algorithmic bottleneck due to its conversion of time as a spatial feature to the CNN.
+
+% All details on the exact implementation can be found in the NeuroBench repository.
+
+
+\subsubsection*{Event Camera Object Detection}
+For both the RED ANN and Hybrid ANN-SNN baselines, the event data from the event camera are converted into frame-based representations using multi-channel time surfaces. Non-overlapping 50~ms time bins (with 50~ms stride), are further subdivided into three sub-bins. Each sub-bin, starting at timestamp $t_0$, generates two time surfaces $TS$ (Equation~\ref{eq:timesurfaces}), based on each event $(x, y, p, t)$ in the sub-bin, where $x, y$ are event coordinates, $p$ is positive or negative polarity, and $t$ is the event time.
+
+\begin{equation}
+\begin{aligned}
+TS(p, y, x)=t-t_{0} \text { for each event }(x, y, p, t) \text { in the sub-bin.}
+\end{aligned}
+\label{eq:timesurfaces}
+\end{equation}
+
+The RED ANN \cite{Perot2020} is a deep convolutional neural network model using three feed-forward squeeze-and-excite~\cite{hu18squeeze} convolution layers followed by five recurrent convolution-LSTM~\cite{shi15convlstm} (ConvLSTM) layers. The squeeze-and-excite layers provide effective feature extraction while the ConvLSTM layers provide effective temporal learning.
+The single-shot detection (SSD~\cite{Liu_2016}) head is used to predict the location and class of the bounding box based on multi-scale outputs from the recurrent layers. 
+% The RED architecture has activation sparsity in the feed-forward convolutional layers. However, due to the activation function used, the ConvLSTM layers output dense activations. 
+% Raw event data is binned into 50ms and pre-processed into time surfaces. 
+% The model is trained using the SSD loss function consisting of a regression term for box coordinates and a classification term for the class, matching the original RED implementation.
+        
+The Hybrid ANN-SNN architecture adopts five LIF spiking neural layers to replace the ConvLSTM layers in RED, and shares the same feed-forward convolutional blocks as the RED. The LIF neuron layers are connected with feed-forward convolution, and have far fewer weights than the ConvLSTM layers.
+The Hybrid model uses the same input encoding method, object detection head, and training loss functions as the RED model. The LIF units are built using the SpikingJelly library~\cite{SpikingJelly}, and the neuron dynamics of the LIF membrane potential are given in Equations~\ref{eq:spikingjelly_h},~\ref{eq:spikingjelly_u}, and~\ref{eq:spikingjelly_spike}. $\mathbf{h}(t)$ is the charged potential before spiking during a timestep, dependent on activation input $X(t)$, and membrane time contant $\tau$, and $\mathbf{u}(t)$ is the final potential of the timestep which resets to the reset value $V_{reset}$ if $\mathbf{h}(t)$ reaches the threshold voltage $V_{th}$. The same thresholds determine $\mathbf{s}(t)$, whether a spike is produced. In the experiments, $\tau$ is set to 2.0; $V_{th}$ is 1.0, and $V_{reset}$ is 0.0.
+
+\begin{equation}
+    \mathbf{h}(t) = \mathbf{u}(t-1) + \frac{1}{\tau}(X(t) - \mathbf{u}(t-1))
+    \label{eq:spikingjelly_h}
+\end{equation}
+
+\begin{equation}
+    \mathbf{u}(t) = 
+    \begin{cases}
+        \mathbf{h}(t) & \text{if } \mathbf{h}(t) < V_{th} \\
+        V_{reset} & \text{if } \mathbf{h}(t) \geq V_{th}
+    \end{cases}
+    \label{eq:spikingjelly_u}
+\end{equation}
+
+\begin{equation}
+    \mathbf{s}(t) = 
+    \begin{cases}
+        0 & \text{if } \mathbf{h}(t) < V_{th} \\
+        1 & \text{if } \mathbf{h}(t) \geq V_{th}
+    \end{cases}
+    \label{eq:spikingjelly_spike}
+\end{equation}
+
+% \textbf{Training Methods}
+The losses used to train the RED ANN and Hybrid baselines match previous work~\cite{Perot2020}, using a combination of regression and classification loss functions. Regression loss $L_r$ (Equation~\ref{eq:objdet_regression_loss}) for all predicted boxes $B$ and ground-truth boxes $T$ is given by smooth $l1$ loss $L_s$~\cite{Liu_2016} (Equation~\ref{eq:objdet_smoothl1}), averaged over $N$ predicted bounding boxes $B_i$ and their corresponding ground-truth boxes $T_i$. Smooth $l1$ loss is a piecewise loss function with threshold $\beta$, which is set to 0.11. For the classification loss ${L}_{c}$ (Equation~\ref{eq:objdet_classification_loss}), softmax focal loss~\cite{lin20focal} is used, with correct-class probability $p_l$ for all default boxes in the regression head and constant $\gamma$, which is set to 2.
+
+\begin{equation}
+\begin{aligned}
+L_r(B, T)= \frac{1}{N} \sum_{j} L_s\left(B_{i}, T_{i}\right)
+\end{aligned} \label{eq:objdet_regression_loss}
+\end{equation}
+
+\begin{equation}
+{L}_{s}\left(B_{i}, T_{i}\right)=
+\begin{cases}
+\left|B_{i}-T_{i}\right|-\frac{\beta}{2} & \text { if }\left|B_{i}-T_{i}\right| \geq \beta \\
+\frac{1}{2 \beta}\left(B_{i}-T_{i}\right)^{2} & \text { otherwise }
+\end{cases} \label{eq:objdet_smoothl1}
+\end{equation}
+
+\begin{equation}
+\begin{aligned}
+L_c\left(p_{{l}}\right)=-\left(1-p_{{l}}\right)^{\gamma} \log \left(p_{{l}}\right)
+\end{aligned} \label{eq:objdet_classification_loss}
+\end{equation}
+
+
+
+% The exact code is in the NeuroBench repository.
+
+\subsubsection*{Non-human Primate Motor Prediction}
+% \TODO{Clean this section up}
+
+% \red{Something like: For all baselines, spike data was }
+
+% For training the two ANN variants, all the training data was shuffled and grouped into mini batches thus removing any temporal ordering. The data shuffling and batchnorm was important to minimize loss by gradient descent. \red{For LSTMs and SNNs, each reach was considered as a sequence and only sequence ordering was shuffled during training while data within a reach was presented in temporal order. $L1$ and $L2$ regularization as well as layernorm were needed to minimize loss and generalize to the test set.}
+
+
+% The SNN was trained with 200ms spike trains to predict the concurrent 200ms finger velocities, extracted using a sliding window—the window of labels instead of a single one mitigated vanishing gradients. The MSE Loss was linearly weighted, and 10-fold cross-validation was used for model selection.
+
+
+% Details from Paul, incorporate
+% Overall:
+% - 10-fold CV based on reaches 
+% - early stopping with patience: 10
+% - best epoch = lowest validation loss -> used to get testing performance
+
+% Training: 
+% - Optimizer -> AdamW (lr = 0.001, weight_decay=0.01)
+% - Loss -> weighted MSE (0 -> 1) 
+% - prediction is a window of 50 timesteps (200ms)
+% - the window is to avoid dead neurons and vanishing gradients
+% - data is shuffled
+
+All baseline models have linear feed-forward layer architectures, where ANN, ANN\_Flat, and SNN\_Flat have topologies $N_{ch}-32-48-2$, and SNN uses $N_{ch}-50-2$. The varying topologies between SNN and SNN\_Flat attempt to optimize for complexity in the former and correctness in the latter.
+
+The LIF neurons used in the SNN networks are developed using snnTorch~\cite{eshraghian2021training}, and have potential dynamics shown in Equations~\ref{eq:snntorch_u} and~\ref{eq:snntorch_spike}. Note that unlike the SpikingJelly neurons (Equations~\ref{eq:spikingjelly_h},~\ref{eq:spikingjelly_u}, and~\ref{eq:spikingjelly_spike}), the potential $\mathbf{u}(t)$ is reset in the timestep following a spike, rather than during the same timestep. As before, $V_{reset}$ is 0.0 and $V_{th}$ is 1.0, while $\beta$ is 0.96 for the SNN baseline and 0.50 for the SNN\_Flat baseline. The potential of the readout neurons in both baselines is directly read to produce velocity predictions, thus there is no spiking or reset mechanism and the neurons function as leaky accumulators.
+
+\begin{equation}
+    \mathbf{u}(t) = 
+    \begin{cases}
+        \beta \mathbf{u}(t-1) + X(t) & \text{if } \mathbf{s}(t-1) = 0 \\
+        V_{reset} & \text{if } \mathbf{s}(t-1) = 1
+    \end{cases}
+    \label{eq:snntorch_u}
+\end{equation}
+
+\begin{equation}
+    \mathbf{s}(t) = 
+    \begin{cases}
+        0 & \text{if } \mathbf{u}(t) \leq V_{th} \\
+        1 & \text{if } \mathbf{u}(t) > V_{th}
+    \end{cases}
+    \label{eq:snntorch_spike}
+\end{equation}
+
+ANN, ANN\_Flat, and SNN\_Flat are trained using mean-squared error (MSE) loss over 50 epochs. The SNN baseline used a sliding window of 50 consecutive data points, representing 200~ms of data (50-point window, single-point stride) in order to calculate the loss, to allow for more information for backpropagation and avoid dead neurons and vanishing gradients. The MSE loss was linearly weighted from 0 to 1 for the 50 points within the window. The SNN was trained with 10-fold cross-validation, using an early-stopping regime with patience (epochs for which there is no improvement to the validation set) of 10 epochs. 
+
+% The SNN baseline was trained with sliding windows of 200~ms spike trains (50 consecutive datapoints), which allowed for more information to compute loss than if only a single 4~ms datapoint was used.
+% MSE loss was linearly weighted between \red{??} such that \red{later timesteps had greater weights than earlier timesteps?}, and the model was trained over \red{??} epochs. \JY{Was the 10-fold CV for hyperparameter selection? how was the model trained, backprop through time with some surrogate gradient?}
+
+
+
+% For ANN, the input spikes for every channel are accumulated over a $200$ ms temporal window to create the input feature vector, where the window shifts with a step size of $4$ ms. As for the ANN\_Flat and SNN\_Flat models, the same $200$  ms window is subdivided into $n_p=7$ equally wide sub-windows and input spikes are separately accumulated in each sub-window. The temporal window is also shifted at a step size of $4$ ms. While training, the input vector is directly fed in to the ANN. For the SNN\_Flat models, the feature value in the $7$ sub-windows are fed in consecutive time steps, while for the ANN\_Flat model, the input is flattened (input dimension becomes $N_{ch}\times7$) before feeding into the network. All three models shares the same number of hidden neurons (32-48-2), with ANN and ANN\_Flat using ReLU for its activation function, while SNN\_Flat use LIF as its neuron model and Arctan as its surrogate function. 
+
+% All three models are trained over 50 epochs with learning rate of 0.005 with cosine annealing learning rate scheduler, using Mean-squared error (MSE) as the loss function with L2 regularization and AdamW as the optimizer. The final hyperparameters (learning rate, weight decay and dropout rate) were obtained by sweeping with a hyperparameter optimization framework. The sweep range for learning rate is between $0.0001$ to $0.01$, weight decay is between $0.005$ to $0.2$, and dropout rate from $0$ to $0.7$.
+
+\subsubsection*{Chaotic Function Prediction}
+% \paragraph{Long short-term memory (LSTM) network}
+
+
+% JY: I will assume that the LSTM formalization is not needed here, as we already talk about ConvLSTM for a prior baseline but give a citation there rather than diving into the architecture.
+The LSTM baseline uses one LSTM layer followed by a ReLU activation and linear readout layer. As input, the LSTM uses an explicit memory buffer of the last $M=50$ points. During training, input $\mathbf{x}(t)$ to the LSTM uses the Mackey-Glass data $\mathbf{f}(t)$ (Equation~\ref{eq:lstm_training}), whereas, during autoregressive evaluation, the input uses prior predictions $\mathbf{y}(t)$ (Equation~\ref{eq:lstm_autoregressive}). Values $\mathbf{u}(t<0)$ and $\mathbf{v}(t<0)$ are zero.
+
+\begin{equation} \label{eq:lstm_training}
+    \mathbf{x}(t) = (\mathbf{f}(t-M), \mathbf{f}(t-M-1), \ldots, \mathbf{f}(t))
+\end{equation} 
+
+\begin{equation} \label{eq:lstm_autoregressive}
+    \mathbf{x}(t) = (\mathbf{y}(t-M-1), \mathbf{y}(t-M-2), \ldots, \mathbf{y}(t-1))
+\end{equation} 
+
+
+The LSTM is trained using MSE loss for backpropagation with 200 epochs. 
+The hyperparameter sweep used the evaluation setup of 30 instantiations of $\tau = 17$ Mackey-Glass data, with each instance shifted forward by half of the Lyapunov time. The corresponding sets with the lowest sMAPE scores were used to report the results.
+
+%% description of the hidden states of the LSTM
+% To make a prediction $\mathbf{y}(t)$, the model employs an LSTM network composed of $L$ layers. The hidden state of each layer $\mathbf{h}^{(l)}(t)\in \mathbb{R}^{H}$ with $l\in[1,\ldots,L]$ is derived as follows:
+
+
+% %%
+% \begin{equation}
+%     \label{eq:lstm_hidden_time_series}
+%     \begin{aligned}
+%        %% i
+%        \mathbf{i}^{(l)}(t) &= \sigma(\mathbf{W}^{(l)}_{ii} \mathbf{v}^{(l-1)}(t) + \mathbf{b}^{(l)}_{ii} + \mathbf{W}^{(l)}_{hi} \mathbf{h}^{(l)}(t-1) + \mathbf{b}^{(l)}_{hi}) \\
+%        %% f
+%        \mathbf{f}^{(l)}(t) &= \sigma(\mathbf{W}^{(l)}_{if} \mathbf{v}^{(l-1)}(t) + \mathbf{b}^{(l)}_{if} + \mathbf{W}^{(l)}_{hf} \mathbf{h}^{(l)}(t-1) + \mathbf{b}^{(l)}_{hf}) \\
+%        %% g
+%        \mathbf{g}^{(l)}(t) &= \tanh(\mathbf{W}^{(l)}_{ig} \mathbf{v}^{(l-1)}(t) + \mathbf{b}^{(l)}_{ig} + \mathbf{W}^{(l)}_{hg} \mathbf{h}^{(l)}(t-1) + \mathbf{b}^{(l)}_{hg}) \\
+%        %% o
+%        \mathbf{o}^{(l)}(t) &= \sigma(\mathbf{W}^{(l)}_{io} \mathbf{v}^{(l-1)}(t) + \mathbf{b}^{(l)}_{io} + \mathbf{W}^{(l)}_{ho} \mathbf{h}^{(l)}(t-1) + \mathbf{b}^{(l)}_{ho}) \\
+%        %% c
+%        \mathbf{c}^{(l)}(t) &= \mathbf{f}^{(l)}(t) \odot \mathbf{c}^{(l)}(t-1) + \
+%        %% i
+%        \mathbf{i}^{(l)}(t) \odot \mathbf{g}^{(l)}(t) \\
+%        %% h
+%        \mathbf{h}^{(l)}(t) &= \mathbf{o}^{(l)}(t) \odot \tanh(\textbf{c}^{(l)}(t)). \\
+%     \end{aligned}
+% \end{equation}
+% The prediction $\mathbf{y}(t)$ is then governed by
+% \begin{equation}
+%     \label{eq:lstm_output_time_series}
+%     \mathbf{y}{(t)} = \text{relu}(\mathbf{W}_{yh} \mathbf{h}^{(L)}(t)),
+% \end{equation}
+% where $\mathbf{h}^{(L)}(t)$ is the hidden state of the last layer, $\mathbf{i}^{(l)}(t)$, $\mathbf{f}^{(l)}(t)$, $\mathbf{g}^{(l)}(t)$, and $\mathbf{o}^{(l)}(t)$ are the input, forget, cell, and output gates, respectively, $\sigma$ is the sigmoid function, and $\odot$ denotes element-wise product.
+
+
+%% Description of the input/buffer
+% During training, the input $\mathbf{v}^{(0)}(t)$ to the first layer is composed of the last $M$ datapoints:
+% \begin{equation}
+%     \mathbf{v}^{(0)}(t) = (\mathbf{u}(t-M), \mathbf{u}(t-M-1), \ldots, \mathbf{u}(t)),
+% \end{equation}
+% %%
+% whereas, during autonomous replay, it is composed of the last $M$ prediction:
+% \begin{equation}
+%     \mathbf{v}^{(0)}(t) = (\mathbf{y}(t-M-1), \mathbf{y}(t-M-2), \ldots, \mathbf{y}(t-1)),
+% \end{equation}
+% with the values $\mathbf{u}(t<0)$ and $\mathbf{v}(t<0)$ are zeroed.
+% %%
+% The input of each of the remaining layers $\mathbf{v}^{(l)}(t)$ ($l \ge 2$) equals the hidden state $\mathbf{h}^{(l-1)}(t)$ of the corresponding previous layer.
+
+%% description of the output/prediction y
+%%
+% We use the Adam optimizer with learning rate $(lr)$ and weight decay $(wd)$ along with the backpropagation algorithm to minimize the MSE loss between the model's predictions and the target values. 
+% %%
+% We further use grid search to determine the optimum hyperparameters, where the chosen range of the values are as follows: $L\in\{1,2,4\}$, $H\in\{10,20,40,100\}$, $M\in\{20,30,40,50\}$, $lr\in\{0.0001,0.0005,0.001,0.005\}$, and $wd\in\{0.0001,0.0005, 0.001, 0.005\}$.
+% Similar to the ESN experiments described above, the reported results correspond to the lowest averaged sMAPE score computed over $30$ different time series and for a number of epochs equal to $200$.
+
+
+
+
+For the ESN, the standard architecture with one hidden layer (i.e., reservoir) with recurrent connections was used, where the states of the reservoir $\mathbf{r}(t) \in \mathbb{R}^{D}$ at timesteps $t$ are evolving according to the dynamics shown in Equation~\ref{eq:esnres}. 
+The random matrix $\mathbf{W}^{\mathrm{in}} \in \mathbb{R}^{D  \times d+1}$ with components drawn from the uniform distribution projects $d$-dimensional input $\mathbf{f}(t)$ ($d=1$ for the Mackey-Glass system), augmented with constant bias, into $D$ neurons of the reservoir. The recurrent connectivity is defined by the second (potentially sparse) random matrix $\mathbf{W} \in \mathbb{R}^{D  \times D}$ 
+% is commonly chosen to be sparse (density of connections is denoted as $\rho$)
+with nonzero components drawn from the normal distribution; 
+$\alpha$, $\gamma$, and $\beta$ are hyperparameters controlling the behavior of the ESN.
+
+\begin{equation}
+\mathbf{r}(t)=(1-\alpha)\mathbf{r}(t-1)+\alpha \tanh \left(\gamma\mathbf{W}\mathbf{r}(t-1) + \beta\mathbf{W}^{\mathrm{in}} [1; \mathbf{f}(t)] \right)
+\label{eq:esnres}
+ \end{equation}
+
+% Three hyperparameters control the behavior of the ESN: $\alpha \in \mathbb{R}$ is the leaky integration parameter mixing the previous state of the reservoir $\mathbf{x}(t-1)$ with the current update caused by the input and the state of the network; $\gamma \in \mathbb{R}$ is the recurrent decay parameter, which controls the strength of the recurrent connections; and $\beta \in \mathbb{R}^{d+1}$ is a vector scaling the projection gain of each $d+1$ input fed into the reservoir.  
+
+To make a prediction $\mathbf{y}(t)$, the ESN uses the readout matrix $\mathbf{W}^{\mathrm{out}} \in \mathbb{R}^{d  \times D+d+1}$ that computes the activation of the output layer based on the current states of the input and hidden layers: 
+$\mathbf{y}(t) = \mathbf{W}^{\mathrm{out}} [\mathbf{f}(t); \mathbf{r}(t)]$. 
+To predict the values of the system at the next timestep, i.e. $\mathbf{y}(t)$ predicts $\mathbf{f}(t+1)$, the output layer has $d$ neurons. 
+
+The training of $\mathbf{W}^{\mathrm{out}}$ is formulated as a linear regression problem so that it can be computed with the regularized least squares estimator (Equation~\ref{eq:readout:regr}), where $\mathbf{H} \in \mathbb{R}^{M \times D+d+1}$ is an activation matrix that stores the readout for $M$ timesteps in the training data, $\mathbf{Y} \in \mathbb{R}^{M \times d}$ is another matrix that stores the corresponding ground-truth values for the same timesteps, and $\lambda$ is the regularization parameter of the estimator.
+
+\begin{equation}
+\mathbf{W}^{\mathrm{out}}= \mathbf{Y}^{\top} \mathbf{H} \left( \mathbf{H}^{\top} \mathbf{H} + \lambda \mathbf{I}\right)^{-1}
+\label{eq:readout:regr}
+\end{equation}
+
+Like for the LSTM, optimal hyperparameters are chosen based on lowest average sMAPE score over 30 time series. For each series, the ESN weight matrices $\mathbf{W}^{\mathrm{in}}$ and  $\mathbf{W}$ were randomly initialized. The corresponding sets with the lowest sMAPE scores were used to report the results.
+
+% The hyperparameters of the ESN were chosen using the random search allowing the values to be chosen from the following ranges: $D \in [50, 1000]$, $\rho$, $\alpha$, and $\beta$ $\in (0,1]$, $\gamma \in (0, 1.55]$, and $\lambda \in 10^{ \{-10, -9,  \cdots,  0\}}$. 
+% For each chosen set of the hyperparameters, the average sMAPE score was evaluated over $30$ instantiations of the Mackey-Glass system, each instance with its start point shifted forward by half of the Lyapunov time. For each series, the ESNs matrices $\mathbf{W}^{\mathrm{in}}$ and  $\mathbf{W}$ were chosen randomly. The corresponding sets with the lowest sMAPE scores were used to report the results.     
+

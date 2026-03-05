@@ -1,0 +1,55 @@
+\subsection{Pseudo Code: TD3BC+JSRL (Sequence-Based Training)}\label{sup:pseudo}
+\begin{algorithm}[H]
+\caption{TD3BC+JSRL for Online Spiking Policy Training}
+\begin{algorithmic}[1]
+\State \textbf{Initialize:} Replay buffer $\mathcal{D}$, environment $\mathcal{E}$, guiding policy $\pi_{\text{ctrl}}$
+\State \textbf{Initialize:} Spiking actor $\pi_\theta$, critics $Q_{\phi_1}, Q_{\phi_2}$, target networks $\pi_{\theta'}, Q_{\phi_1'}, Q_{\phi_2'}$
+\State \textbf{Hyperparameters:} $\alpha$ (TD3BC weight), $\lambda_{\text{BC}}$ (BC coefficient), $\tau$ (soft update rate), $\gamma$ (discount), $\sigma_{\text{explore}}$ (exploration noise), $t_{\text{warmup}}$ (warm-up steps), $\beta$ (BC decay)
+
+\For{each training iteration}
+    \State \textbf{// Collect trajectories}
+    \For{each rollout}
+        \State Reset environment: $s_0 \sim \mathcal{E}$
+        \For{timestep $t = 0$ to $T-1$}
+            \If{$t < t_{\text{warmup}}$}
+                \State $a_t \leftarrow \pi_{\text{ctrl}}(s_t)$ \Comment{Privileged guiding policy}
+                \State $\pi_\theta(s_t)$ \Comment{Warm up spiking hidden states}
+            \Else
+                \State $a_t \leftarrow \pi_\theta(s_t) + \epsilon$, $\epsilon \sim \mathcal{N}(0, \sigma_{\text{explore}})$
+                \State $a_t \leftarrow \text{clip}(a_t, -2, 2)$
+            \EndIf
+            \State Execute $a_t$, observe $(s_{t+1}, r_t, d_t)$
+        \EndFor
+        \State Slice trajectory into overlapping sequences $\tau = \{(s_t, a_t, r_t, d_t, s_{t+1})\}_{t=1}^{L}$ with stride $\Delta$
+        \State Add sequences $\tau$ to $\mathcal{D}$
+    \EndFor
+
+    \State \textbf{// Network updates}
+    \For{each gradient step}
+        \State Sample mini-batch of sequences $\{\tau_i\}_{i=1}^{B}$ from $\mathcal{D}$
+        \For{each sequence $\tau = \{(s_t, a_t, r_t, d_t, s_{t+1})\}_{t=1}^{L}$}
+            \State \textbf{Critic update:} for all timesteps $t \in [1, L]$
+            \State \quad $y_t = r_t + \gamma(1 - d_t)\min_j Q_{\phi_j'}(s_{t+1}, \pi_{\theta'}(s_{t+1}))$
+            \State \quad $\phi_j \leftarrow \phi_j - \nabla_{\phi_j}\|Q_{\phi_j}(s_t, a_t) - y_t\|^2$, for $j = 1,2$
+            
+            \State $\hat{a}_t \leftarrow \pi_\theta(s_t)$; \quad $Q_t \leftarrow Q_{\phi_1}(s_t, \hat{a}_t)$
+            \State \textbf{Actor update:} only for $t \ge t_{\text{warmup}}$
+            \State \quad $\mathcal{L}_{\text{BC}} = \|a_t - \hat{a}_t\|^2$
+            \State \quad $\lambda = \alpha / \text{mean}(|Q_t|)$
+            \State \quad $\theta \leftarrow \theta - \nabla_\theta(-\lambda Q_t + \lambda_{\text{BC}} \mathcal{L}_{\text{BC}})$
+        \EndFor
+
+        \State \textbf{Soft update targets:}
+        \State $\theta' \leftarrow \tau \theta + (1-\tau)\theta'$
+        \State $\phi_j' \leftarrow \tau \phi_j + (1-\tau)\phi_j'$ for $j=1,2$
+    \EndFor
+
+    \State \textbf{Decay BC coefficient:} $\lambda_{\text{BC}} \leftarrow \beta \lambda_{\text{BC}}$
+    \If{curriculum learning enabled}
+        \State $\mathcal{E}.\text{update\_curriculum()}$
+    \EndIf
+\EndFor
+
+\State \Return trained spiking policy $\pi_\theta$
+\end{algorithmic}
+\end{algorithm}

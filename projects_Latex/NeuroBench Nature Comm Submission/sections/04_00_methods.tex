@@ -1,0 +1,77 @@
+% Topical subheadings are allowed. Authors must ensure that their Methods section includes adequate experimental and characterization data necessary for others in the field to reproduce their work.
+
+\section*{Methods}
+\label{sec:methods}
+% \note{3000 words limit.}
+
+% To ensure the correct interpretation of the results presented in this article, it is important to understand the implementation details of the NeuroBench harness. This section will elaborate upon the metrics, tasks and baselines included in the algorithmic track. Next to that, the metric calculations used within the system track and the QUBO system track benchmark are explained.
+
+This section outlines details and specifications of the benchmark metrics, tasks, and baselines.
+
+\input{sections/04_01_alg_metrics}
+\input{sections/04_02_alg_tasks}
+\input{sections/04_03_alg_baselines}
+\input{sections/04_04_sys_metrics}
+\input{sections/04_05_sys_benchmarks}
+\input{sections/04_06_sys_baselines}
+
+
+% \subsection*{System Track Metric Calculations}
+
+% \TODO{Should move figure into the system track section, and probably delete this section from the Methods section}
+
+% % \TODO{Need to verify this power measurement protocol - is it generally agreeable? I think it should note something about whether this is "wall-power" by power analyzer / power meter, or some internally generated power number. Also, do all submissions need to go through the high-level IR? it should be the goal that we have this tooling to aim for arbitrary workload execution, but it seems like the best performance would be achieved by skipping this and going straight to the low-level representation.}
+
+% The correctness or accuracy metric of the systems is obtained in a partially controlled environment based on different representation levels (i.e., high-level and low-level IR in Figure \ref{fig:alg_system_harness}). The high-level consists of a common representation such as the Neuromorphic Intermediate Representation (NIR)~\cite{nir2023} or Lava~\cite{lava} aiming to unify spatio-temporal graphs describing the neuromorphic models to be deployed. Such high-level IR is then transformed into a more optimized representation (low-level IR) that is specific to the target hardware (e.g., sPyNNaker machine graph~\cite{spynnaker}). The low-level IR does not need to be shared between systems to enable hardware vendors to optimize their corresponding neural compilers and runtime execution environments towards achieving a good performance.  
+
+% Throughput, and latency are relatively straightforward metrics to measure and calculate based on the performance of a given hardware platform. Hence, specific relevance is given to the power measurement protocol, as NeuroBench aims to standardize a fair approach to measure and compare different systems. Such protocol is exemplified for scalable systems as they offer presence in both edge- and server- based categories. However, this can be extrapolated to any other neuromorphic system. 
+
+%     \begin{figure}[ht]
+%             \centering
+%             \includegraphics[width=.95\textwidth]{figures/system_types.png}
+%             \caption{Types of neuromorphic systems.}
+%         \label{fig:system_types}
+%     \end{figure}
+
+% As presented in Figure~\ref{fig:system_types}, a neuromorphic system can have a single neuromorphic chip, or thousands of them in multi-chip PCBs connected in server setups. These systems commonly include but are not limited to high-speed links to enable fast connectivity within the mesh of neuromorphic processors, flash or any other external memory (e.g., DDR), built-in communication routers, supporting microcontrollers to manage the board, debugging ports (e.g., STLink, etc.), host ports (e.g., Ethernet, CAN, etc.), and a power management (PM) bus. The PM bus is of relevance for the system track metric calculation as it enables access to power consumed at different levels. The following steps exemplify the power characterization process:
+
+% \begin{enumerate}
+%     \item Create an SNN with parameters, weights, input spikes; map (partition) SNN to the target hardware and generate its experiment specification.
+%     \item Initialize the target hardware.
+%     \item Load the binaries (or equivalent) and parameters to the neuromorphic chip and start its cores to initialize them.
+%     \item Load input data from the host to the hardware.
+%     \item Execute the experiment on hardware triggered by the host. The experiment on the hardware runs standalone for a pre-defined time. This is the step in which the power is measured.
+%     \item Read back the results from hardware to host.
+%     \item Post-process the results and provide feedback to the user front end.
+% \end{enumerate}
+
+% Besides the previous steps, the following gathers some important aspects to establish a fair power management protocol between systems:
+
+% \begin{itemize}
+%     \item The power management bus should be connected to every single chip at the different levels of the system.
+%     \item Each level should have a mechanism to reliably measure and report power.
+%     \item When measurements rely on internal microcontrollers that are not easily accessible to the user, these should be characterized against controlled environments and disclosed within the submission to guarantee the validity of the readings. In complex systems, such characterization can be made for a single-board and extrapolated to the full scale, as the process is complex for supercomputer scales.
+% \end{itemize}
+
+% \subsection*{QUBO System Track Benchmark}
+% Quadratic unconstrained binary optimization (QUBO) seeks binary variables
+
+% \begin{equation}
+% \mathbf{x} \in {0, 1}^n
+% \end{equation}
+
+% which optimize the cost function
+
+% \begin{equation}
+% C = \mathbf{x}^T \mathbf{Q} \mathbf{x}\ .
+% \end{equation}
+
+% The NeuroBench data set is generated by a workload generator and a set of parameters that specify matrices $\mathbf{Q}$. The set includes different workload sizes from $n=10$ binary variables to beyond 100,000s of variables to scale as NC systems mature. The matrix sparsity impacts the difficulty of the problem and is also provided by NeuroBench. For each size and sparsity, NeuroBench provides a set of random workloads for statistical testing.
+
+% The metrics of the NeuroBench system track benchmark differ from benchmarks like MLPerf because NC systems are often designed to allow trading off not just performance and solution accuracy like ML systems, but also energy consumption. For example, neuromorphic systems can leave some of its cores idle to increase efficiency in trade off for less parallelism and thus reduced performance. In addition, NC systems are just maturating and thus quickly increase the size of supported networks. But the QUBO metrics differ also from other benchmarks of NeuroBench as the ground truth optimal solution of an NP-hard QUBO workload is intractable and cannot be straightforwardly determined by human labelling.
+
+% The metrics of the NeuroBench QUBO benchmark account for these effects. The first metric is the maximum workload size supported, to make the benchmark inclusive to NC systems at all maturity levels. Energy efficiency and speed are the second and third metrics, measured by running multiple workloads of the largest supported workload size on the system without knowledge of the ground truth solution like other benchmarks for NP-hard combinatorial optimization \cite{taillard1993}. For each workload, the system is allowed to run for a specific time, and the cost function and energy consumption are recorded. This process is repeated across a range of timeouts. For each timeout, results are averaged over various random workloads of the same size and sparsity. The average accuracy at different timeouts can then be compared between neuromorphic systems and traditional hardware using paired statistics.  If the neuromorphic system outperforms traditional systems in time-to-solution, its energy consumption is then benchmarked separately at various timeouts. This is done by adjusting the system parameters to enhance energy efficiency, even if it means reducing accuracy. However, accuracy is kept just above iso-optimality compared to traditional hardware.  This approach allows to systematically benchmark the system on its maximum speed and its maximum energy efficiency.
+
+% The neuromorphic system is measured against traditional hardware only on the largest workload size it supports to highlight the scaling benefits of neuromorphic computing. Still, researchers are urged to report numbers for all workload sizes supported by their NC system, to facilitate an inclusive comparison with neuromorphic systems that currently support only smaller problem sizes.
+
+% The workload generator, the parameters specifying the workloads, the precise metrics, and initial state-of-the-art baselines on traditional hardware will be published in an upcoming paper and on GitHub.
